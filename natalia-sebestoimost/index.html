@@ -109,15 +109,18 @@ tr.hl td{background:#f0fbf5}
 .how div{border:1px solid var(--line);border-radius:14px;padding:16px;font-size:14px;color:var(--tx2)}
 .how b{display:block;color:var(--tx);font-size:15px;margin-bottom:4px}
 .also{padding:56px 0 8px;border-top:1px solid var(--line)}
-.alsogrid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:20px}
-.ac{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 18px}
-.ac .tg{display:inline-block;font:700 10px var(--mono);letter-spacing:.08em;padding:3px 8px;border-radius:999px;margin-bottom:8px}
-.ac .tg.base{background:rgba(92,242,166,.12);color:var(--ac)}
-.ac .tg.prac{background:rgba(217,138,11,.15);color:var(--amber)}
-.ac .tg.pro{background:rgba(62,123,250,.18);color:var(--blue)}
-.ac h4{font-size:16px;margin-bottom:4px}
-.ac p{font-size:14px;color:var(--tx2)}
-@media (max-width:760px){.alsogrid{grid-template-columns:1fr}}
+.tg{display:inline-block;font:700 10px var(--mono);letter-spacing:.08em;padding:3px 8px;border-radius:999px;margin-bottom:10px}
+.tg.base{background:rgba(92,242,166,.12);color:var(--ac)}
+.tg.prac{background:rgba(217,138,11,.15);color:var(--amber)}
+.tg.pro{background:rgba(62,123,250,.18);color:var(--blue)}
+.mini{padding:40px 0 8px;border-top:1px solid var(--line)}
+.mini .mh{margin-bottom:16px;max-width:740px}
+.mini h3{font-size:20px;margin:0 0 4px}
+.mini p{color:var(--tx2);font-size:15px}
+.badge{display:inline-block;font-size:12px;padding:2px 8px;border-radius:999px;font-weight:600}
+.badge.ok{background:#eaf9f0;color:#0d7a46}
+.badge.wn{background:#fdecec;color:#b42318}
+.badge.am{background:#fdf2e3;color:#95610b}
 .cta{margin:36px 0 70px;text-align:center;background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:30px 20px}
 .cta p{color:var(--tx2);max-width:620px;margin:8px auto 0}
 a.dl{display:inline-block;margin-top:16px;text-decoration:none;font:700 15px var(--mono);letter-spacing:.06em;background:var(--ac);color:var(--onac);padding:14px 22px;border-radius:10px}
@@ -239,20 +242,109 @@ footer{font-size:12px;color:var(--mut);text-align:center;padding:0 0 30px}
     <p class="gain"><b>ЧТО МЕНЯЕТСЯ ДЛЯ ВАС</b>Ошибку в данных вы видите до того, как цифра ушла в отчёт руководителю, а не после его вопроса.</p>
   </section>
 
-  <!-- остальные задачи -->
+  <!-- остальные задачи: прототипы -->
   <section class="also" id="also">
     <div class="tnum">ОСТАЛЬНЫЕ ВАШИ ЗАДАЧИ</div>
-    <h2>Себестоимость — не единственное</h2>
-    <p class="lead">Вы отметили ещё шесть направлений, которые хотели бы автоматизировать. На курсе вы соберёте инструменты и под них, не только под расчёт себестоимости.</p>
-    <div class="alsogrid">
-      <div class="ac"><span class="tg prac">Практика</span><h4>Контроль платежей и дебиторки</h4><p>Кто из покупателей просрочил оплату и сколько денег поступило за день — без того, чтобы поднимать выписку вручную.</p></div>
-      <div class="ac"><span class="tg base">База</span><h4>Контроль выполнения заказов</h4><p>Какой заказ на станок отстаёт от срока и что ещё не отгружено — сводка по заказам производства на одном экране.</p></div>
-      <div class="ac"><span class="tg base">База</span><h4>Документы и письма контрагентам</h4><p>Акты сверки и письма поставщикам металлопроката собираются по шаблону, а не пишутся каждый раз заново.</p></div>
-      <div class="ac"><span class="tg base">База</span><h4>Бюджет и план-факт</h4><p>Та же логика, что и в себестоимости, только по статьям и ЦФО: план против факта с подсветкой перерасхода.</p></div>
-      <div class="ac"><span class="tg prac">Практика</span><h4>Отчёт для руководителя</h4><p>Выручка, маржа и деньги на одном экране — рядом с карточкой выпуска станка, которую вы уже видели выше.</p></div>
-      <div class="ac"><span class="tg pro">Профи</span><h4>Платёжный календарь и касса</h4><p>Остаток по дням наперёд и кассовые разрывы видны заранее, на вашем сервере, а не в отдельной таблице.</p></div>
+    <h2>Себестоимость — только первый сервис</h2>
+    <p class="lead">Вы отметили ещё шесть направлений. Это тот же завод, те же цеха и те же контрагенты, что и в себестоимости — просто другой срез одних и тех же данных из 1С.</p>
+  </section>
+
+  <section class="mini" id="m1">
+    <div class="mh"><span class="tg prac">Практика</span><h3>Контроль платежей и дебиторки</h3><p>Кто из покупателей станков просрочил оплату — видно сразу, без ручного подъёма выписки.</p></div>
+    <div class="app">
+      <div class="bar"><i></i><i></i><i></i><span>debt.ваш-домен.ru · дебиторка на сегодня</span></div>
+      <div class="body">
+        <div class="tw"><table id="m1-t">
+          <tr><th>Покупатель</th><th>Станок</th><th>Сумма</th><th>Дней просрочки</th><th></th></tr>
+          <tr><td>ООО «СтанкоТрейд»</td><td>ЧПУ-420 № 0145</td><td>1 240</td><td>3</td><td></td></tr>
+          <tr><td>ООО «ПромОснастка»</td><td>ЧПУ-320 № 0146</td><td>860</td><td>18</td><td></td></tr>
+          <tr><td>ИП Ковалёв</td><td>ЧПУ-520 № 0149</td><td>660</td><td>41</td><td></td></tr>
+          <tr><td>ООО «МеталлСервис»</td><td>ЧПУ-420 № 0147</td><td>420</td><td>2</td><td></td></tr>
+        </table></div>
+        <div class="row"><button class="btn" id="m1-btn">Показать просрочку больше 30 дней</button></div>
+      </div>
     </div>
-    <p class="note">На Профи своим проектом может стать любая из этих задач, а не только себестоимость — вы сами выбираете, что доводить до рабочего сервиса вместе с куратором.</p>
+    <p class="gain"><b>ЧТО МЕНЯЕТСЯ ДЛЯ ВАС</b>Критичная просрочка видна сразу, без того, чтобы каждый раз поднимать выписку и сверять вручную.</p>
+  </section>
+
+  <section class="mini" id="m2">
+    <div class="mh"><span class="tg base">База</span><h3>Контроль выполнения заказов</h3><p>Какой станок отстаёт от срока сдачи, а какой уже можно отгружать.</p></div>
+    <div class="app">
+      <div class="bar"><i></i><i></i><i></i><span>orders.ваш-домен.ru · заказы в производстве</span></div>
+      <div class="body">
+        <div class="tw"><table>
+          <tr><th>Заказ</th><th>Модель</th><th>Срок сдачи</th><th>Готовность</th><th>Статус</th></tr>
+          <tr><td>№ 0147</td><td>ЧПУ-420</td><td>14.11</td><td>100%</td><td><span class="badge ok">готов к отгрузке</span></td></tr>
+          <tr><td>№ 0148</td><td>ЧПУ-320</td><td>16.11</td><td>80%</td><td><span class="badge ok">в графике</span></td></tr>
+          <tr><td>№ 0150</td><td>ЧПУ-520</td><td>13.11</td><td>55%</td><td><span class="badge wn">отстаёт на 2 дня</span></td></tr>
+          <tr><td>№ 0151</td><td>ЧПУ-420</td><td>20.11</td><td>30%</td><td><span class="badge ok">в графике</span></td></tr>
+        </table></div>
+      </div>
+    </div>
+    <p class="gain"><b>ЧТО МЕНЯЕТСЯ ДЛЯ ВАС</b>Отстающий заказ заметен за неделю до срыва срока, а не в день, когда звонит покупатель.</p>
+  </section>
+
+  <section class="mini" id="m3">
+    <div class="mh"><span class="tg base">База</span><h3>Документы и письма контрагентам</h3><p>Акт сверки с поставщиком металлопроката — по шаблону, без набора текста заново.</p></div>
+    <div class="app">
+      <div class="bar"><i></i><i></i><i></i><span>docs.ваш-домен.ru · акт сверки</span></div>
+      <div class="body">
+        <div class="row" style="margin-top:0"><button class="btn ac" id="m3-btn">Сформировать акт сверки</button></div>
+        <div class="ai-msg hide" id="m3-out"><div class="who">ГОТОВЫЙ ДОКУМЕНТ</div>Акт сверки взаиморасчётов между ООО «Наш завод» и ООО «МеталлПрокатСнаб» за октябрь 2026. По данным завода: 1 840 тыс. ₽. По данным поставщика: 1 886 тыс. ₽. Расхождение 46 тыс. ₽ — накладная № 712 от 29.10 проведена поставщиком, но не отражена у нас. Письмо с просьбой выслать накладную сформировано и готово к отправке.</div>
+      </div>
+    </div>
+    <p class="gain"><b>ЧТО МЕНЯЕТСЯ ДЛЯ ВАС</b>Акт и письмо собираются по шаблону за секунды, а расхождение видно сразу, а не после звонка бухгалтера поставщика.</p>
+  </section>
+
+  <section class="mini" id="m4">
+    <div class="mh"><span class="tg base">База</span><h3>Бюджет и план-факт</h3><p>Та же логика, что в себестоимости, только по статьям и центрам ответственности завода.</p></div>
+    <div class="app">
+      <div class="bar"><i></i><i></i><i></i><span>budget.ваш-домен.ru · план-факт · октябрь</span></div>
+      <div class="body">
+        <div class="tw"><table>
+          <tr><th>ЦФО</th><th>Статья</th><th>План</th><th>Факт</th><th>Отклонение</th></tr>
+          <tr><td>Производство</td><td>Металлопрокат</td><td>6 200</td><td>6 572</td><td class="warn">+6%</td></tr>
+          <tr><td>Производство</td><td>ФОТ цеха</td><td>2 350</td><td>2 374</td><td>+1%</td></tr>
+          <tr><td>Коммерция</td><td>Логистика</td><td>720</td><td>806</td><td class="amb">+12%</td></tr>
+          <tr><td>Администрация</td><td>Аренда и коммуналка</td><td>540</td><td>540</td><td class="okc">0%</td></tr>
+        </table></div>
+      </div>
+    </div>
+    <p class="gain"><b>ЧТО МЕНЯЕТСЯ ДЛЯ ВАС</b>Один и тот же сервис считает и себестоимость станка, и план-факт по цеху — не два разных файла.</p>
+  </section>
+
+  <section class="mini" id="m5">
+    <div class="mh"><span class="tg prac">Практика</span><h3>Отчёт для руководителя</h3><p>Выручка, маржа и деньги на одном экране — рядом с карточкой выпуска станка, которую вы уже видели выше.</p></div>
+    <div class="app">
+      <div class="bar"><i></i><i></i><i></i><span>report.ваш-домен.ru · сводка · ноябрь</span></div>
+      <div class="body">
+        <div class="kpis">
+          <div class="kpi"><div class="l">Выручка</div><div class="v">40,4 млн ₽</div><div class="s">85% плана</div></div>
+          <div class="kpi"><div class="l">Маржа</div><div class="v">22,1%</div><div class="s">+0,6 п.п. к октябрю</div></div>
+          <div class="kpi"><div class="l">Станков выпущено</div><div class="v">7</div><div class="s">из 9 по плану</div></div>
+          <div class="kpi"><div class="l">Деньги на счетах</div><div class="v">6,8 млн ₽</div><div class="s">на сегодня</div></div>
+        </div>
+      </div>
+    </div>
+    <p class="gain"><b>ЧТО МЕНЯЕТСЯ ДЛЯ ВАС</b>Руководитель открывает сводку сам, а себестоимость каждого станка — на соседней вкладке того же сервиса.</p>
+  </section>
+
+  <section class="mini" id="m6">
+    <div class="mh"><span class="tg pro">Профи</span><h3>Платёжный календарь и касса</h3><p>Остаток по дням наперёд и кассовые разрывы видны заранее — закупка металлопроката не окажется неожиданностью.</p></div>
+    <div class="app">
+      <div class="bar"><i></i><i></i><i></i><span>cash.ваш-домен.ru · остаток на 8 недель</span></div>
+      <div class="body">
+        <div class="tw"><table>
+          <tr><th>Неделя</th><th>Поступления</th><th>Платежи</th><th>Остаток на конец</th></tr>
+          <tr><td>17.11–23.11</td><td>4,2</td><td>3,8</td><td>7,2</td></tr>
+          <tr><td>24.11–30.11</td><td>3,1</td><td>4,6</td><td>5,7</td></tr>
+          <tr><td>01.12–07.12</td><td>2,4</td><td>6,9</td><td class="warn">1,2</td></tr>
+          <tr><td>08.12–14.12</td><td>5,0</td><td>3,0</td><td>3,2</td></tr>
+        </table></div>
+        <div class="ai-msg"><div class="who">НЕЙРОСЕТЬ</div>На неделе 01.12–07.12 крупная оплата металлопроката совпадает со слабыми поступлениями. Остаток падает до 1,2 млн — стоит сдвинуть часть закупки на неделю позже.</div>
+      </div>
+    </div>
+    <p class="gain"><b>ЧТО МЕНЯЕТСЯ ДЛЯ ВАС</b>Разрыв виден за две недели, когда его ещё можно спокойно сдвинуть, а не в день, когда нечем платить.</p>
   </section>
 
   <!-- тарифы -->
@@ -355,6 +447,18 @@ function drawF(){
  document.getElementById("f-table").innerHTML=h;
 }
 tabs("[data-r]",function(b){role=b.dataset.r;drawF()});drawF();
+
+/* m1 дебиторка */
+document.getElementById("m1-btn").onclick=function(){
+ document.querySelectorAll("#m1-t tr").forEach(function(r,i){if(i==0)return;
+  var d=+r.children[3].textContent,bad=d>30;
+  r.children[4].innerHTML=bad?'<span class="badge wn">просрочка</span>':'<span class="badge ok">в норме</span>';
+  if(bad)r.style.background="#fff7f7"});
+ this.disabled=true;this.textContent="Показано";
+};
+/* m3 акт сверки */
+document.getElementById("m3-btn").onclick=function(){var b=this;b.disabled=true;b.textContent="Формирую акт…";
+ setTimeout(function(){document.getElementById("m3-out").classList.remove("hide");b.textContent="Акт готов"},700)};
 
 /* 03 проверки */
 document.getElementById("c-btn").onclick=function(){var b=this;b.disabled=true;b.textContent="Проверяю…";
