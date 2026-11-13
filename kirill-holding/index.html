@@ -1,0 +1,515 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Нейросети в холдинге — Кирилл</title>
+<meta name="robots" content="noindex">
+<style>
+:root{
+  --bg:#05080B;--panel:#0C1217;--panel2:#0F1A17;--line:#1F2C2A;--tx:#F2F8F5;--tx2:#C9D8D1;--mut:#8EA39B;
+  --ac:#5CF2A6;--onac:#04110B;
+  --app:#FFFFFF;--app2:#F5F7F9;--appline:#E4E8EC;--apptx:#16212B;--appmut:#6A7783;
+  --red:#E5484D;--amber:#D98A0B;--green:#1E9E5E;--blue:#3E7BFA;
+  --mono:Consolas,"SFMono-Regular",Menlo,monospace;--body:"Segoe UI",-apple-system,Roboto,Arial,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;background:var(--bg)}
+html,body{overflow-x:hidden}
+body{background:radial-gradient(900px 600px at 0 0,#0f3a2a 0,transparent 70%) no-repeat,var(--bg);color:var(--tx);font-family:var(--body);line-height:1.5;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1040px;margin:0 auto;padding:0 16px}
+button{font:inherit;cursor:pointer}
+.top{display:flex;justify-content:space-between;gap:12px;font:12px var(--mono);color:var(--mut);letter-spacing:.08em;padding:22px 0 0}
+.top b{color:var(--ac)}
+.hero{padding:48px 0 30px}
+.eb{font:700 12px var(--mono);letter-spacing:.1em;color:var(--tx2);margin-bottom:14px;text-transform:uppercase}
+.eb:before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--ac);margin-right:8px;vertical-align:1px}
+h1{font-size:clamp(30px,5.2vw,52px);line-height:1.08;font-weight:700;letter-spacing:-.01em;margin-bottom:18px}
+h1 em{font-style:normal;color:var(--ac)}
+h2{font-size:clamp(24px,3.4vw,34px);line-height:1.15;margin-bottom:10px}
+.lead{font-size:18px;color:var(--tx2);max-width:720px}
+.chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px}
+.chip{border:1px solid var(--line);background:var(--panel);border-radius:999px;padding:8px 14px;font-size:14px;color:var(--tx2);text-decoration:none}
+.chip b{color:var(--ac);font-weight:600;font-family:var(--mono);margin-right:6px}
+.chip:hover{border-color:var(--ac)}
+.note{font-size:13px;color:var(--mut);margin-top:18px}
+
+.task{padding:56px 0 8px;border-top:1px solid var(--line)}
+.tnum{font:700 12px var(--mono);color:var(--ac);letter-spacing:.1em;margin-bottom:10px}
+.thead{display:grid;grid-template-columns:1.35fr 1fr;gap:26px;margin-bottom:22px}
+.thead p{color:var(--tx2)}
+.mod{background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+.mod .k{font:700 11px var(--mono);letter-spacing:.1em;color:var(--mut);margin-bottom:6px}
+.mod b{color:var(--ac)}
+.mod ul{list-style:none;margin-top:8px}
+.mod li{font-size:14px;color:var(--tx2);padding-left:16px;position:relative;margin-top:4px}
+.mod li:before{content:"";position:absolute;left:0;top:9px;width:6px;height:6px;border-radius:2px;background:var(--ac)}
+.cmp{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:18px}
+.cmp div{border:1px solid var(--line);border-radius:12px;padding:12px 14px;font-size:14px;color:var(--tx2)}
+.cmp .k{font:700 11px var(--mono);letter-spacing:.08em;margin-bottom:4px;color:var(--mut)}
+.cmp .now .k{color:var(--amber)}
+.cmp .ai .k{color:var(--ac)}
+
+/* «окно приложения» */
+.app{background:var(--app);color:var(--apptx);border-radius:16px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.45)}
+.bar{display:flex;align-items:center;gap:8px;background:var(--app2);border-bottom:1px solid var(--appline);padding:10px 14px;font:12px var(--mono);color:var(--appmut)}
+.bar i{width:10px;height:10px;border-radius:50%;background:#d9dee3;display:inline-block}
+.bar span{margin-left:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.body{padding:18px}
+.tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.tab{border:1px solid var(--appline);background:#fff;border-radius:8px;padding:7px 12px;font-size:14px;color:var(--apptx)}
+.tab.on{background:var(--apptx);color:#fff;border-color:var(--apptx)}
+.btn{border:0;background:var(--apptx);color:#fff;border-radius:10px;padding:10px 16px;font-weight:600;font-size:14px}
+.btn.ac{background:#14b86a}
+.btn:disabled{opacity:.5;cursor:default}
+.tw{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:14px;min-width:460px}
+th,td{padding:9px 10px;border-bottom:1px solid var(--appline);text-align:right;white-space:nowrap}
+th{font:600 12px var(--body);color:var(--appmut);background:var(--app2)}
+th:first-child,td:first-child{text-align:left}
+tr.tot td{font-weight:700;border-top:2px solid var(--apptx)}
+tr.elim td{color:var(--blue)}
+tr.bad td{background:#fff1f1}
+tr.ok td:last-child{color:var(--green)}
+tr.bad td:last-child{color:var(--red);font-weight:600}
+.warn{color:var(--red);font-weight:600}
+.okc{color:var(--green);font-weight:600}
+.amb{color:var(--amber);font-weight:600}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:14px 0 0}
+.tgl{display:inline-flex;align-items:center;gap:10px;font-size:14px;user-select:none;cursor:pointer}
+.tgl input{display:none}
+.sw{width:42px;height:24px;border-radius:999px;background:#cfd6dc;position:relative;transition:.2s;flex:none}
+.sw:after{content:"";position:absolute;left:3px;top:3px;width:18px;height:18px;border-radius:50%;background:#fff;transition:.2s}
+.tgl input:checked+.sw{background:#14b86a}
+.tgl input:checked+.sw:after{left:21px}
+.insight{margin-top:14px;border-left:3px solid #14b86a;background:#f0fbf5;border-radius:0 10px 10px 0;padding:12px 14px;font-size:14px}
+.insight b{color:#0d7a46}
+.ai-msg{margin-top:14px;background:var(--app2);border:1px solid var(--appline);border-radius:12px;padding:12px 14px;font-size:14px}
+.ai-msg .who{font:700 11px var(--mono);letter-spacing:.08em;color:var(--appmut);margin-bottom:4px}
+.hide{display:none}
+.bars{display:grid;gap:10px;margin-top:4px}
+.bl{display:grid;grid-template-columns:120px 1fr 64px;gap:10px;align-items:center;font-size:13px}
+.bt{position:relative;height:22px;background:var(--app2);border-radius:6px}
+.bp,.bf{position:absolute;left:0;height:100%;border-radius:6px}
+.bp{background:#dfe5ea}
+.bf{background:#3E7BFA;height:10px;top:6px;border-radius:4px}
+.bl.bad .bf{background:var(--red)}
+.bl .pc{text-align:right;font-weight:600}
+.legend{display:flex;gap:16px;font-size:12px;color:var(--appmut);margin-bottom:10px}
+.legend i{display:inline-block;width:14px;height:8px;border-radius:3px;margin-right:6px;vertical-align:0}
+.memo{font-size:14px;line-height:1.6}
+.memo h4{font-size:15px;margin:12px 0 4px}
+.memo p{margin-bottom:6px}
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:6px}
+.kpi{background:var(--app2);border-radius:10px;padding:10px 12px}
+.kpi .l{font-size:12px;color:var(--appmut)}
+.kpi .v{font-size:20px;font-weight:700}
+.doc{font-size:15px;line-height:1.7;background:var(--app2);border-radius:10px;padding:14px 16px}
+.doc mark{background:#ffe9b3;border-radius:4px;padding:0 3px}
+.gain{margin:14px 0 0;font-size:15px;color:var(--tx2);padding-left:14px;border-left:3px solid var(--ac)}
+.gain b{color:var(--ac);font:700 11px var(--mono);letter-spacing:.08em;display:block;margin-bottom:2px}
+.bl.amb .bf{background:var(--amber)}
+.why{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:18px}
+.why div{background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:16px;font-size:14px;color:var(--tx2)}
+.why b{display:block;color:var(--tx);font-size:15px;margin-bottom:4px}
+.refund{font-size:13px;color:var(--ac);margin-top:10px}
+a.dl{text-decoration:none;font-size:15px;padding:14px 22px}
+.dline{display:block;margin-top:12px;font:700 12px var(--mono);letter-spacing:.08em;color:var(--mut)}
+@media (max-width:760px){.why{grid-template-columns:1fr}}
+.doc .lbl{background:#dcebff;color:#1d4fb8;border-radius:4px;padding:0 4px;font-family:var(--mono);font-size:13px}
+
+/* тарифы */
+.tarif{padding:60px 0 20px;border-top:1px solid var(--line)}
+.matrix{background:var(--panel);border:1px solid var(--line);border-radius:16px;overflow:hidden;margin:22px 0}
+.matrix table{min-width:520px;color:var(--tx)}
+.matrix th{background:var(--panel2);color:var(--tx2);border-bottom:1px solid var(--line)}
+.matrix td{border-bottom:1px solid var(--line);color:var(--tx2)}
+.matrix th:nth-child(3),.matrix td:nth-child(3){background:rgba(92,242,166,.07)}
+.matrix .y{color:var(--ac);font-weight:700}
+.matrix .n{color:#5b6b66}
+.cards{display:grid;grid-template-columns:1fr 1.15fr 1fr;gap:14px;align-items:stretch}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px}
+.card.rec{border-color:var(--ac);box-shadow:0 0 0 1px var(--ac) inset}
+.card .k{font:700 11px var(--mono);letter-spacing:.1em;color:var(--mut)}
+.card.rec .k{color:var(--ac)}
+.card h3{font-size:24px;margin:6px 0 2px}
+.card .pr{font-size:20px;font-weight:700}
+.card .sub{font-size:13px;color:var(--mut);margin-bottom:12px}
+.card p{font-size:14px;color:var(--tx2);margin-top:8px}
+.card p b{color:var(--tx)}
+.gifts{margin-top:26px;background:var(--panel2);border:1px solid var(--line);border-radius:16px;padding:20px}
+.gifts ul{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:8px 20px;margin-top:10px}
+.gifts li{font-size:15px;color:var(--tx2);padding-left:18px;position:relative}
+.gifts li:before{content:"+";position:absolute;left:0;color:var(--ac);font-weight:700}
+.how{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:22px}
+.how div{border:1px solid var(--line);border-radius:14px;padding:16px;font-size:14px;color:var(--tx2)}
+.how b{display:block;color:var(--tx);font-size:15px;margin-bottom:4px}
+.cta{margin:36px 0 70px;text-align:center;background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:30px 20px}
+.cta p{color:var(--tx2);max-width:620px;margin:8px auto 0}
+.cta .dl{display:inline-block;margin-top:16px;font:700 13px var(--mono);letter-spacing:.06em;background:var(--ac);color:var(--onac);padding:10px 16px;border-radius:10px}
+footer{font-size:12px;color:var(--mut);text-align:center;padding:0 0 30px}
+
+@media (max-width:760px){
+  .thead,.cmp,.cards,.how,.gifts ul{grid-template-columns:1fr}
+  .kpis{grid-template-columns:1fr 1fr}
+  .bl{grid-template-columns:92px 1fr 54px}
+  .top{flex-direction:column;gap:4px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><span>МАСТЕР CFO · <b>AI-НАВЫКИ ФИНАНСИСТА</b></span><span>ЛИЧНАЯ ПОДБОРКА ДЛЯ КИРИЛЛА</span></div>
+
+  <section class="hero">
+    <div class="eb">Нейросети в холдинге</div>
+    <h1>Кирилл, вот что вы будете делать с нейросетью <em>на задачах холдинга</em></h1>
+    <p class="lead">Вы с весны спрашивали, как ИИ применяют именно в холдинге, поэтому все примеры здесь на задачах группы компаний. Пять задач, которые есть в любой группе. Каждую можно покликать: так это будет выглядеть у вас. Под каждой задачей указано, в каком модуле курса этому учат.</p>
+    <div class="chips">
+      <a class="chip" href="#t1"><b>01</b>Консолидация отчётности</a>
+      <a class="chip" href="#t2"><b>02</b>Сверка расчётов внутри группы</a>
+      <a class="chip" href="#t3"><b>03</b>План-факт по компаниям</a>
+      <a class="chip" href="#t4"><b>04</b>Записка для руководства</a>
+      <a class="chip" href="#t5"><b>05</b>Обезличивание данных</a>
+      <a class="chip" href="#tarif"><b>→</b>Какой тариф вам подходит</a>
+    </div>
+    <p class="note">Все цифры и названия условные: группа из трёх компаний, данные за квартал, млн ₽.</p>
+  </section>
+
+  <!-- 01 консолидация -->
+  <section class="task" id="t1">
+    <div class="thead">
+      <div>
+        <div class="tnum">ЗАДАЧА 01</div>
+        <h2>Консолидация отчётности группы</h2>
+        <p>Вы загружаете отчёты о прибылях и убытках трёх компаний, а нейросеть сводит их в отчёт по группе и убирает внутригрупповые обороты: продажи и услуги компаний друг другу.</p>
+      </div>
+      <div class="mod">
+        <div class="k">ГДЕ ЭТОМУ УЧАТ</div>
+        <b>Модуль 11</b>: Claude для больших файлов, финмодели и консолидация отчётности
+        <ul><li><b>Модуль 4</b>: нормализация данных, когда у компаний разные статьи и форматы</li></ul>
+      </div>
+    </div>
+    <div class="cmp">
+      <div class="now"><div class="k">СЕЙЧАС</div>Три выгрузки, сводная таблица, внутригрупповые обороты ищутся и вычитаются вручную</div>
+      <div class="ai"><div class="ai k">С НЕЙРОСЕТЬЮ</div>Нейросеть сама сводит файлы, исключает обороты внутри группы и показывает, что именно исключено</div>
+    </div>
+    <div class="app">
+      <div class="bar"><i></i><i></i><i></i><span>Консолидация · 3 квартал · млн ₽</span></div>
+      <div class="body">
+        <div class="tabs" id="c-tabs">
+          <button class="tab" data-c="a">«Альфа-Трейд»</button>
+          <button class="tab" data-c="b">«Бета-Логистик»</button>
+          <button class="tab" data-c="g">«Гамма-Производство»</button>
+          <button class="tab on" data-c="all">Группа</button>
+        </div>
+        <div class="tw"><table id="c-table"></table></div>
+        <div class="row" id="c-row">
+          <label class="tgl"><input type="checkbox" id="c-elim"><span class="sw"></span>Исключить внутригрупповые обороты</label>
+        </div>
+        <div class="insight hide" id="c-ins"></div>
+      </div>
+    </div>
+    <p class="gain"><b>ЧТО МЕНЯЕТСЯ ДЛЯ ВАС</b>Консолидация за квартал перестаёт быть ручной сборкой из трёх файлов: вы проверяете готовый свод, а не собираете его.</p>
+  </section>
+
+  <!-- 02 сверка -->
+  <section class="task" id="t2">
+    <div class="thead">
+      <div>
+        <div class="tnum">ЗАДАЧА 02</div>
+        <h2>Сверка расчётов между компаниями группы</h2>
+        <p>«Альфа» считает, что должна «Гамме» 47,5 млн, а «Гамма» — что ей должны 51,0 млн. Нейросеть сопоставляет обе выгрузки по документам и показывает, откуда взялась разница.</p>
+      </div>
+      <div class="mod">
+        <div class="k">ГДЕ ЭТОМУ УЧАТ</div>
+        <b>Модуль 4</b>: формулы и нормализация данных
+        <ul><li><b>Модуль 11</b>: работа сразу с несколькими большими файлами</li></ul>
+      </div>
+    </div>
+    <div class="app">
+      <div class="bar"><i></i><i></i><i></i><span>Сверка «Альфа-Трейд» ↔ «Гамма-Производство» · сентябрь</span></div>
+      <div class="body">
+        <div class="tw"><table id="s-table">
+          <tr><th>Документ</th><th>По данным «Альфы»</th><th>По данным «Гаммы»</th><th>Статус</th></tr>
+          <tr data-r="ok"><td>Сальдо на 01.09</td><td>40,0</td><td>40,0</td><td>—</td></tr>
+          <tr data-r="ok"><td>Накладная № 1152 от 12.09</td><td>9,8</td><td>9,8</td><td>—</td></tr>
+          <tr data-r="bad" data-why="Есть у «Гаммы», нет у «Альфы»: товар в пути, ещё не оприходован"><td>Накладная № 1187 от 28.09</td><td>—</td><td>2,4</td><td>—</td></tr>
+          <tr data-r="ok"><td>Оплата п/п № 812 от 15.09</td><td>−1,2</td><td>−1,2</td><td>—</td></tr>
+          <tr data-r="bad" data-why="Оплачено 30.09, а у «Гаммы» поступило 01.10: деньги пришли в следующем периоде"><td>Оплата п/п № 845 от 30.09</td><td>−1,1</td><td>—</td><td>—</td></tr>
+          <tr class="tot"><td>Сальдо на 30.09</td><td>47,5</td><td>51,0</td><td class="warn">разница 3,5</td></tr>
+        </table></div>
+        <div class="row"><button class="btn" id="s-btn">Найти расхождения</button></div>
+        <div class="ai-msg hide" id="s-ai"><div class="who">НЕЙРОСЕТЬ</div>Разница 3,5 млн складывается из двух документов: накладная № 1187 на 2,4 млн ещё не оприходована у «Альфы», а оплата № 845 на 1,1 млн у «Гаммы» прошла уже в октябре. Ошибок в учёте нет. Предлагаю проверить по первичке обе строки и подготовить акт сверки с пояснением.</div>
+      </div>
+    </div>
+    <p class="gain"><b>ЧТО МЕНЯЕТСЯ ДЛЯ ВАС</b>Вместо построчного поиска разницы вы сразу видите документы, которые её дают, и проверяете только их.</p>
+  </section>
+
+  <!-- 03 план-факт -->
+  <section class="task" id="t3">
+    <div class="thead">
+      <div>
+        <div class="tnum">ЗАДАЧА 03</div>
+        <h2>План-факт по каждой компании группы</h2>
+        <p>Нейросеть выступает вторым проверяющим: сравнивает бюджет с фактом, подсвечивает отклонения больше 10% и пишет, что проверить в первую очередь.</p>
+      </div>
+      <div class="mod">
+        <div class="k">ГДЕ ЭТОМУ УЧАТ</div>
+        <b>Модуль 7</b>: проверка бюджета и план-факт
+        <ul><li>Отдельный урок: агент для проверки бюджетов ЦФО</li></ul>
+      </div>
+    </div>
+    <div class="app">
+      <div class="bar"><i></i><i></i><i></i><span>План-факт · 3 квартал · млн ₽</span></div>
+      <div class="body">
+        <div class="tabs" id="p-tabs">
+          <button class="tab on" data-p="a">«Альфа-Трейд»</button>
+          <button class="tab" data-p="b">«Бета-Логистик»</button>
+          <button class="tab" data-p="g">«Гамма-Производство»</button>
+        </div>
+        <div class="legend"><span><i style="background:#dfe5ea"></i>план</span><span><i style="background:#3E7BFA"></i>факт</span><span><i style="background:#E5484D"></i>хуже плана больше чем на 10%</span><span><i style="background:#D98A0B"></i>экономия больше 10%, проверить</span></div>
+        <div class="bars" id="p-bars"></div>
+        <div class="ai-msg" id="p-ai"></div>
+      </div>
+    </div>
+    <p class="gain"><b>ЧТО МЕНЯЕТСЯ ДЛЯ ВАС</b>Отклонения по каждой компании видны сразу, и к ним уже готовы вопросы, которые стоит задать руководителям ЦФО.</p>
+  </section>
+
+  <!-- 04 FinAILab -->
+  <section class="task" id="t4">
+    <div class="thead">
+      <div>
+        <div class="tnum">ЗАДАЧА 04</div>
+        <h2>Аналитическая записка для руководства</h2>
+        <p>Вы загружаете ОДДС и отчёт о прибылях и убытках, а FinAILab, лаборатория Софьи Бурцевой, по своей методике готовит аналитическую записку: динамика, возможные причины, риски и рекомендации. Каждый раздел можно доработать под свою компанию.</p>
+      </div>
+      <div class="mod">
+        <div class="k">ГДЕ ЭТОМУ УЧАТ</div>
+        <b>Модуль 8</b>: финанализ в FinAILab
+        <ul><li>Подготовка ОДДС, Баланса и P&amp;L</li><li>Выводы, зоны риска и рекомендации</li></ul>
+      </div>
+    </div>
+    <div class="app">
+      <div class="bar"><i></i><i></i><i></i><span>FinAILab · аналитическая записка · группа · июль–сентябрь</span></div>
+      <div class="body">
+        <div class="tabs hide" id="m-tabs">
+          <button class="tab on" data-m="odds">Анализ ОДДС</button>
+          <button class="tab" data-m="opiu">Анализ ОПиУ</button>
+        </div>
+        <div class="row" style="margin-top:0"><button class="btn ac" id="m-btn">Сформировать записку</button></div>
+        <div class="memo hide" id="m-odds">
+          <h4>Анализ чистого денежного потока по направлениям</h4>
+          <div class="tw"><table>
+            <tr><th>Направление</th><th>Июль</th><th>Август</th><th>Сентябрь</th></tr>
+            <tr><td>«Гамма-Производство»</td><td>15,0</td><td>18,0</td><td>11,0</td></tr>
+            <tr><td>«Бета-Логистик»</td><td>3,0</td><td>4,0</td><td>2,0</td></tr>
+            <tr class="bad"><td>«Альфа-Трейд»</td><td>12,0</td><td>−4,0</td><td>9,0</td></tr>
+          </table></div>
+          <p style="margin-top:10px"><b>Стабильное направление.</b> «Гамма-Производство» генерирует наибольший денежный поток: 44 млн за квартал, без отрицательных месяцев.</p>
+          <p><b>Кассовый разрыв.</b> У «Альфа-Трейд» в августе отрицательный поток −4 млн при положительных июле и сентябре.</p>
+          <p><b>Возможные причины:</b> оплата закупок у «Гаммы» раньше поступлений от покупателей; сезонный рост закупок перед осенью.</p>
+          <p><b>Рекомендации:</b> синхронизировать график внутригрупповых платежей с поступлениями «Альфы»; рассмотреть отсрочку по расчётам внутри группы на пиковые месяцы.</p>
+        </div>
+        <div class="memo hide" id="m-opiu">
+          <h4>Схема формирования прибыли</h4>
+          <div class="kpis">
+            <div class="kpi"><div class="l">Себестоимость</div><div class="v">66,9%</div></div>
+            <div class="kpi"><div class="l">Опер. расходы</div><div class="v">15,0%</div></div>
+            <div class="kpi"><div class="l">Прибыль</div><div class="v">18,1%</div></div>
+          </div>
+          <p>Доли от консолидированной выручки группы 800 млн.</p>
+          <h4>Ключевые показатели</h4>
+          <p>После вычета себестоимости остаётся 33,1% выручки (рентабельность по маржинальной прибыли). После вычета операционных расходов остаётся 18,1% (рентабельность по операционной прибыли).</p>
+          <h4>Вывод</h4>
+          <p>Основной резерв в себестоимости: она занимает две трети выручки. В полной записке FinAILab здесь же сравнивает показатели с отраслевыми ориентирами и даёт рекомендации.</p>
+        </div>
+        <p class="note" style="color:var(--appmut)">Фрагменты в формате записки FinAILab, данные условные. В полной записке разделов больше: динамика остатков, зависимость от поставщиков и покупателей, анализ баланса.</p>
+      </div>
+    </div>
+    <p class="gain"><b>ЧТО МЕНЯЕТСЯ ДЛЯ ВАС</b>Черновик выводов для руководства у вас уже есть, остаётся проверить его и дополнить своим знанием бизнеса.</p>
+  </section>
+
+  <!-- 05 обезличивание -->
+  <section class="task" id="t5">
+    <div class="thead">
+      <div>
+        <div class="tnum">ЗАДАЧА 05</div>
+        <h2>Отчётность группы без раскрытия данных</h2>
+        <p>Перед загрузкой в нейросеть названия компаний, ИНН, договоры и ФИО заменяются метками, а суммы остаются, чтобы анализ работал. После ответа нейросети метки возвращаются обратно.</p>
+      </div>
+      <div class="mod">
+        <div class="k">ГДЕ ЭТОМУ УЧАТ</div>
+        <b>Модуль 1</b>: безопасность данных и ограничения
+        <ul><li>Программа «Обезличиватель» в подарок участникам ноябрьского потока</li></ul>
+      </div>
+    </div>
+    <div class="app">
+      <div class="bar"><i></i><i></i><i></i><span>Обезличиватель · фрагмент выписки</span></div>
+      <div class="body">
+        <div class="doc" id="o-doc"></div>
+        <div class="row"><label class="tgl"><input type="checkbox" id="o-tgl"><span class="sw"></span>Обезличить перед загрузкой</label></div>
+      </div>
+    </div>
+    <p class="gain"><b>ЧТО МЕНЯЕТСЯ ДЛЯ ВАС</b>Можно работать с нейросетью на реальной отчётности группы, не раскрывая названия компаний и контрагентов.</p>
+  </section>
+
+  <section class="task" id="why">
+    <div class="tnum">ПОЧЕМУ ИМЕННО ЗДЕСЬ</div>
+    <h2>Если выбираете между курсами</h2>
+    <div class="why">
+      <div><b>Курс ведёт практикующий финдир</b>Софья Бурцева, финансовый директор с опытом больше 15 лет. FinAILab — её собственная разработка: анализ отчётности по методике финдиректора, а не общие ответы чата.</div>
+      <div><b>Задания на ваших файлах</b>Повторяете на учебном примере и сразу переносите на отчёты своей группы, а не на абстрактную компанию.</div>
+      <div><b>Важен результат, а не скорость</b>На Профи задания можно сдавать все 12 месяцев доступа. Не нужно гнаться за потоком: отчётные периоды и вечерняя работа учёбе не помешают.</div>
+    </div>
+  </section>
+
+  <!-- тарифы -->
+  <section class="tarif" id="tarif">
+    <div class="tnum">КАКОЙ ТАРИФ ВАМ ПОДХОДИТ</div>
+    <h2>Ваши задачи по тарифам</h2>
+    <p class="lead">Отметила, на каком тарифе есть модули под каждую из пяти задач.</p>
+    <div class="matrix"><div class="tw"><table>
+      <tr><th>Задача</th><th>База</th><th>Профи</th><th>Мастер AI</th></tr>
+      <tr><td>01 · Консолидация отчётности (модуль 11)</td><td class="n">нет</td><td class="y">есть</td><td class="y">есть</td></tr>
+      <tr><td>02 · Сверка внутри группы (модули 4 и 11)</td><td class="n">частично</td><td class="y">есть</td><td class="y">есть</td></tr>
+      <tr><td>03 · План-факт по компаниям (модуль 7)</td><td class="y">есть</td><td class="y">есть</td><td class="y">есть</td></tr>
+      <tr><td>04 · Записка в FinAILab (модуль 8)</td><td class="n">нет</td><td class="y">есть</td><td class="y">есть</td></tr>
+      <tr><td>05 · Безопасность данных (модуль 1)</td><td class="y">есть</td><td class="y">есть</td><td class="y">есть</td></tr>
+      <tr><td>Продажи экспертизы, КП, тренер по продажам (модуль 10)</td><td class="n">нет</td><td class="n">нет</td><td class="y">есть</td></tr>
+    </table></div></div>
+
+    <div class="cards">
+      <div class="card">
+        <div class="k">БАЗА · МОДУЛИ 1–7</div>
+        <h3>База</h3>
+        <div class="pr">49 990 ₽</div>
+        <div class="sub">доступ 9 месяцев</div>
+        <p><b>Почему не подходит.</b> В ней нет модулей 8 и 11, то есть консолидации и FinAILab. А это две главные задачи холдинга из пяти: сводить отчёты группы и готовить по ним выводы руководству.</p>
+      </div>
+      <div class="card rec">
+        <div class="k">РЕКОМЕНДУЮ ВАМ · МОДУЛИ 1–9 + 11</div>
+        <h3>Профи</h3>
+        <div class="pr">59 990 ₽</div>
+        <div class="sub">доступ 12 месяцев · рассрочка без переплаты, около 10 000 ₽ в месяц, первый платёж через месяц</div>
+        <p><b>Почему он.</b> Закрывает все пять задач: консолидацию и большие файлы (модуль 11), FinAILab (модуль 8), план-факт (модуль 7) и безопасность данных. Года доступа хватит, чтобы пройти всё в своём темпе и сдать задания.</p>
+        <p class="refund">Если в первые 2 недели обучения поймёте, что курс не ваш, вернём деньги полностью.</p>
+      </div>
+      <div class="card">
+        <div class="k">МАСТЕР AI · ВСЕ 11 МОДУЛЕЙ</div>
+        <h3>Мастер AI</h3>
+        <div class="pr">79 990 ₽</div>
+        <div class="sub">доступ 24 месяца</div>
+        <p><b>Почему нет смысла доплачивать.</b> Сверх Профи здесь 2 года доступа с обновлениями курса и модуль 10 с тренером по продажам: как продавать свою экспертизу клиентам и писать КП. Обновления — приятный плюс, но года на Профи хватит, чтобы пройти всё и встроить в работу. А продажи экспертизы финансисту в штате холдинга не нужны, так что большая часть доплаты в 20 000 ₽ ушла бы на то, чем вы не будете пользоваться.</p>
+      </div>
+    </div>
+
+    <div class="gifts">
+      <div class="k" style="font:700 11px var(--mono);letter-spacing:.1em;color:var(--ac)">В ПОДАРОК ТЕМ, КТО ИДЁТ С НАМИ В НОЯБРЕ</div>
+      <ul>
+        <li>Программа «Обезличиватель»</li>
+        <li>Курс по финмоделированию с ИИ</li>
+        <li>Запись эфира по созданию ИИ-агентов</li>
+        <li>Месяц в клубе «Финансист PRO»</li>
+      </ul>
+    </div>
+
+    <div class="how">
+      <div><b>Уроки в записи</b>Смотрите вечером или в выходные, когда удобно. Новый модуль открывается раз в неделю.</div>
+      <div><b>Задания на ваших файлах</b>Повторяете на учебном примере и переносите на отчёты своей группы. Сдавать можно весь срок доступа.</div>
+      <div><b>Есть кому задать вопрос</b>Куратор в чате, нейрокуратор проверяет задания, плюс 5 Zoom-встреч на Профи.</div>
+    </div>
+
+    <div class="cta">
+      <h2>Последний поток в этом году уже идёт</h2>
+      <p>Присоединиться без отставания можно до воскресенья, 15 ноября. Следующий поток только в январе. Напишите мне, и я помогу с оформлением.</p>
+      <a class="dl" href="https://t.me/m/_P3MK8LfYTgy" target="_blank" rel="noopener">Написать Александре</a>
+      <span class="dline">ВХОД В ПОТОК ДО 15 НОЯБРЯ</span>
+    </div>
+  </section>
+</div>
+<footer>Онлайн-школа «Мастер CFO» · fin-academy.pro/ai · учебные примеры, данные условные</footer>
+
+<script>
+/* 01 консолидация */
+var C={
+ a:{n:"«Альфа-Трейд»",r:520,s:330,o:130},
+ b:{n:"«Бета-Логистик»",r:140,s:95,o:25},
+ g:{n:"«Гамма-Производство»",r:380,s:260,o:55}
+};
+var E={r:240,s:150,o:90};
+function f(x){return (x<0?"−":"")+Math.abs(x).toLocaleString("ru-RU")}
+function rowc(name,r,s,o,cls){var p=r-s-o;return '<tr'+(cls?' class="'+cls+'"':'')+'><td>'+name+'</td><td>'+f(r)+'</td><td>'+f(s)+'</td><td>'+f(o)+'</td><td>'+f(p)+'</td></tr>'}
+var cSel="all";
+function drawC(){
+ var t=document.getElementById("c-table"),el=document.getElementById("c-elim").checked,ins=document.getElementById("c-ins");
+ var h='<tr><th>Компания</th><th>Выручка</th><th>Себестоимость</th><th>Опер. расходы</th><th>Прибыль</th></tr>';
+ document.getElementById("c-row").style.display=cSel=="all"?"flex":"none";
+ if(cSel!="all"){
+  var c=C[cSel];h+=rowc(c.n,c.r,c.s,c.o,"tot");
+  var IG={a:[["в т. ч. закупка у «Гаммы»",0,150,0],["в т. ч. услуги «Беты»",0,0,90]],b:[["в т. ч. услуги для «Альфы»",90,0,0]],g:[["в т. ч. продажи «Альфе»",150,0,0]]}[cSel];
+  IG.forEach(function(x){h+='<tr class="elim"><td>'+x[0]+'</td><td>'+(x[1]?f(x[1]):'')+'</td><td>'+(x[2]?f(x[2]):'')+'</td><td>'+(x[3]?f(x[3]):'')+'</td><td></td></tr>'});
+  ins.innerHTML="<b>Нейросеть нашла обороты внутри группы</b> (выделены синим). При консолидации они исключаются, иначе выручка и затраты группы задваиваются.";ins.classList.remove("hide");
+ }else{
+  var R=0,S=0,O=0;for(var k in C){R+=C[k].r;S+=C[k].s;O+=C[k].o;h+=rowc(C[k].n,C[k].r,C[k].s,C[k].o)}
+  if(el){
+   h+=rowc("Исключено: продажи «Гаммы» «Альфе»",-150,-150,0,"elim");
+   h+=rowc("Исключено: услуги «Беты» для «Альфы»",-90,0,-90,"elim");
+   R-=E.r;S-=E.s;O-=E.o;
+   ins.innerHTML="<b>Итог:</b> без исключения выручка группы была бы завышена на 240 млн, это 30%. Прибыль при этом не меняется, а вот рентабельность меняется: 18,1% вместо 13,9%.";
+   ins.classList.remove("hide");
+  }else{ins.innerHTML="<b>Просто сумма трёх отчётов.</b> Включите исключение внутригрупповых оборотов и посмотрите, как изменится картина.";ins.classList.remove("hide")}
+  h+=rowc(el?"Группа, консолидировано":"Группа, простая сумма",R,S,O,"tot");
+ }
+ t.innerHTML=h;
+}
+document.querySelectorAll("#c-tabs .tab").forEach(function(b){b.onclick=function(){document.querySelectorAll("#c-tabs .tab").forEach(function(x){x.classList.remove("on")});b.classList.add("on");cSel=b.dataset.c;drawC()}});
+document.getElementById("c-elim").onchange=drawC;drawC();
+
+/* 02 сверка */
+document.getElementById("s-btn").onclick=function(){
+ document.querySelectorAll("#s-table tr[data-r]").forEach(function(r){
+  var last=r.lastElementChild;
+  if(r.dataset.r=="ok"){r.classList.add("ok");last.textContent="совпало"}else{r.classList.add("bad");last.textContent="расхождение";r.title=r.dataset.why;
+   var tr=document.createElement("tr");tr.innerHTML='<td colspan="4" style="text-align:left;white-space:normal;color:#b42318;font-size:13px;background:#fff7f7">'+r.dataset.why+'</td>';r.after(tr)}
+ });
+ document.getElementById("s-ai").classList.remove("hide");this.disabled=true;this.textContent="Готово";
+};
+
+/* 03 план-факт */
+var P={
+ a:{rows:[["Выручка",540,520],["Себестоимость",340,330],["Логистика",80,90],["ФОТ",30,31],["Маркетинг",12,15.6]],
+    ai:"Два отклонения больше 10%: маркетинг +30% и логистика +12,5%. Логистику «Альфе» оказывает «Бета», поэтому проверьте внутригрупповой тариф. По маркетингу запросите у ЦФО, на что ушёл перерасход."},
+ b:{rows:[["Выручка",150,140],["ГСМ",40,47],["ФОТ",35,36],["Ремонт техники",8,6]],
+    ai:"ГСМ +17,5% к плану при выручке ниже плана: на рейс тратится больше топлива или растут цены. Ремонт −25% выглядит как экономия, но проверьте, не перенесли ли его на 4 квартал."},
+ g:{rows:[["Выручка",360,380],["Сырьё",190,214],["ФОТ",50,51],["Энергия",18,19]],
+    ai:"Выручка выше плана на 5,6%, но сырьё дороже на 12,6%, и рост цен съедает маржу. Это около 24 млн за квартал. Стоит пересмотреть закупочные цены на 4 квартал."}
+};
+function drawP(k){
+ var d=P[k],max=0;d.rows.forEach(function(r){max=Math.max(max,r[1],r[2])});
+ var h="";d.rows.forEach(function(r){
+  var dev=(r[2]-r[1])/r[1]*100,rev=r[0]=="Выручка",big=Math.abs(dev)>10;
+  var worse=rev?dev<0:dev>0,bad=big&&worse,amb=big&&!worse;
+  h+='<div class="bl'+(bad?' bad':'')+(amb?' amb':'')+'"><span>'+r[0]+'</span><div class="bt"><div class="bp" style="width:'+(r[1]/max*100)+'%"></div><div class="bf" style="width:'+(r[2]/max*100)+'%"></div></div><span class="pc '+(bad?'warn':(amb?'amb':''))+'">'+(dev>0?'+':'−')+Math.abs(dev).toFixed(1).replace(".",",")+'%</span></div>';
+ });
+ document.getElementById("p-bars").innerHTML=h;
+ document.getElementById("p-ai").innerHTML='<div class="who">НЕЙРОСЕТЬ</div>'+d.ai;
+}
+document.querySelectorAll("#p-tabs .tab").forEach(function(b){b.onclick=function(){document.querySelectorAll("#p-tabs .tab").forEach(function(x){x.classList.remove("on")});b.classList.add("on");drawP(b.dataset.p)}});
+drawP("a");
+
+/* 04 записка */
+var mSel="odds",mDone=false;
+function drawM(){["odds","opiu"].forEach(function(k){document.getElementById("m-"+k).classList.toggle("hide",!mDone||k!=mSel)})}
+document.querySelectorAll("#m-tabs .tab").forEach(function(b){b.onclick=function(){document.querySelectorAll("#m-tabs .tab").forEach(function(x){x.classList.remove("on")});b.classList.add("on");mSel=b.dataset.m;drawM()}});
+document.getElementById("m-btn").onclick=function(){var b=this;b.disabled=true;b.textContent="Анализирую отчётность группы…";
+ setTimeout(function(){mDone=true;document.getElementById("m-tabs").classList.remove("hide");drawM();b.parentNode.style.display="none"},900)};
+
+/* 05 обезличивание */
+var orig='<mark>ООО «Альфа-Трейд»</mark> (ИНН <mark>7700000001</mark>) перечислило <mark>ООО «Гамма-Производство»</mark> 1 100 000 ₽ по договору <mark>№ 45/П от 12.02.2026</mark>. Подписант: <mark>Иванов Пётр Сергеевич</mark>.';
+var anon='<span class="lbl">[КОМПАНИЯ_1]</span> (ИНН <span class="lbl">[ИНН_1]</span>) перечислило <span class="lbl">[КОМПАНИЯ_2]</span> 1 100 000 ₽ по договору <span class="lbl">[ДОГОВОР_1]</span>. Подписант: <span class="lbl">[ФИО_1]</span>.';
+function drawO(){document.getElementById("o-doc").innerHTML=document.getElementById("o-tgl").checked?anon:orig}
+document.getElementById("o-tgl").onchange=drawO;drawO();
+</script>
+</body>
+</html>
