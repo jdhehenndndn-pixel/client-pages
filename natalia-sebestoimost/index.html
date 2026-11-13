@@ -1,0 +1,338 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Себестоимость станков — Наталья</title>
+<meta name="robots" content="noindex">
+<style>
+:root{
+  --bg:#05080B;--panel:#0C1217;--panel2:#0F1A17;--line:#1F2C2A;--tx:#F2F8F5;--tx2:#C9D8D1;--mut:#8EA39B;
+  --ac:#5CF2A6;--onac:#04110B;
+  --app:#FFFFFF;--app2:#F5F7F9;--appline:#E4E8EC;--apptx:#16212B;--appmut:#6A7783;
+  --red:#E5484D;--amber:#D98A0B;--green:#1E9E5E;--blue:#3E7BFA;
+  --mono:Consolas,"SFMono-Regular",Menlo,monospace;--body:"Segoe UI",-apple-system,Roboto,Arial,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;background:var(--bg)}
+html,body{overflow-x:hidden}
+body{background:radial-gradient(900px 600px at 0 0,#0f3a2a 0,transparent 70%) no-repeat,var(--bg);color:var(--tx);font-family:var(--body);line-height:1.5;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1040px;margin:0 auto;padding:0 16px}
+button{font:inherit;cursor:pointer}
+.top{display:flex;justify-content:space-between;gap:12px;font:12px var(--mono);color:var(--mut);letter-spacing:.08em;padding:22px 0 0}
+.top b{color:var(--ac)}
+.hero{padding:48px 0 30px}
+.eb{font:700 12px var(--mono);letter-spacing:.1em;color:var(--tx2);margin-bottom:14px;text-transform:uppercase}
+.eb:before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--ac);margin-right:8px;vertical-align:1px}
+h1{font-size:clamp(30px,5.2vw,52px);line-height:1.08;font-weight:700;letter-spacing:-.01em;margin-bottom:18px}
+h1 em{font-style:normal;color:var(--ac)}
+h2{font-size:clamp(24px,3.4vw,34px);line-height:1.15;margin-bottom:10px}
+.lead{font-size:18px;color:var(--tx2);max-width:740px}
+.quote{margin-top:18px;border-left:3px solid var(--ac);padding:8px 14px;color:var(--tx2);font-style:italic;max-width:740px}
+.chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px}
+.chip{border:1px solid var(--line);background:var(--panel);border-radius:999px;padding:8px 14px;font-size:14px;color:var(--tx2);text-decoration:none}
+.chip b{color:var(--ac);font-weight:600;font-family:var(--mono);margin-right:6px}
+.chip:hover{border-color:var(--ac)}
+.note{font-size:13px;color:var(--mut);margin-top:18px}
+.task{padding:56px 0 8px;border-top:1px solid var(--line)}
+.tnum{font:700 12px var(--mono);color:var(--ac);letter-spacing:.1em;margin-bottom:10px}
+.thead{display:grid;grid-template-columns:1.35fr 1fr;gap:26px;margin-bottom:22px}
+.thead p{color:var(--tx2)}
+.mod{background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:16px 18px;font-size:15px}
+.mod .k{font:700 11px var(--mono);letter-spacing:.1em;color:var(--mut);margin-bottom:6px}
+.mod b{color:var(--ac)}
+.mod ul{list-style:none;margin-top:8px}
+.mod li{font-size:14px;color:var(--tx2);padding-left:16px;position:relative;margin-top:4px}
+.mod li:before{content:"";position:absolute;left:0;top:9px;width:6px;height:6px;border-radius:2px;background:var(--ac)}
+.app{background:var(--app);color:var(--apptx);border-radius:16px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.45)}
+.bar{display:flex;align-items:center;gap:8px;background:var(--app2);border-bottom:1px solid var(--appline);padding:10px 14px;font:12px var(--mono);color:var(--appmut)}
+.bar i{width:10px;height:10px;border-radius:50%;background:#d9dee3;display:inline-block;flex:none}
+.bar span{margin-left:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.body{padding:18px}
+.tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.tab{border:1px solid var(--appline);background:#fff;border-radius:8px;padding:7px 12px;font-size:14px;color:var(--apptx)}
+.tab.on{background:var(--apptx);color:#fff;border-color:var(--apptx)}
+.seg{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-bottom:14px;font-size:13px;color:var(--appmut)}
+.btn{border:0;background:var(--apptx);color:#fff;border-radius:10px;padding:10px 16px;font-weight:600;font-size:14px}
+.btn.ac{background:#14b86a}
+.btn:disabled{opacity:.5;cursor:default}
+.tw{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:14px;min-width:480px}
+th,td{padding:9px 10px;border-bottom:1px solid var(--appline);text-align:right;white-space:nowrap}
+th{font:600 12px var(--body);color:var(--appmut);background:var(--app2)}
+th:first-child,td:first-child{text-align:left}
+tr.tot td{font-weight:700;border-top:2px solid var(--apptx)}
+tr.hl td{background:#f0fbf5}
+.warn{color:var(--red);font-weight:600}
+.okc{color:var(--green);font-weight:600}
+.amb{color:var(--amber);font-weight:600}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:14px 0 0}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}
+.kpi{background:var(--app2);border-radius:10px;padding:10px 12px}
+.kpi .l{font-size:12px;color:var(--appmut)}
+.kpi .v{font-size:20px;font-weight:700}
+.kpi .s{font-size:12px;color:var(--appmut)}
+.ai-msg{margin-top:14px;background:#f0fbf5;border:1px solid #cdeedb;border-radius:12px;padding:12px 14px;font-size:14px}
+.ai-msg .who{font:700 11px var(--mono);letter-spacing:.08em;color:#0d7a46;margin-bottom:4px}
+.hide{display:none}
+.gain{margin:14px 0 0;font-size:15px;color:var(--tx2);padding-left:14px;border-left:3px solid var(--ac)}
+.gain b{color:var(--ac);font:700 11px var(--mono);letter-spacing:.08em;display:block;margin-bottom:2px}
+.sl{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+.sl label{font-size:13px;color:var(--appmut);display:block}
+.sl b{color:var(--apptx);font-size:16px}
+.sl input{width:100%;accent-color:#14b86a;margin-top:4px}
+.chk{list-style:none}
+.chk li{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid var(--appline);font-size:14px;opacity:.25;transition:.3s}
+.chk li.on{opacity:1}
+.chk li span:last-child{white-space:nowrap}
+.lock{margin-top:12px;font-size:13px;color:var(--appmut);background:var(--app2);border-radius:10px;padding:10px 12px}
+.tarif{padding:60px 0 20px;border-top:1px solid var(--line)}
+.matrix{background:var(--panel);border:1px solid var(--line);border-radius:16px;overflow:hidden;margin:22px 0}
+.matrix table{min-width:520px;color:var(--tx)}
+.matrix th{background:var(--panel2);color:var(--tx2);border-bottom:1px solid var(--line)}
+.matrix td{border-bottom:1px solid var(--line);color:var(--tx2)}
+.matrix th:nth-child(3),.matrix td:nth-child(3){background:rgba(92,242,166,.07)}
+.matrix .y{color:var(--ac);font-weight:700}
+.matrix .n{color:#5b6b66}
+.cards{display:grid;grid-template-columns:1fr 1.15fr 1fr;gap:14px;align-items:stretch}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px}
+.card.rec{border-color:var(--ac);box-shadow:0 0 0 1px var(--ac) inset}
+.card .k{font:700 11px var(--mono);letter-spacing:.1em;color:var(--mut)}
+.card.rec .k{color:var(--ac)}
+.card h3{font-size:24px;margin:6px 0 2px}
+.card .pr{font-size:20px;font-weight:700}
+.card .sub{font-size:13px;color:var(--mut);margin-bottom:12px}
+.card p{font-size:14px;color:var(--tx2);margin-top:8px}
+.card p b{color:var(--tx)}
+.refund{font-size:13px;color:var(--ac);margin-top:10px}
+.how{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:22px}
+.how div{border:1px solid var(--line);border-radius:14px;padding:16px;font-size:14px;color:var(--tx2)}
+.how b{display:block;color:var(--tx);font-size:15px;margin-bottom:4px}
+.cta{margin:36px 0 70px;text-align:center;background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:30px 20px}
+.cta p{color:var(--tx2);max-width:620px;margin:8px auto 0}
+a.dl{display:inline-block;margin-top:16px;text-decoration:none;font:700 15px var(--mono);letter-spacing:.06em;background:var(--ac);color:var(--onac);padding:14px 22px;border-radius:10px}
+.dline{display:block;margin-top:12px;font:700 12px var(--mono);letter-spacing:.08em;color:var(--mut)}
+footer{font-size:12px;color:var(--mut);text-align:center;padding:0 0 30px}
+@media (max-width:760px){
+  .thead,.cards,.how,.sl{grid-template-columns:1fr}
+  .kpis{grid-template-columns:1fr 1fr}
+  .top{flex-direction:column;gap:4px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><span>МАСТЕР CFO · <b>ВАЙБ-КОДИНГ</b></span><span>ЛИЧНАЯ ПОДБОРКА ДЛЯ НАТАЛЬИ</span></div>
+
+  <section class="hero">
+    <div class="eb">Себестоимость станков с ЧПУ</div>
+    <h1>Наталья, вот как будет работать <em>ваш расчёт себестоимости</em></h1>
+    <p class="lead">Вы распределяете затраты по количеству станков в производстве: оперативную себестоимость считаете каждую неделю для экономического блока, а фактическую — на дату выпуска, и её смотрит руководитель. Собрала прототип именно под эту логику.</p>
+    <p class="quote">«Расчёт себестоимости на базе данных 1С, распределение затрат по установленному алгоритму»</p>
+    <div class="chips">
+      <a class="chip" href="#t1"><b>01</b>Оперативная себестоимость, раз в неделю</a>
+      <a class="chip" href="#t2"><b>02</b>Фактическая себестоимость на дату выпуска</a>
+      <a class="chip" href="#t3"><b>03</b>Проверки перед выпуском отчёта</a>
+      <a class="chip" href="#tarif"><b>→</b>Какой тариф вам подходит</a>
+    </div>
+    <p class="note">Все цифры и станки условные, тыс. ₽. На курсе вы соберёте то же самое на своих данных из 1С.</p>
+  </section>
+
+  <!-- 01 оперативная -->
+  <section class="task" id="t1">
+    <div class="thead">
+      <div>
+        <div class="tnum">ЗАДАЧА 01</div>
+        <h2>Оперативная себестоимость — раз в неделю</h2>
+        <p>Скрипт каждую неделю забирает из 1С затраты по производству и число станков в работе, делит затраты на станки по вашей базе и сразу показывает оперативную себестоимость каждой модели — без того, чтобы вы вручную выгружали и считали.</p>
+      </div>
+      <div class="mod">
+        <div class="k">ГДЕ ЭТОМУ УЧАТ · ПРАКТИКА</div>
+        <b>Модуль 5</b>: свой сервер, API и интеграция с 1С
+        <ul><li><b>Модуль 6</b>: Telegram-бот со сводкой для экономического блока</li></ul>
+      </div>
+    </div>
+    <div class="app">
+      <div class="bar"><i></i><i></i><i></i><span>cost.ваш-домен.ru · оперативная себестоимость</span></div>
+      <div class="body">
+        <div class="seg">Неделя:
+          <button class="tab on" data-w="0">27.10–02.11</button>
+          <button class="tab" data-w="1">03.11–09.11</button>
+          <button class="tab" data-w="2">10.11–16.11</button>
+        </div>
+        <div class="kpis" id="o-kpi"></div>
+        <div class="tw"><table id="o-table"></table></div>
+        <div class="ai-msg" id="o-ai"></div>
+      </div>
+    </div>
+    <p class="gain"><b>ЧТО МЕНЯЕТСЯ ДЛЯ ВАС</b>Еженедельное обновление перестаёт быть ручной выгрузкой и делением в Excel: цифры для экономического блока готовы сами.</p>
+  </section>
+
+  <!-- 02 фактическая -->
+  <section class="task" id="t2">
+    <div class="thead">
+      <div>
+        <div class="tnum">ЗАДАЧА 02</div>
+        <h2>Фактическая себестоимость — на дату выпуска</h2>
+        <p>Когда станок выходит из производства, сервис фиксирует фактические затраты именно на эту дату и собирает карточку: из чего сложилась себестоимость, где отклонение от оперативной оценки и почему. Карточку открывают по ссылке вы и руководитель.</p>
+      </div>
+      <div class="mod">
+        <div class="k">ГДЕ ЭТОМУ УЧАТ · ПРОФИ</div>
+        <b>Модуль 7</b>: свой проект с ролями и входом для руководителя
+        <ul><li>Панель на сервере, под вашим доменом</li></ul>
+      </div>
+    </div>
+    <div class="app">
+      <div class="bar"><i></i><i></i><i></i><span>cost.ваш-домен.ru · карточка выпуска · защищённый вход</span></div>
+      <div class="body">
+        <div class="seg">Смотрит:
+          <button class="tab on" data-r="eco">Экономический блок</button>
+          <button class="tab" data-r="gd">Руководитель</button>
+        </div>
+        <div class="tabs" id="f-tabs"></div>
+        <div class="kpis" id="f-kpi"></div>
+        <div class="tw"><table id="f-table"></table></div>
+        <div class="lock hide" id="f-lock">Экономический блок видит все станки и расчёт по статьям. Руководитель — только итог и отклонение, без детализации по статьям.</div>
+      </div>
+    </div>
+    <p class="gain"><b>ЧТО МЕНЯЕТСЯ ДЛЯ ВАС</b>Руководитель получает факт на дату выпуска сам, по ссылке, и не ждёт, пока вы соберёте и пришлёте расчёт.</p>
+  </section>
+
+  <!-- 03 проверки -->
+  <section class="task" id="t3">
+    <div class="thead">
+      <div>
+        <div class="tnum">ЗАДАЧА 03</div>
+        <h2>Проверки перед тем, как цифры уйдут дальше</h2>
+        <p>Прежде чем себестоимость попадёт в отчёт, сервис сам проверяет данные: не задвоился ли станок в выгрузке, не изменилась ли база распределения задним числом, сошлась ли сумма затрат по цеху с 1С.</p>
+      </div>
+      <div class="mod">
+        <div class="k">ГДЕ ЭТОМУ УЧАТ</div>
+        <b>Модуль 5</b>: проверки после обмена данными
+        <ul><li>Входит в Практику и Профи</li></ul>
+      </div>
+    </div>
+    <div class="app">
+      <div class="bar"><i></i><i></i><i></i><span>Проверки после обмена с 1С</span></div>
+      <div class="body">
+        <ul class="chk" id="c-list">
+          <li><span>Задвоенные станки в выгрузке</span><span class="okc">не найдено</span></li>
+          <li><span>Станки без привязки к цеху</span><span class="amb">1 станок, цех предложен</span></li>
+          <li><span>Сумма затрат по цеху = 1С</span><span class="okc">сходится</span></li>
+          <li><span>База распределения изменена задним числом</span><span class="warn">да, неделя 03.11–09.11</span></li>
+          <li><span>Станки без статьи затрат</span><span class="okc">нет</span></li>
+        </ul>
+        <div class="row"><button class="btn ac" id="c-btn">Запустить проверку</button></div>
+      </div>
+    </div>
+    <p class="gain"><b>ЧТО МЕНЯЕТСЯ ДЛЯ ВАС</b>Ошибку в данных вы видите до того, как цифра ушла в отчёт руководителю, а не после его вопроса.</p>
+  </section>
+
+  <!-- тарифы -->
+  <section class="tarif" id="tarif">
+    <div class="tnum">КАКОЙ ТАРИФ ВАМ ПОДХОДИТ</div>
+    <h2>Ваши задачи по тарифам</h2>
+    <div class="matrix"><div class="tw"><table>
+      <tr><th>Задача</th><th>Практика</th><th>Профи</th></tr>
+      <tr><td>01 · Оперативная себестоимость из 1С раз в неделю</td><td class="y">есть</td><td class="y">есть</td></tr>
+      <tr><td>03 · Проверки после обмена данными</td><td class="y">есть</td><td class="y">есть</td></tr>
+      <tr><td>02 · Карточка выпуска с входом для руководителя</td><td class="n">нет</td><td class="y">есть</td></tr>
+      <tr><td>Своя панель на сервере и домене, с куратором</td><td class="n">нет</td><td class="y">есть</td></tr>
+    </table></div></div>
+
+    <div class="cards">
+      <div class="card">
+        <div class="k">БАЗА · МОДУЛИ 1–4</div>
+        <h3>База</h3>
+        <div class="pr">49 000 ₽</div>
+        <div class="sub">≈ 8 170 ₽/мес · доступ 6 месяцев</div>
+        <p><b>Почему не она.</b> Работает только на ручных выгрузках. Для еженедельного расчёта из 1С и карточки для руководителя нужны сервер и API — этого на Базе нет.</p>
+      </div>
+      <div class="card rec">
+        <div class="k">РЕКОМЕНДУЮ ВАМ · 7 МОДУЛЕЙ + ЗАЩИТА</div>
+        <h3>Профи</h3>
+        <div class="pr">99 000 ₽</div>
+        <div class="sub">≈ 16 500 ₽/мес · доступ 2 года · поддержка 2 месяца после курса</div>
+        <p><b>Почему он.</b> У вас две разные задачи — еженедельный расчёт для себя и карточка на дату выпуска для руководителя. Это ровно материал Практики плюс Профи: свой проект с куратором, где вы доводите обе задачи до одного сервиса с разным доступом для экономического блока и руководителя.</p>
+        <p class="refund">Если в первые 2 недели обучения поймёте, что курс не ваш, вернём деньги полностью.</p>
+      </div>
+      <div class="card">
+        <div class="k">ПРАКТИКА · МОДУЛИ 1–6 + N8N</div>
+        <h3>Практика</h3>
+        <div class="pr">69 000 ₽</div>
+        <div class="sub">≈ 11 500 ₽/мес · доступ 1 год</div>
+        <p><b>Если готовы часть сделать сами.</b> Оперативный расчёт и Telegram-сводку соберёте. А карточку выпуска для руководителя с отдельным входом будете достраивать уже без куратора, своими силами.</p>
+      </div>
+    </div>
+    <p class="note">Если сразу на Профи не готовы, можно начать с Практики и доплатить разницу позже.</p>
+
+    <div class="how">
+      <div><b>Код пишет нейросеть</b>Вы описываете алгоритм распределения словами, Codex собирает расчёт. Опыт программирования не нужен.</div>
+      <div><b>На своих данных</b>Учебные примеры повторяете, а переносите сразу на свои станки и статьи затрат.</div>
+      <div><b>Поддержка после курса</b>На Профи 2 месяца сопровождения и разборы, если расчёт нужно будет донастроить.</div>
+    </div>
+
+    <div class="cta">
+      <h2>Поток стартует 30 ноября</h2>
+      <p>Это последний поток, где кураторами будут Софья, Натали и Алексей. Можно в рассрочку до 6 месяцев без переплаты. Напишите мне, и я помогу с оформлением.</p>
+      <a class="dl" href="https://t.me/m/_P3MK8LfYTgy" target="_blank" rel="noopener">Написать Александре</a>
+      <span class="dline">СТАРТ 30 НОЯБРЯ</span>
+    </div>
+  </section>
+</div>
+<footer>Онлайн-школа «Мастер CFO» · vibe.fin-academy.pro · примеры условные</footer>
+
+<script>
+function f1(x){return (x<0?"−":"")+Math.abs(x).toFixed(1).replace(".",",")}
+function tabs(sel,cb){document.querySelectorAll(sel).forEach(function(b){b.onclick=function(){document.querySelectorAll(sel).forEach(function(x){x.classList.remove("on")});b.classList.add("on");cb(b)}})}
+
+/* 01 оперативная себестоимость */
+var WEEKS=[
+ {cost:4820,machines:6,models:[["ЧПУ-320",2,1840,920],["ЧПУ-420",3,2460,820],["ЧПУ-520",1,520,520]],
+  ai:"Себестоимость станка ЧПУ-320 выросла на 4,2% к прошлой неделе — выросла цена заготовок по статье «Металлопрокат». Остальные модели в пределах обычных колебаний."},
+ {cost:5360,machines:7,models:[["ЧПУ-320",2,1900,950],["ЧПУ-420",4,3080,770],["ЧПУ-520",1,540,540]],
+  ai:"Себестоимость ЧПУ-420 снизилась на 6,1%: в работе на одну машину больше, затраты цеха распределились на большее число станков. Проверьте, не изменилась ли база распределения задним числом — это видно в разделе проверок ниже."},
+ {cost:4990,machines:6,models:[["ЧПУ-320",2,1860,930],["ЧПУ-420",3,2470,823],["ЧПУ-520",1,660,660]],
+  ai:"Себестоимость ЧПУ-520 выросла на 27%: в неё попали расходы на наладку, которая обычно идёт в затраты следующей недели. Рекомендую сверить период отнесения этой статьи."}
+];
+var wk=0;
+function drawO(){
+ var w=WEEKS[wk];
+ document.getElementById("o-kpi").innerHTML=[["Затраты цеха",f1(w.cost/1000)+" млн ₽","за неделю"],["Станков в работе",w.machines,"шт."],["Моделей",w.models.length,"позиций"],["На станок в среднем",f1(w.cost/w.machines/1000)+" млн ₽","затраты / станки"]]
+  .map(function(x){return '<div class="kpi"><div class="l">'+x[0]+'</div><div class="v">'+x[1]+'</div><div class="s">'+x[2]+'</div></div>'}).join("");
+ var h='<tr><th>Модель</th><th>Станков в работе</th><th>Затраты, тыс. ₽</th><th>Себестоимость / станок</th></tr>';
+ w.models.forEach(function(m){h+='<tr><td>'+m[0]+'</td><td>'+m[1]+'</td><td>'+m[2]+'</td><td>'+m[3]+'</td></tr>'});
+ h+='<tr class="tot"><td>Итого по цеху</td><td>'+w.machines+'</td><td>'+w.cost+'</td><td>'+Math.round(w.cost/w.machines)+'</td></tr>';
+ document.getElementById("o-table").innerHTML=h;
+ document.getElementById("o-ai").innerHTML='<div class="who">НЕЙРОСЕТЬ</div>'+w.ai;
+}
+tabs("[data-w]",function(b){wk=+b.dataset.w;drawO()});drawO();
+
+/* 02 фактическая себестоимость */
+var MACH=[
+ {n:"ЧПУ-420 № 0147",date:"05.11",op:820,fact:844,rows:[["Металлопрокат",410,422],["Комплектующие",260,268],["ФОТ сборки",110,112],["Наладка и ОТК",40,42]]},
+ {n:"ЧПУ-320 № 0148",date:"08.11",op:930,fact:905,rows:[["Металлопрокат",470,452],["Комплектующие",300,296],["ФОТ сборки",120,118],["Наладка и ОТК",40,39]]},
+ {n:"ЧПУ-520 № 0149",date:"11.11",op:540,fact:660,rows:[["Металлопрокат",260,300],["Комплектующие",160,180],["ФОТ сборки",80,100],["Наладка и ОТК",40,80]]}
+];
+var role="eco",mi=0;
+function drawF(){
+ document.getElementById("f-tabs").innerHTML=MACH.map(function(m,i){return '<button class="tab'+(i==mi?' on':'')+'" data-m="'+i+'">'+m.n+'</button>'}).join("");
+ document.querySelectorAll("[data-m]").forEach(function(b){b.onclick=function(){mi=+b.dataset.m;drawF()}});
+ document.getElementById("f-lock").classList.toggle("hide",role!="gd");
+ var m=MACH[mi],dev=(m.fact-m.op)/m.op*100;
+ document.getElementById("f-kpi").innerHTML=[["Дата выпуска",m.date,""],["Оперативная оценка",f1(m.op),"тыс. ₽"],["Факт на выпуск",f1(m.fact),"тыс. ₽"],["Отклонение",(dev>0?'+':'')+dev.toFixed(1)+"%",dev>5?"проверить":"норма"]]
+  .map(function(x){return '<div class="kpi"><div class="l">'+x[0]+'</div><div class="v'+((x[0]=="Отклонение"&&Math.abs(dev)>5)?' warn':'')+'">'+x[1]+'</div><div class="s">'+x[2]+'</div></div>'}).join("");
+ var h;
+ if(role=="gd"){h='<tr><th>Станок</th><th>Оперативно</th><th>Факт</th><th>Отклонение</th></tr><tr class="tot"><td>'+m.n+'</td><td>'+f1(m.op)+'</td><td>'+f1(m.fact)+'</td><td class="'+(Math.abs(dev)>5?'warn':'okc')+'">'+(dev>0?'+':'')+dev.toFixed(1)+'%</td></tr>'}
+ else{h='<tr><th>Статья</th><th>Оперативно</th><th>Факт</th></tr>';m.rows.forEach(function(r){h+='<tr><td>'+r[0]+'</td><td>'+r[1]+'</td><td>'+r[2]+'</td></tr>'});h+='<tr class="tot"><td>Итого</td><td>'+f1(m.op)+'</td><td>'+f1(m.fact)+'</td></tr>'}
+ document.getElementById("f-table").innerHTML=h;
+}
+tabs("[data-r]",function(b){role=b.dataset.r;drawF()});drawF();
+
+/* 03 проверки */
+document.getElementById("c-btn").onclick=function(){var b=this;b.disabled=true;b.textContent="Проверяю…";
+ var li=document.querySelectorAll("#c-list li"),i=0;
+ var t=setInterval(function(){if(i<li.length){li[i].classList.add("on");i++}else{clearInterval(t);b.textContent="Проверка завершена"}},300)};
+</script>
+</body>
+</html>
