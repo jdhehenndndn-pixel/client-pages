@@ -108,6 +108,16 @@ tr.hl td{background:#f0fbf5}
 .how{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:22px}
 .how div{border:1px solid var(--line);border-radius:14px;padding:16px;font-size:14px;color:var(--tx2)}
 .how b{display:block;color:var(--tx);font-size:15px;margin-bottom:4px}
+.also{padding:56px 0 8px;border-top:1px solid var(--line)}
+.alsogrid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:20px}
+.ac{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+.ac .tg{display:inline-block;font:700 10px var(--mono);letter-spacing:.08em;padding:3px 8px;border-radius:999px;margin-bottom:8px}
+.ac .tg.base{background:rgba(92,242,166,.12);color:var(--ac)}
+.ac .tg.prac{background:rgba(217,138,11,.15);color:var(--amber)}
+.ac .tg.pro{background:rgba(62,123,250,.18);color:var(--blue)}
+.ac h4{font-size:16px;margin-bottom:4px}
+.ac p{font-size:14px;color:var(--tx2)}
+@media (max-width:760px){.alsogrid{grid-template-columns:1fr}}
 .cta{margin:36px 0 70px;text-align:center;background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:30px 20px}
 .cta p{color:var(--tx2);max-width:620px;margin:8px auto 0}
 a.dl{display:inline-block;margin-top:16px;text-decoration:none;font:700 15px var(--mono);letter-spacing:.06em;background:var(--ac);color:var(--onac);padding:14px 22px;border-radius:10px}
@@ -133,6 +143,7 @@ footer{font-size:12px;color:var(--mut);text-align:center;padding:0 0 30px}
       <a class="chip" href="#t1"><b>01</b>Оперативная себестоимость, раз в неделю</a>
       <a class="chip" href="#t2"><b>02</b>Фактическая себестоимость на дату выпуска</a>
       <a class="chip" href="#t3"><b>03</b>Проверки перед выпуском отчёта</a>
+      <a class="chip" href="#also"><b>+</b>Остальные ваши задачи</a>
       <a class="chip" href="#tarif"><b>→</b>Какой тариф вам подходит</a>
     </div>
     <p class="note">Все цифры и станки условные, тыс. ₽. На курсе вы соберёте то же самое на своих данных из 1С.</p>
@@ -228,6 +239,22 @@ footer{font-size:12px;color:var(--mut);text-align:center;padding:0 0 30px}
     <p class="gain"><b>ЧТО МЕНЯЕТСЯ ДЛЯ ВАС</b>Ошибку в данных вы видите до того, как цифра ушла в отчёт руководителю, а не после его вопроса.</p>
   </section>
 
+  <!-- остальные задачи -->
+  <section class="also" id="also">
+    <div class="tnum">ОСТАЛЬНЫЕ ВАШИ ЗАДАЧИ</div>
+    <h2>Себестоимость — не единственное</h2>
+    <p class="lead">Вы отметили ещё шесть направлений, которые хотели бы автоматизировать. На курсе вы соберёте инструменты и под них, не только под расчёт себестоимости.</p>
+    <div class="alsogrid">
+      <div class="ac"><span class="tg prac">Практика</span><h4>Контроль платежей и дебиторки</h4><p>Кто из покупателей просрочил оплату и сколько денег поступило за день — без того, чтобы поднимать выписку вручную.</p></div>
+      <div class="ac"><span class="tg base">База</span><h4>Контроль выполнения заказов</h4><p>Какой заказ на станок отстаёт от срока и что ещё не отгружено — сводка по заказам производства на одном экране.</p></div>
+      <div class="ac"><span class="tg base">База</span><h4>Документы и письма контрагентам</h4><p>Акты сверки и письма поставщикам металлопроката собираются по шаблону, а не пишутся каждый раз заново.</p></div>
+      <div class="ac"><span class="tg base">База</span><h4>Бюджет и план-факт</h4><p>Та же логика, что и в себестоимости, только по статьям и ЦФО: план против факта с подсветкой перерасхода.</p></div>
+      <div class="ac"><span class="tg prac">Практика</span><h4>Отчёт для руководителя</h4><p>Выручка, маржа и деньги на одном экране — рядом с карточкой выпуска станка, которую вы уже видели выше.</p></div>
+      <div class="ac"><span class="tg pro">Профи</span><h4>Платёжный календарь и касса</h4><p>Остаток по дням наперёд и кассовые разрывы видны заранее, на вашем сервере, а не в отдельной таблице.</p></div>
+    </div>
+    <p class="note">На Профи своим проектом может стать любая из этих задач, а не только себестоимость — вы сами выбираете, что доводить до рабочего сервиса вместе с куратором.</p>
+  </section>
+
   <!-- тарифы -->
   <section class="tarif" id="tarif">
     <div class="tnum">КАКОЙ ТАРИФ ВАМ ПОДХОДИТ</div>
@@ -253,7 +280,7 @@ footer{font-size:12px;color:var(--mut);text-align:center;padding:0 0 30px}
         <h3>Профи</h3>
         <div class="pr">99 000 ₽</div>
         <div class="sub">≈ 16 500 ₽/мес · доступ 2 года · поддержка 2 месяца после курса</div>
-        <p><b>Почему он.</b> У вас две разные задачи — еженедельный расчёт для себя и карточка на дату выпуска для руководителя. Это ровно материал Практики плюс Профи: свой проект с куратором, где вы доводите обе задачи до одного сервиса с разным доступом для экономического блока и руководителя.</p>
+        <p><b>Почему он.</b> У вас не одна задача, а семь: себестоимость, платежи и дебиторка, заказы, документы, бюджет, отчёт руководителю, платёжный календарь. Профи даёт свой проект с куратором: вы доводите до рабочего сервиса себестоимость, а остальные задачи решаете тем же подходом уже сами, без ограничения в одну тему.</p>
         <p class="refund">Если в первые 2 недели обучения поймёте, что курс не ваш, вернём деньги полностью.</p>
       </div>
       <div class="card">
