@@ -1,0 +1,425 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Финансы нескольких бизнесов — Олег</title>
+<meta name="robots" content="noindex">
+<style>
+:root{
+  --bg:#05080B;--panel:#0C1217;--panel2:#0F1A17;--line:#1F2C2A;--tx:#F2F8F5;--tx2:#C9D8D1;--mut:#8EA39B;
+  --ac:#5CF2A6;--onac:#04110B;
+  --app:#FFFFFF;--app2:#F5F7F9;--appline:#E4E8EC;--apptx:#16212B;--appmut:#6A7783;
+  --red:#E5484D;--amber:#D98A0B;--green:#1E9E5E;--blue:#3E7BFA;
+  --mono:Consolas,"SFMono-Regular",Menlo,monospace;--body:"Segoe UI",-apple-system,Roboto,Arial,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;background:var(--bg)}
+html,body{overflow-x:hidden}
+body{background:radial-gradient(900px 600px at 0 0,#0f3a2a 0,transparent 70%) no-repeat,var(--bg);color:var(--tx);font-family:var(--body);line-height:1.5;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1040px;margin:0 auto;padding:0 16px}
+button{font:inherit;cursor:pointer}
+.top{display:flex;justify-content:space-between;gap:12px;font:12px var(--mono);color:var(--mut);letter-spacing:.08em;padding:22px 0 0}
+.top b{color:var(--ac)}
+.hero{padding:48px 0 30px}
+.eb{font:700 12px var(--mono);letter-spacing:.1em;color:var(--tx2);margin-bottom:14px;text-transform:uppercase}
+.eb:before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--ac);margin-right:8px;vertical-align:1px}
+h1{font-size:clamp(30px,5.2vw,52px);line-height:1.08;font-weight:700;letter-spacing:-.01em;margin-bottom:18px}
+h1 em{font-style:normal;color:var(--ac)}
+h2{font-size:clamp(24px,3.4vw,34px);line-height:1.15;margin-bottom:10px}
+.lead{font-size:18px;color:var(--tx2);max-width:740px}
+.quote{margin-top:18px;border-left:3px solid var(--ac);padding:8px 14px;color:var(--tx2);font-style:italic;max-width:740px}
+.chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px}
+.chip{border:1px solid var(--line);background:var(--panel);border-radius:999px;padding:8px 14px;font-size:14px;color:var(--tx2);text-decoration:none}
+.chip b{color:var(--ac);font-weight:600;font-family:var(--mono);margin-right:6px}
+.chip:hover{border-color:var(--ac)}
+.note{font-size:13px;color:var(--mut);margin-top:18px}
+.task{padding:56px 0 8px;border-top:1px solid var(--line)}
+.tnum{font:700 12px var(--mono);color:var(--ac);letter-spacing:.1em;margin-bottom:10px}
+.thead{display:grid;grid-template-columns:1.35fr 1fr;gap:26px;margin-bottom:22px}
+.thead p{color:var(--tx2)}
+.mod{background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:16px 18px;font-size:15px}
+.mod .k{font:700 11px var(--mono);letter-spacing:.1em;color:var(--mut);margin-bottom:6px}
+.mod b{color:var(--ac)}
+.mod ul{list-style:none;margin-top:8px}
+.mod li{font-size:14px;color:var(--tx2);padding-left:16px;position:relative;margin-top:4px}
+.mod li:before{content:"";position:absolute;left:0;top:9px;width:6px;height:6px;border-radius:2px;background:var(--ac)}
+.app{background:var(--app);color:var(--apptx);border-radius:16px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.45)}
+.bar{display:flex;align-items:center;gap:8px;background:var(--app2);border-bottom:1px solid var(--appline);padding:10px 14px;font:12px var(--mono);color:var(--appmut)}
+.bar i{width:10px;height:10px;border-radius:50%;background:#d9dee3;display:inline-block;flex:none}
+.bar span{margin-left:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.body{padding:18px}
+.tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.tab{border:1px solid var(--appline);background:#fff;border-radius:8px;padding:7px 12px;font-size:14px;color:var(--apptx)}
+.tab.on{background:var(--apptx);color:#fff;border-color:var(--apptx)}
+.seg{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-bottom:14px;font-size:13px;color:var(--appmut)}
+.btn{border:0;background:var(--apptx);color:#fff;border-radius:10px;padding:10px 16px;font-weight:600;font-size:14px}
+.btn.ac{background:#14b86a}
+.btn:disabled{opacity:.5;cursor:default}
+.tw{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:14px;min-width:440px}
+th,td{padding:9px 10px;border-bottom:1px solid var(--appline);text-align:right;white-space:nowrap}
+th{font:600 12px var(--body);color:var(--appmut);background:var(--app2)}
+th:first-child,td:first-child{text-align:left}
+tr.tot td{font-weight:700;border-top:2px solid var(--apptx)}
+.warn{color:var(--red);font-weight:600}
+.okc{color:var(--green);font-weight:600}
+.amb{color:var(--amber);font-weight:600}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:14px 0 0}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}
+.kpi{background:var(--app2);border-radius:10px;padding:10px 12px}
+.kpi .l{font-size:12px;color:var(--appmut)}
+.kpi .v{font-size:20px;font-weight:700}
+.kpi .s{font-size:12px;color:var(--appmut)}
+.ai-msg{margin-top:14px;background:#f0fbf5;border:1px solid #cdeedb;border-radius:12px;padding:12px 14px;font-size:14px}
+.ai-msg .who{font:700 11px var(--mono);letter-spacing:.08em;color:#0d7a46;margin-bottom:4px}
+.lock{margin-top:12px;font-size:13px;color:var(--appmut);background:var(--app2);border-radius:10px;padding:10px 12px}
+.hide{display:none}
+.gain{margin:14px 0 0;font-size:15px;color:var(--tx2);padding-left:14px;border-left:3px solid var(--ac)}
+.gain b{color:var(--ac);font:700 11px var(--mono);letter-spacing:.08em;display:block;margin-bottom:2px}
+.cost{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
+.cost div{border:1px dashed var(--appline);border-radius:10px;padding:10px 12px;font-size:13px}
+.cost b{display:block;font-size:15px}
+.sl{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:14px}
+.sl label{font-size:13px;color:var(--appmut);display:block}
+.sl b{color:var(--apptx);font-size:16px}
+.sl input{width:100%;accent-color:#14b86a;margin-top:4px}
+.chart{display:flex;align-items:flex-end;gap:4px;height:170px;border-bottom:1px solid var(--appline);position:relative;padding-top:6px}
+.chart .c{flex:1;position:relative;height:100%}
+.chart .c i{position:absolute;left:0;right:0;border-radius:4px 4px 0 0;background:#3E7BFA}
+.chart .c i.neg{background:var(--red);border-radius:0 0 4px 4px}
+.chart .c i.low{background:var(--amber)}
+.zero{position:absolute;left:0;right:0;border-top:1px dashed #9aa6b1}
+.xl{display:flex;gap:4px;font-size:10px;color:var(--appmut);margin-top:4px}
+.xl span{flex:1;text-align:center}
+.chk{list-style:none}
+.chk li{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid var(--appline);font-size:14px;opacity:.25;transition:.3s}
+.chk li.on{opacity:1}
+.chk li span:last-child{white-space:nowrap}
+.tarif{padding:60px 0 20px;border-top:1px solid var(--line)}
+.matrix{background:var(--panel);border:1px solid var(--line);border-radius:16px;overflow:hidden;margin:22px 0}
+.matrix table{min-width:520px;color:var(--tx)}
+.matrix th{background:var(--panel2);color:var(--tx2);border-bottom:1px solid var(--line)}
+.matrix td{border-bottom:1px solid var(--line);color:var(--tx2)}
+.matrix th:nth-child(4),.matrix td:nth-child(4){background:rgba(92,242,166,.07)}
+.matrix .y{color:var(--ac);font-weight:700}
+.matrix .n{color:#5b6b66}
+.cards{display:grid;grid-template-columns:1fr 1fr 1.15fr;gap:14px;align-items:stretch}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px}
+.card.rec{border-color:var(--ac);box-shadow:0 0 0 1px var(--ac) inset}
+.card .k{font:700 11px var(--mono);letter-spacing:.1em;color:var(--mut)}
+.card.rec .k{color:var(--ac)}
+.card h3{font-size:24px;margin:6px 0 2px}
+.card .pr{font-size:20px;font-weight:700}
+.card .sub{font-size:13px;color:var(--mut);margin-bottom:12px}
+.card p{font-size:14px;color:var(--tx2);margin-top:8px}
+.card p b{color:var(--tx)}
+.refund{font-size:13px;color:var(--ac);margin-top:10px}
+.how{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:22px}
+.how div{border:1px solid var(--line);border-radius:14px;padding:16px;font-size:14px;color:var(--tx2)}
+.how b{display:block;color:var(--tx);font-size:15px;margin-bottom:4px}
+.cta{margin:36px 0 70px;text-align:center;background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:30px 20px}
+.cta p{color:var(--tx2);max-width:620px;margin:8px auto 0}
+a.dl{display:inline-block;margin-top:16px;text-decoration:none;font:700 15px var(--mono);letter-spacing:.06em;background:var(--ac);color:var(--onac);padding:14px 22px;border-radius:10px}
+.dline{display:block;margin-top:12px;font:700 12px var(--mono);letter-spacing:.08em;color:var(--mut)}
+footer{font-size:12px;color:var(--mut);text-align:center;padding:0 0 30px}
+@media (max-width:760px){
+  .thead,.cards,.how,.sl,.cost{grid-template-columns:1fr}
+  .kpis{grid-template-columns:1fr 1fr}
+  .top{flex-direction:column;gap:4px}
+  .chart{height:140px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><span>МАСТЕР CFO · <b>ВАЙБ-КОДИНГ</b></span><span>ЛИЧНАЯ ПОДБОРКА ДЛЯ ОЛЕГА</span></div>
+
+  <section class="hero">
+    <div class="eb">Финансы нескольких бизнесов</div>
+    <h1>Олег, вот как будут работать <em>ваши отчёты для акционеров</em></h1>
+    <p class="lead">Вы ведёте сразу несколько направлений: одежду, IT, металлообработку и девелопмент. Дашборды и скиллы в Claude вы уже собираете сами, поэтому здесь только то, чего в чате не сделать.</p>
+    <p class="quote">«Думаю о том, чтобы агент имел доступ к серверу по API либо в гугл докс, и обновлял отчёт раз в день, например, и бесплатно»</p>
+    <div class="chips">
+      <a class="chip" href="#t1"><b>01</b>Отчёт, который обновляется сам</a>
+      <a class="chip" href="#t2"><b>02</b>Все бизнесы в одной панели</a>
+      <a class="chip" href="#t3"><b>03</b>Антикризисные сценарии</a>
+      <a class="chip" href="#t4"><b>04</b>Due diligence</a>
+      <a class="chip" href="#tarif"><b>→</b>Какой тариф вам подходит</a>
+    </div>
+    <p class="note">Все цифры условные, млн ₽ за месяц. На курсе вы соберёте то же самое на своих данных.</p>
+  </section>
+
+  <!-- 01 ежедневный отчёт -->
+  <section class="task" id="t1">
+    <div class="thead">
+      <div>
+        <div class="tnum">ЗАДАЧА 01</div>
+        <h2>Отчёт, который каждое утро обновляется сам</h2>
+        <p>Скрипт по расписанию забирает данные из 1С по API или из Google-таблиц, пересчитывает показатели, а нейросеть дописывает комментарий для акционеров: что изменилось и куда смотреть. В 8:00 отчёт уже ждёт в Telegram и по ссылке.</p>
+      </div>
+      <div class="mod">
+        <div class="k">ГДЕ ЭТОМУ УЧАТ · ПРАКТИКА</div>
+        <b>Модуль 5</b>: свой сервер, API и вебхуки, интеграция с 1С
+        <ul><li><b>Модуль 6</b>: Telegram-бот и AI-бот</li><li>Мини-курс по n8n: автоматизации и ИИ-агенты без кода</li></ul>
+      </div>
+    </div>
+    <div class="app">
+      <div class="bar"><i></i><i></i><i></i><span>report.ваш-домен.ru · ежедневный отчёт</span></div>
+      <div class="body">
+        <div class="seg">Источник:
+          <button class="tab on" data-src="1c">1С по API</button>
+          <button class="tab" data-src="g">Google-таблицы</button>
+          <span id="r-time" style="margin-left:auto">обновлено сегодня в 08:00</span>
+        </div>
+        <div class="kpis" id="r-kpi"></div>
+        <div class="ai-msg"><div class="who">КОММЕНТАРИЙ НЕЙРОСЕТИ ДЛЯ АКЦИОНЕРОВ</div><span id="r-ai"></span></div>
+        <div class="row"><button class="btn" id="r-btn">Показать следующее утро</button></div>
+        <div class="cost">
+          <div><b>0 ₽</b>обновление по расписанию через Google-таблицы и скрипт</div>
+          <div><b>несколько сотен ₽ в месяц</b>свой сервер, если данные берутся из 1С по API</div>
+          <div><b>копейки за запрос</b>комментарий нейросети, если его подключать</div>
+        </div>
+      </div>
+    </div>
+    <p class="gain"><b>ЧТО МЕНЯЕТСЯ ДЛЯ ВАС</b>Вы перестаёте собирать отчёт акционерам руками: утром он уже готов, и вы тратите время на выводы, а не на сбор цифр.</p>
+  </section>
+
+  <!-- 02 портфель -->
+  <section class="task" id="t2">
+    <div class="thead">
+      <div>
+        <div class="tnum">ЗАДАЧА 02</div>
+        <h2>Все бизнесы в одной панели</h2>
+        <p>Одна ссылка, где видно каждое направление и сводку по всем. У каждого свой вход: вы и акционеры видите всё, а гендиректор конкретной компании — только свой бизнес.</p>
+      </div>
+      <div class="mod">
+        <div class="k">ГДЕ ЭТОМУ УЧАТ · ПРОФИ</div>
+        <b>Модуль 7</b>: свой проект от идеи до рабочей ссылки
+        <ul><li>Роли и права доступа, фронт и бэк</li><li>Сервер, домен и защита проекта с куратором</li></ul>
+      </div>
+    </div>
+    <div class="app">
+      <div class="bar"><i></i><i></i><i></i><span>panel.ваш-домен.ru · защищённый вход</span></div>
+      <div class="body">
+        <div class="seg">Смотрит:
+          <button class="tab on" data-role="cfo">Вы, CFO</button>
+          <button class="tab" data-role="sh">Акционер</button>
+          <button class="tab" data-role="gd">ГД «Одежды»</button>
+        </div>
+        <div class="tabs" id="b-tabs"></div>
+        <div class="kpis" id="b-kpi"></div>
+        <div class="tw"><table id="b-table"></table></div>
+        <div class="lock hide" id="b-lock">Гендиректор видит только свою компанию: остальные направления и сводка для него закрыты.</div>
+      </div>
+    </div>
+    <p class="gain"><b>ЧТО МЕНЯЕТСЯ ДЛЯ ВАС</b>Вместо четырёх отдельных отчётов одна ссылка для акционеров, где каждый видит ровно то, что ему положено.</p>
+  </section>
+
+  <!-- 03 сценарии -->
+  <section class="task" id="t3">
+    <div class="thead">
+      <div>
+        <div class="tnum">ЗАДАЧА 03</div>
+        <h2>Антикризисные сценарии</h2>
+        <p>Интерактивная модель денег на 13 недель вперёд. Двигаете падение выручки, рост закупки и задержку оплат покупателей и сразу видите, на какой неделе случится разрыв и сколько нужно, чтобы его закрыть.</p>
+      </div>
+      <div class="mod">
+        <div class="k">ГДЕ ЭТОМУ УЧАТ · УЖЕ НА БАЗЕ</div>
+        <b>Модули 1–4</b>: интерактивная финансовая модель
+        <ul><li>На Практике модель берёт свежие данные из 1С сама</li></ul>
+      </div>
+    </div>
+    <div class="app">
+      <div class="bar"><i></i><i></i><i></i><span>scenarios.html · деньги группы на 13 недель</span></div>
+      <div class="body">
+        <div class="tabs" id="s-pre">
+          <button class="tab on" data-p="0,0,0">Базовый</button>
+          <button class="tab" data-p="15,10,1">Плохой сезон</button>
+          <button class="tab" data-p="25,20,2">Стресс</button>
+        </div>
+        <div class="sl">
+          <label>Падение выручки: <b id="v-d">0%</b><input type="range" id="i-d" min="0" max="40" value="0"></label>
+          <label>Рост цен закупки: <b id="v-p">0%</b><input type="range" id="i-p" min="0" max="30" value="0"></label>
+          <label>Задержка оплат покупателей: <b id="v-k">0 нед.</b><input type="range" id="i-k" min="0" max="4" value="0"></label>
+        </div>
+        <div class="chart" id="s-chart"></div>
+        <div class="xl" id="s-x"></div>
+        <div class="ai-msg"><div class="who">НЕЙРОСЕТЬ</div><span id="s-ai"></span></div>
+      </div>
+    </div>
+    <p class="gain"><b>ЧТО МЕНЯЕТСЯ ДЛЯ ВАС</b>Антикризисный план показываете акционерам не таблицей, а моделью, где они сами двигают допущения и видят последствия.</p>
+  </section>
+
+  <!-- 04 DD -->
+  <section class="task" id="t4">
+    <div class="thead">
+      <div>
+        <div class="tnum">ЗАДАЧА 04</div>
+        <h2>Due diligence компании</h2>
+        <p>Загружаете отчётность за три года и выписку, а агент по вашему чек-листу проверяет ключевые риски и готовит сводку. Вы проверяете выводы и решаете, что смотреть глубже.</p>
+      </div>
+      <div class="mod">
+        <div class="k">ГДЕ ЭТОМУ УЧАТ</div>
+        <b>Практика</b>: ИИ-агент на n8n со своей базой знаний
+        <ul><li><b>Профи</b>: можно взять своим проектом и довести с куратором до рабочего сервиса</li></ul>
+      </div>
+    </div>
+    <div class="app">
+      <div class="bar"><i></i><i></i><i></i><span>dd-agent · проверка компании · отчётность 2023–2025</span></div>
+      <div class="body">
+        <ul class="chk" id="d-list">
+          <li><span>Динамика выручки и маржи за 3 года</span><span class="okc">рост 18% в год</span></li>
+          <li><span>Долговая нагрузка, долг / EBITDA</span><span class="amb">3,4 — выше комфортной</span></li>
+          <li><span>Концентрация покупателей</span><span class="warn">62% выручки — один клиент</span></li>
+          <li><span>Отчётность и выписка сходятся</span><span class="okc">расхождений нет</span></li>
+          <li><span>Кассовые разрывы за период</span><span class="amb">2 месяца с минусом</span></li>
+          <li><span>Дебиторка старше 90 дней</span><span class="warn">14% от выручки</span></li>
+        </ul>
+        <div class="ai-msg hide" id="d-ai"><div class="who">СВОДКА АГЕНТА</div>Компания растёт, но зависит от одного покупателя и работает с высокой долговой нагрузкой. Перед сделкой стоит запросить договор с ключевым клиентом, график погашения кредитов и расшифровку дебиторки старше 90 дней.</div>
+        <div class="row"><button class="btn ac" id="d-btn">Запустить проверку</button></div>
+      </div>
+    </div>
+    <p class="gain"><b>ЧТО МЕНЯЕТСЯ ДЛЯ ВАС</b>Первичный скрининг компании занимает не дни, а один прогон агента, и вы сразу знаете, какие документы запросить.</p>
+  </section>
+
+  <!-- тарифы -->
+  <section class="tarif" id="tarif">
+    <div class="tnum">КАКОЙ ТАРИФ ВАМ ПОДХОДИТ</div>
+    <h2>Ваши задачи по тарифам</h2>
+    <div class="matrix"><div class="tw"><table>
+      <tr><th>Задача</th><th>База</th><th>Практика</th><th>Профи</th></tr>
+      <tr><td>Дашборды по выгрузкам и финмодели</td><td class="y">есть</td><td class="y">есть</td><td class="y">есть</td></tr>
+      <tr><td>03 · Сценарная модель денег</td><td class="y">есть</td><td class="y">есть</td><td class="y">есть</td></tr>
+      <tr><td>01 · Отчёт по API раз в день + комментарий ИИ</td><td class="n">нет</td><td class="y">есть</td><td class="y">есть</td></tr>
+      <tr><td>04 · ИИ-агент для due diligence</td><td class="n">нет</td><td class="y">собрать</td><td class="y">довести до сервиса</td></tr>
+      <tr><td>02 · Панель всех бизнесов с входом для акционеров и ГД</td><td class="n">нет</td><td class="n">нет</td><td class="y">есть</td></tr>
+    </table></div></div>
+
+    <div class="cards">
+      <div class="card">
+        <div class="k">БАЗА · МОДУЛИ 1–4</div>
+        <h3>База</h3>
+        <div class="pr">49 000 ₽</div>
+        <div class="sub">≈ 8 170 ₽/мес · доступ 6 месяцев</div>
+        <p><b>Почему не она.</b> Дашборды по выгрузкам и финмодели вы уже собираете сами в Claude. На Базе нет главного, о чём вы спрашивали: сервера, API и автообновления.</p>
+      </div>
+      <div class="card">
+        <div class="k">ПРАКТИКА · МОДУЛИ 1–6 + N8N</div>
+        <h3>Практика</h3>
+        <div class="pr">69 000 ₽</div>
+        <div class="sub">≈ 11 500 ₽/мес · доступ 1 год</div>
+        <p><b>Закрывает ваш запрос про отчёт.</b> Сервер, API, интеграция с 1С, бот и ИИ-агенты на n8n. Но панель для нескольких бизнесов с разными правами доступа здесь вы будете собирать сами, без куратора.</p>
+      </div>
+      <div class="card rec">
+        <div class="k">РЕКОМЕНДУЮ ВАМ · 7 МОДУЛЕЙ + ЗАЩИТА</div>
+        <h3>Профи</h3>
+        <div class="pr">99 000 ₽</div>
+        <div class="sub">≈ 16 500 ₽/мес · доступ 2 года · поддержка 2 месяца после курса</div>
+        <p><b>Почему он.</b> Всё из Практики плюс свой проект с куратором. Вашим проектом логично сделать панель всех бизнесов для акционеров: с ролями, на своём сервере и домене. Это то, что обычно заказывают у разработчиков, а здесь вы делаете это сами и под себя.</p>
+        <p class="refund">Если в первые 2 недели обучения поймёте, что курс не ваш, вернём деньги полностью.</p>
+      </div>
+    </div>
+    <p class="note">Если сразу на Профи не готовы, можно начать с Практики и доплатить разницу позже.</p>
+
+    <div class="how">
+      <div><b>Под ваш график</b>Уроки в записи, живые встречи раз в две недели. Удобно, если вы на part-time в нескольких компаниях.</div>
+      <div><b>Код пишет нейросеть</b>Вы ставите задачу словами и проверяете результат. Опыт программирования не нужен.</div>
+      <div><b>Есть кому задать вопрос</b>Чат с кураторами весь курс, а на Профи ещё 2 месяца поддержки и разборы после него.</div>
+    </div>
+
+    <div class="cta">
+      <h2>Поток стартует 30 ноября</h2>
+      <p>Это последний поток, где кураторами будут Софья, Натали и Алексей. Можно в рассрочку до 6 месяцев без переплаты, для компании — по счёту. Напишите мне, и я помогу с оформлением.</p>
+      <a class="dl" href="https://t.me/m/_P3MK8LfYTgy" target="_blank" rel="noopener">Написать Александре</a>
+      <span class="dline">СТАРТ 30 НОЯБРЯ</span>
+    </div>
+  </section>
+</div>
+<footer>Онлайн-школа «Мастер CFO» · vibe.fin-academy.pro · примеры условные</footer>
+
+<script>
+function f1(x){return (x<0?"−":"")+Math.abs(x).toFixed(1).replace(".",",")}
+function tabs(sel,cb){document.querySelectorAll(sel).forEach(function(b){b.onclick=function(){document.querySelectorAll(sel).forEach(function(x){x.classList.remove("on")});b.classList.add("on");cb(b)}})}
+
+/* 01 отчёт */
+var DAYS=[
+ {t:"сегодня в 08:00",k:[["Поступления вчера","4,8","млн ₽"],["Деньги на счетах","22,1","4 компании"],["Выручка месяца","40,4","85% плана"],["Просрочка покупателей","3,2","млн ₽"]],
+  ai:"Вчера поступления в норме. Отставание от плана месяца — 15%, в основном из-за девелопмента: сделки по двум квартирам сдвинулись на декабрь. У металлообработки денег на счетах 1,1 млн, этого хватит на 9 дней платежей."},
+ {t:"завтра в 08:00",k:[["Поступления вчера","2,1","млн ₽"],["Деньги на счетах","20,3","4 компании"],["Выручка месяца","42,5","89% плана"],["Просрочка покупателей","3,9","млн ₽"]],
+  ai:"Поступления упали вдвое к среднему: маркетплейс перенёс выплату по «Одежде» на понедельник. Просрочка выросла до 3,9 млн, из них 0,7 млн — новый долг по металлообработке. Рекомендую позвонить покупателю до пятницы."},
+ {t:"послезавтра в 08:00",k:[["Поступления вчера","7,6","млн ₽"],["Деньги на счетах","25,4","4 компании"],["Выручка месяца","45,1","95% плана"],["Просрочка покупателей","3,1","млн ₽"]],
+  ai:"Пришла перенесённая выплата маркетплейса и аванс по девелопменту. Группа выходит на 95% плана месяца. Разрывов на ближайшие 2 недели нет, свободные 6 млн можно разместить на депозит до середины декабря."}
+];
+var day=0;
+function drawR(){var d=DAYS[day];document.getElementById("r-time").textContent="обновлено "+d.t;
+ document.getElementById("r-kpi").innerHTML=d.k.map(function(x){return '<div class="kpi"><div class="l">'+x[0]+'</div><div class="v">'+x[1]+'</div><div class="s">'+x[2]+'</div></div>'}).join("");
+ document.getElementById("r-ai").textContent=d.ai}
+document.getElementById("r-btn").onclick=function(){day=(day+1)%3;drawR();this.textContent=day==2?"Вернуться к сегодня":"Показать следующее утро"};
+tabs("[data-src]",function(){});drawR();
+
+/* 02 портфель */
+var B={
+ cl:{n:"Одежда",r:18.4,pl:20.0,e:2.1,c:3.6,rows:[["Закупка ткани",6.0,6.9],["Пошив",4.2,4.3],["Комиссии маркетплейсов",2.6,2.5],["Маркетинг",1.5,1.9],["Аренда",0.8,0.8]]},
+ it:{n:"IT",r:6.2,pl:6.0,e:1.4,c:2.9,rows:[["ФОТ разработки",3.1,3.2],["Подрядчики",0.6,0.5],["Облако и сервисы",0.4,0.5]]},
+ mt:{n:"Металлообработка",r:11.8,pl:12.5,e:1.6,c:1.1,rows:[["Металлопрокат",6.1,6.6],["ФОТ цеха",2.4,2.4],["Энергия",0.9,1.0]]},
+ dv:{n:"Девелопмент",r:4.0,pl:9.0,e:-0.6,c:14.5,rows:[["Стройка",3.0,3.2],["Проценты по кредиту",0.9,0.9],["Продвижение",0.3,0.5]]}
+};
+var role="cfo",biz="all";
+function drawB(){
+ var allowed=role=="gd"?["cl"]:["all","cl","it","mt","dv"];
+ if(allowed.indexOf(biz)<0)biz=allowed[0];
+ var names={all:"Все бизнесы",cl:"Одежда",it:"IT",mt:"Металлообработка",dv:"Девелопмент"};
+ document.getElementById("b-tabs").innerHTML=allowed.map(function(k){return '<button class="tab'+(k==biz?' on':'')+'" data-b="'+k+'">'+names[k]+'</button>'}).join("");
+ document.querySelectorAll("[data-b]").forEach(function(b){b.onclick=function(){biz=b.dataset.b;drawB()}});
+ document.getElementById("b-lock").classList.toggle("hide",role!="gd");
+ var k,h;
+ if(biz=="all"){
+  var R=0,P=0,E=0,C=0;for(k in B){R+=B[k].r;P+=B[k].pl;E+=B[k].e;C+=B[k].c}
+  kp(R,P,E,C);
+  h='<tr><th>Направление</th><th>Выручка</th><th>План</th><th>Исполнение</th><th>EBITDA</th><th>Деньги</th></tr>';
+  for(k in B){var x=B[k],pc=x.r/x.pl*100;h+='<tr><td>'+x.n+'</td><td>'+f1(x.r)+'</td><td>'+f1(x.pl)+'</td><td class="'+(pc<90?'warn':pc<100?'amb':'okc')+'">'+Math.round(pc)+'%</td><td class="'+(x.e<0?'warn':'')+'">'+f1(x.e)+'</td><td class="'+(x.c<2?'amb':'')+'">'+f1(x.c)+'</td></tr>'}
+  h+='<tr class="tot"><td>Итого</td><td>'+f1(R)+'</td><td>'+f1(P)+'</td><td>'+Math.round(R/P*100)+'%</td><td>'+f1(E)+'</td><td>'+f1(C)+'</td></tr>';
+ }else{
+  var x=B[biz];kp(x.r,x.pl,x.e,x.c);
+  h='<tr><th>Статья расходов</th><th>План</th><th>Факт</th><th>Отклонение</th></tr>';
+  x.rows.forEach(function(r){var dv=(r[2]-r[1])/r[1]*100;h+='<tr><td>'+r[0]+'</td><td>'+f1(r[1])+'</td><td>'+f1(r[2])+'</td><td class="'+(dv>10?'warn':dv<-10?'amb':'')+'">'+(Math.round(dv)==0?'0':(dv>0?'+':'−')+Math.abs(dv).toFixed(0))+'%</td></tr>'});
+ }
+ document.getElementById("b-table").innerHTML=h;
+}
+function kp(R,P,E,C){document.getElementById("b-kpi").innerHTML=[["Выручка",f1(R),Math.round(R/P*100)+"% плана"],["План",f1(P),"млн ₽"],["EBITDA",f1(E),"млн ₽"],["Деньги",f1(C),"на счетах"]].map(function(x){return '<div class="kpi"><div class="l">'+x[0]+'</div><div class="v">'+x[1]+'</div><div class="s">'+x[2]+'</div></div>'}).join("")}
+tabs("[data-role]",function(b){role=b.dataset.role;drawB()});drawB();
+
+/* 03 сценарии */
+var START=22.1,IN=9.3,OUT=9.0,SCHED={5:8,9:6},MIN=5;
+var DATES=["16.11","23.11","30.11","07.12","14.12","21.12","28.12","04.01","11.01","18.01","25.01","01.02","08.02"];
+function drawS(){
+ var d=+document.getElementById("i-d").value,p=+document.getElementById("i-p").value,k=+document.getElementById("i-k").value;
+ document.getElementById("v-d").textContent=d+"%";document.getElementById("v-p").textContent=p+"%";document.getElementById("v-k").textContent=k+" нед.";
+ var bal=START,arr=[];
+ for(var w=0;w<13;w++){var inf=IN*(1-d/100)*(w<k?0.4:1);var out=OUT*(1+p/100*0.35)+(SCHED[w]||0);bal+=inf-out;arr.push(bal)}
+ var mx=Math.max.apply(null,arr.concat([START])),mn=Math.min.apply(null,arr.concat([0])),span=mx-mn||1;
+ var zeroPct=(0-mn)/span*100;
+ var h='<div class="zero" style="bottom:'+zeroPct+'%"></div>';
+ arr.forEach(function(v){var cls=v<0?'neg':(v<MIN?'low':'');var top=v>=0;var hgt=Math.abs(v)/span*100;
+  h+='<div class="c"><i class="'+cls+'" style="'+(top?'bottom:'+zeroPct+'%':'top:'+(100-zeroPct)+'%')+';height:'+hgt+'%"></i></div>'});
+ document.getElementById("s-chart").innerHTML=h;
+ document.getElementById("s-x").innerHTML=DATES.map(function(x){return '<span>'+x+'</span>'}).join("");
+ var neg=arr.findIndex(function(v){return v<0}),low=arr.findIndex(function(v){return v<MIN}),mnv=Math.min.apply(null,arr);
+ var t;
+ if(neg>=0)t="Кассовый разрыв с недели "+DATES[neg]+". Минимум остатка "+f1(mnv)+" млн. Чтобы пройти этот период, нужно около "+f1(-mnv+MIN)+" млн: перенести закупку коллекции с 21.12, договориться об отсрочке по металлопрокату или открыть кредитную линию заранее.";
+ else if(low>=0)t="Разрыва нет, но с недели "+DATES[low]+" остаток ниже неснижаемого уровня 5 млн. Минимум "+f1(mnv)+" млн. Стоит заранее сдвинуть часть закупки коллекции или ускорить сбор дебиторки.";
+ else t="Разрывов нет, минимальный остаток "+f1(mnv)+" млн. Запас прочности есть, но небольшой: уже при падении выручки примерно на 6% остаток уходит ниже неснижаемого уровня.";
+ document.getElementById("s-ai").textContent=t;
+}
+["i-d","i-p","i-k"].forEach(function(id){document.getElementById(id).oninput=function(){document.querySelectorAll("#s-pre .tab").forEach(function(x){x.classList.remove("on")});drawS()}});
+tabs("#s-pre .tab",function(b){var v=b.dataset.p.split(",");document.getElementById("i-d").value=v[0];document.getElementById("i-p").value=v[1];document.getElementById("i-k").value=v[2];drawS()});
+drawS();
+
+/* 04 DD */
+document.getElementById("d-btn").onclick=function(){var b=this;b.disabled=true;b.textContent="Проверяю…";
+ var li=document.querySelectorAll("#d-list li"),i=0;
+ var t=setInterval(function(){if(i<li.length){li[i].classList.add("on");i++}else{clearInterval(t);document.getElementById("d-ai").classList.remove("hide");b.textContent="Проверка завершена"}},350)};
+</script>
+</body>
+</html>
