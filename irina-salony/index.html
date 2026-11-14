@@ -1,0 +1,497 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Где сеть салонов теряет деньги</title>
+<meta name="robots" content="noindex">
+<style>
+:root{
+  --bg:#05080B;--panel:#0C1217;--panel2:#0F1A17;--line:#1F2C2A;--tx:#F2F8F5;--tx2:#C9D8D1;--mut:#8EA39B;
+  --ac:#5CF2A6;--onac:#04110B;
+  --app:#FFFFFF;--app2:#F5F7F9;--appline:#E4E8EC;--apptx:#16212B;--appmut:#6A7783;
+  --red:#E5484D;--amber:#C27803;--green:#1E9E5E;
+  --mono:Consolas,"SFMono-Regular",Menlo,monospace;--body:"Segoe UI",-apple-system,Roboto,Arial,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;background:var(--bg)}
+html,body{overflow-x:hidden}
+body{background:radial-gradient(900px 600px at 0 0,#0f3a2a 0,transparent 70%) no-repeat,var(--bg);color:var(--tx);font-family:var(--body);line-height:1.5;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1080px;margin:0 auto;padding:0 16px}
+button,select,input{font:inherit}
+button,select{cursor:pointer}
+.top{display:flex;justify-content:space-between;gap:12px;font:12px var(--mono);color:var(--mut);letter-spacing:.08em;padding:22px 0 0}
+.top b{color:var(--ac)}
+.hero{padding:48px 0 10px}
+.eb{font:700 12px var(--mono);letter-spacing:.1em;color:var(--tx2);margin-bottom:14px;text-transform:uppercase}
+.eb:before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--ac);margin-right:8px;vertical-align:1px}
+h1{font-size:clamp(30px,5.2vw,50px);line-height:1.08;font-weight:700;letter-spacing:-.01em;margin-bottom:18px}
+h1 em,h2 em{font-style:normal;color:var(--ac)}
+h2{font-size:clamp(24px,3.4vw,34px);line-height:1.15;margin-bottom:10px}
+.lead{font-size:18px;color:var(--tx2);max-width:780px}
+.note{font-size:13px;color:var(--mut);margin-top:14px}
+.four{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:26px}
+.four>div{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+.four b{display:block;font-size:16px;margin-bottom:4px}
+.four p{font-size:14px;color:var(--tx2)}
+.section{padding:52px 0 8px;border-top:1px solid var(--line);margin-top:44px}
+.tnum{font:700 12px var(--mono);color:var(--ac);letter-spacing:.1em;margin-bottom:10px}
+.sub{color:var(--tx2);max-width:780px;margin-bottom:20px}
+
+/* приложение */
+.app{background:var(--app);color:var(--apptx);border-radius:16px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.45)}
+.bar{display:flex;align-items:center;gap:8px;background:var(--app2);border-bottom:1px solid var(--appline);padding:10px 14px;font:12px var(--mono);color:var(--appmut)}
+.bar i{width:10px;height:10px;border-radius:50%;background:#d9dee3;display:inline-block;flex:none}
+.bar span{margin-left:8px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.shell{display:grid;grid-template-columns:210px 1fr;min-height:560px}
+.side{background:#F8FAFB;border-right:1px solid var(--appline);padding:14px 10px}
+.side .lg{font-weight:700;font-size:15px;padding:4px 8px 12px}
+.side .lg small{display:block;font-weight:400;font-size:12px;color:var(--appmut)}
+.side button{display:block;width:100%;text-align:left;border:0;background:none;border-radius:8px;padding:9px 10px;font-size:14px;color:var(--apptx);margin-bottom:2px}
+.side button.on{background:var(--apptx);color:#fff}
+.side .who{margin-top:14px;border-top:1px solid var(--appline);padding:12px 8px 0;font-size:12px;color:var(--appmut)}
+.side .who select{width:100%;margin-top:6px;border:1px solid var(--appline);border-radius:8px;padding:7px 8px;font-size:12px;background:#fff;color:var(--apptx)}
+.side .src{margin-top:14px;font-size:12px;color:var(--appmut);padding:0 8px}
+.side .src div{display:flex;align-items:center;gap:6px;margin-top:5px}
+.side .src i{width:7px;height:7px;border-radius:50%;background:var(--green);display:inline-block;flex:none}
+.main{padding:18px;min-width:0}
+.vh{font-weight:700;font-size:17px;margin-bottom:2px}
+.vs{font-size:13px;color:var(--appmut);margin-bottom:12px}
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px;align-items:center}
+.filters label{font-size:12px;color:var(--appmut)}
+.filters select{border:1px solid var(--appline);border-radius:8px;padding:7px 10px;font-size:14px;background:#fff;color:var(--apptx)}
+.seg{display:inline-flex;border:1px solid var(--appline);border-radius:8px;overflow:hidden}
+.seg button{border:0;background:#fff;padding:7px 12px;font-size:14px;color:var(--apptx);cursor:pointer}
+.seg button.on{background:var(--apptx);color:#fff}
+.tw{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:14px;min-width:560px}
+th,td{padding:8px 10px;border-bottom:1px solid var(--appline);text-align:right;white-space:nowrap}
+th{font:600 12px var(--body);color:var(--appmut);background:var(--app2)}
+th:first-child,td:first-child{text-align:left}
+tr.tot td{font-weight:700;border-top:2px solid var(--apptx)}
+.warn{color:var(--red);font-weight:600}
+.amb{color:var(--amber);font-weight:600}
+.okc{color:var(--green);font-weight:600}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}
+.kpi{background:var(--app2);border-radius:10px;padding:10px 12px}
+.kpi.red{background:#FDECEC}
+.kpi .l{font-size:12px;color:var(--appmut)}
+.kpi .v{font-size:19px;font-weight:700}
+.kpi.red .v{color:var(--red)}
+.kpi .s{font-size:12px;color:var(--appmut)}
+.mbar{display:inline-block;height:8px;border-radius:4px;background:#9BD8B8;vertical-align:middle;margin-left:6px}
+.mbar.lo{background:#F4B4B6}
+.ai-msg{margin-top:14px;background:#f0fbf5;border:1px solid #cdeedb;border-radius:12px;padding:12px 14px;font-size:14px;white-space:normal}
+.ai-msg .who{font:700 11px var(--mono);letter-spacing:.08em;color:#0d7a46;margin-bottom:4px}
+.lock{margin-bottom:12px;font-size:13px;color:#7a5200;background:#FFF6E0;border:1px solid #F3DFA8;border-radius:10px;padding:9px 12px}
+.hide{display:none}
+.btn{border:0;background:var(--apptx);color:#fff;border-radius:10px;padding:10px 16px;font-weight:600;font-size:14px;margin-top:12px;cursor:pointer}
+.btn.sec{background:#fff;color:var(--apptx);border:1px solid var(--appline);margin-left:6px}
+.toast{display:inline-block;margin-left:10px;font-size:13px;color:var(--green)}
+.tg{margin-top:4px;max-width:420px;background:#E7EEF4;border-radius:14px;padding:12px;font-size:14px}
+.tg .msg{background:#fff;border-radius:12px 12px 12px 4px;padding:10px 12px;box-shadow:0 1px 1px rgba(0,0,0,.06)}
+.tg .msg b{display:block;margin-bottom:4px}
+.tg .msg div{margin-top:3px}
+.tg .tm{font-size:11px;color:var(--appmut);text-align:right;margin-top:4px}
+
+/* окупаемость */
+.calc{display:grid;grid-template-columns:1.1fr 1fr;gap:16px;margin-top:6px}
+.calc .in{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:18px}
+.fld{margin-bottom:16px}
+.fld label{display:flex;justify-content:space-between;gap:10px;font-size:14px;color:var(--tx2);margin-bottom:6px}
+.fld label b{color:var(--tx);white-space:nowrap}
+.fld input[type=range]{width:100%;accent-color:var(--ac)}
+.fld small{display:block;font-size:12px;color:var(--mut);margin-top:2px}
+.calc .out{background:var(--panel2);border:1px solid #2a5a45;border-radius:16px;padding:18px}
+.calc .out .k{font:700 11px var(--mono);letter-spacing:.1em;color:var(--mut)}
+.calc .out .big{font-size:34px;font-weight:700;color:var(--ac);line-height:1.15;margin:4px 0 12px}
+.pb{display:flex;justify-content:space-between;gap:10px;border-top:1px solid var(--line);padding:10px 0;font-size:15px;color:var(--tx2)}
+.pb b{color:var(--tx);white-space:nowrap}
+.calc .out p{font-size:13px;color:var(--mut);margin-top:8px}
+
+/* сравнение */
+.cmp{width:100%;border-collapse:collapse;margin-top:6px;font-size:15px;min-width:680px}
+.cmp th,.cmp td{border-bottom:1px solid var(--line);padding:12px 10px;text-align:left;white-space:normal;color:var(--tx2);vertical-align:top}
+.cmp th{background:none;font:700 11px var(--mono);letter-spacing:.1em;color:var(--mut)}
+.cmp th.rec{color:var(--ac)}
+.cmp td:first-child{color:var(--tx);font-weight:600;width:24%}
+.cmp td.rec{color:var(--tx);background:rgba(92,242,166,.06)}
+.y{color:var(--ac);font-weight:700}
+.n{color:#6f827b}
+
+/* план */
+.plan{list-style:none;margin-top:6px;border-left:2px solid var(--line);padding-left:18px;margin-left:6px}
+.plan li{position:relative;padding:0 0 18px}
+.plan li:before{content:"";position:absolute;left:-25px;top:6px;width:12px;height:12px;border-radius:50%;background:var(--bg);border:2px solid var(--ac)}
+.plan .d{font:700 12px var(--mono);letter-spacing:.06em;color:var(--ac)}
+.plan .t{font-size:16px;font-weight:600;margin:2px 0}
+.plan .r{font-size:14px;color:var(--tx2)}
+.plan .p{display:inline-block;font:700 10px var(--mono);letter-spacing:.08em;border:1px solid var(--line);color:var(--mut);border-radius:6px;padding:1px 6px;margin-left:6px;vertical-align:2px}
+
+/* тарифы */
+.tar{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:6px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px}
+.card.rec{border-color:var(--ac);box-shadow:0 0 0 1px var(--ac) inset}
+.card .k{font:700 11px var(--mono);letter-spacing:.1em;color:var(--mut)}
+.card.rec .k{color:var(--ac)}
+.card h3{font-size:24px;margin:6px 0 2px}
+.card .pr{font-size:22px;font-weight:700}
+.card .ps{font-size:13px;color:var(--mut);margin-bottom:12px}
+.card .res{font-size:15px;color:var(--tx);background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin-bottom:12px}
+.card .res b{display:block;font:700 11px var(--mono);letter-spacing:.08em;color:var(--mut);margin-bottom:2px}
+.card ul{list-style:none}
+.card li{font-size:14px;color:var(--tx2);padding:6px 0 6px 20px;position:relative;border-top:1px solid var(--line)}
+.card li:first-child{border-top:0}
+.card li:before{content:"✓";position:absolute;left:0;color:var(--ac);font-weight:700}
+.card li.no{color:var(--mut)}
+.card li.no:before{content:"—";color:var(--mut)}
+.card .plus{font:700 11px var(--mono);letter-spacing:.08em;color:var(--mut);margin:12px 0 2px}
+.under{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:14px}
+.under>div{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 16px;font-size:14px;color:var(--tx2)}
+.under b{display:block;color:var(--tx);margin-bottom:4px;font-size:15px}
+.cta{margin:36px 0 70px;text-align:center;background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:30px 20px}
+.cta p{color:var(--tx2);max-width:640px;margin:8px auto 0}
+a.dl{display:inline-block;margin-top:16px;text-decoration:none;font:700 15px var(--mono);letter-spacing:.06em;background:var(--ac);color:var(--onac);padding:14px 22px;border-radius:10px}
+.dline{display:block;margin-top:12px;font:700 12px var(--mono);letter-spacing:.08em;color:var(--mut)}
+footer{font-size:12px;color:var(--mut);text-align:center;padding:0 0 30px}
+@media (max-width:860px){
+  .four{grid-template-columns:1fr 1fr}
+  .calc,.tar,.under{grid-template-columns:1fr}
+  .shell{grid-template-columns:1fr}
+  .side{border-right:0;border-bottom:1px solid var(--appline);display:flex;flex-wrap:wrap;gap:4px;align-items:center}
+  .side .lg{width:100%;padding-bottom:6px}
+  .side button{width:auto;margin:0}
+  .side .who,.side .src{width:100%}
+  .kpis{grid-template-columns:1fr 1fr}
+  .top{flex-direction:column;gap:4px}
+}
+@media (max-width:480px){.four{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><span>МАСТЕР CFO · <b>ВАЙБ-КОДИНГ</b></span><span>ДЛЯ РУКОВОДИТЕЛЯ СЕТИ И ИРИНЫ</span></div>
+
+  <section class="hero">
+    <div class="eb">Сеть маникюрных салонов · 8 филиалов</div>
+    <h1>Где сеть <em>теряет деньги</em> и как видеть это каждое утро</h1>
+    <p class="lead">Выручку и записи вы и так видите в YCLIENTS. Но прибыль филиала, расхождения кассы, пустые окна мастеров и перерасход материалов там не посчитать: часть данных лежит в 1С, часть в таблицах филиалов. Ирина предлагает собрать систему, которая сводит всё это сама и показывает, где именно уходят деньги.</p>
+    <div class="four">
+      <div><b>Прибыль по филиалам</b><p>какой салон зарабатывает, а какой сеть содержит</p></div>
+      <div><b>Касса</b><p>оплаты в YCLIENTS против поступлений в 1С, каждый день</p></div>
+      <div><b>Мастера</b><p>выручка на мастера, пустые окна, возвраты клиентов</p></div>
+      <div><b>Сводка в Telegram</b><p>главные цифры сети приходят вам сами в 9:00</p></div>
+    </div>
+    <p class="note">Ниже работающий прототип: всё можно нажимать. Филиалы, мастера и цифры условные, в системе будут ваши данные.</p>
+  </section>
+
+  <section class="section" id="panel">
+    <div class="tnum">ПРОТОТИП СИСТЕМЫ</div>
+    <h2>Так будет выглядеть панель сети</h2>
+    <p class="sub">Слева разделы. Переключите «Смотрю как» на управляющую: система покажет только её салон, без прибыли сети и чужих филиалов.</p>
+
+    <div class="app">
+      <div class="bar"><i></i><i></i><i></i><span>салоны.ваш-домен.ru · панель сети</span></div>
+      <div class="shell">
+        <div class="side">
+          <div class="lg">Сеть салонов<small>8 филиалов</small></div>
+          <button class="on" data-v="pr">Прибыль филиалов</button>
+          <button data-v="loss">Где теряем деньги</button>
+          <button data-v="ms">Мастера</button>
+          <button data-v="rep">Отчёт с фильтрами</button>
+          <button data-v="tg">Сводка в Telegram</button>
+          <div class="who">Смотрю как:
+            <select id="role">
+              <option value="all">Руководитель (вся сеть)</option>
+              <option value="3">Управляющая, Садовая</option>
+            </select>
+          </div>
+          <div class="src">Данные подтягиваются сами:
+            <div><i></i>YCLIENTS · записи, оплаты, мастера</div>
+            <div><i></i>1С · расходы, зарплата, материалы</div>
+            <div><i></i>Google Таблицы · планы</div>
+            <div style="color:var(--appmut)">обновлено сегодня в 06:00</div>
+          </div>
+        </div>
+        <div class="main">
+          <div id="lockmsg" class="lock hide">Вы вошли как управляющая филиала на ул. Садовой: видите только свой салон. Прибыль сети и другие филиалы доступны руководителю.</div>
+
+          <div id="v-pr">
+            <div class="vh">Прибыль по филиалам</div>
+            <div class="vs">Выручка из YCLIENTS минус расходы из 1С: зарплата мастеров, аренда, материалы, прочее. Тыс. ₽</div>
+            <div class="filters"><label>Период</label><div class="seg" id="p-month"></div></div>
+            <div class="kpis" id="p-kpi"></div>
+            <div class="tw"><table id="p-table"></table></div>
+            <div class="ai-msg" id="p-ai"></div>
+          </div>
+
+          <div id="v-loss" class="hide">
+            <div class="vh">Где теряем деньги · октябрь</div>
+            <div class="vs">Сверка кассы, пустые окна, неявки и материалы сверх нормы по каждому филиалу</div>
+            <div class="kpis" id="l-kpi"></div>
+            <div class="tw"><table id="l-table"></table></div>
+            <div class="ai-msg" id="l-ai"></div>
+          </div>
+
+          <div id="v-ms" class="hide">
+            <div class="vh">Мастера · октябрь</div>
+            <div class="vs">Выручка, загрузка и возвращаемость клиентов по каждому мастеру</div>
+            <div class="filters"><label>Филиал</label><select id="m-br"></select></div>
+            <div class="tw"><table id="m-table"></table></div>
+            <div class="ai-msg" id="m-ai"></div>
+          </div>
+
+          <div id="v-rep" class="hide">
+            <div class="vh">Отчёт с фильтрами</div>
+            <div class="vs">Любой разрез за пару кликов, без сводки вручную</div>
+            <div class="filters">
+              <label>Период</label><select id="r-month"></select>
+              <label>Филиал</label><select id="r-br"></select>
+              <label>Услуга</label><select id="r-svc"></select>
+              <div class="seg" id="r-by"><button class="on" data-by="br">по филиалам</button><button data-by="svc">по услугам</button></div>
+            </div>
+            <div class="kpis" id="r-kpi"></div>
+            <div class="tw"><table id="r-table"></table></div>
+            <button class="btn" id="r-xls">Выгрузить в Excel</button><button class="btn sec" id="r-send">Отправить руководителю</button><span class="toast" id="r-toast"></span>
+          </div>
+
+          <div id="v-tg" class="hide">
+            <div class="vh">Сводка в Telegram</div>
+            <div class="vs">Каждое утро бот присылает главное. Открывать панель не обязательно.</div>
+            <div class="tg" id="tg"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="roi">
+    <div class="tnum">ОКУПАЕМОСТЬ</div>
+    <h2>Сколько это может вернуть сети</h2>
+    <p class="sub">Подвигайте ползунки под свою ситуацию. По умолчанию стоят осторожные значения. Эффект начинается, когда система заработает на ваших данных: первые отчёты в декабре, полностью к февралю.</p>
+    <div class="calc">
+      <div class="in">
+        <div class="fld"><label>Часов в месяц на сводку отчётов филиалов <b id="o-h"></b></label><input type="range" id="i-h" min="0" max="60" step="2" value="16"><small>это время освободится у сотрудника</small></div>
+        <div class="fld"><label>Стоимость часа сотрудника <b id="o-c"></b></label><input type="range" id="i-c" min="400" max="2000" step="100" value="800"></div>
+        <div class="fld"><label>Расхождения кассы, найденные и закрытые за месяц <b id="o-k"></b></label><input type="range" id="i-k" min="0" max="80000" step="5000" value="10000"><small>в прототипе сверка нашла 24 600 ₽ по двум филиалам</small></div>
+        <div class="fld"><label>Рост выручки двух отстающих филиалов <b id="o-g"></b></label><input type="range" id="i-g" min="0" max="10" step="1" value="2"><small>за счёт пустых окон и неявок, которые теперь видны. Считаем с маржой 40%</small></div>
+      </div>
+      <div class="out">
+        <div class="k">ЭФФЕКТ В МЕСЯЦ</div>
+        <div class="big" id="o-total"></div>
+        <div class="pb"><span>Окупится «Профи», 99 000 ₽</span><b id="o-pp"></b></div>
+        <div class="pb"><span>Окупится «Практика», 69 000 ₽</span><b id="o-pr"></b></div>
+        <p>Расчёт примерный, чтобы показать порядок цифр. Выручка двух отстающих филиалов в прототипе около 3 млн ₽ в месяц.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="alt">
+    <div class="tnum">АЛЬТЕРНАТИВЫ</div>
+    <h2>Почему обучить своего сотрудника, а не заказать</h2>
+    <div class="tw">
+    <table class="cmp">
+      <tr><th></th><th>ОТЧЁТЫ YCLIENTS</th><th>ЗАКАЗАТЬ У ПОДРЯДЧИКА</th><th class="rec">ОБУЧИТЬ ИРИНУ</th></tr>
+      <tr><td>Прибыль филиала с расходами из 1С</td><td><span class="n">нет</span>, только выручка и записи</td><td><span class="y">да</span></td><td class="rec"><span class="y">да</span></td></tr>
+      <tr><td>Сверка кассы с 1С</td><td><span class="n">нет</span></td><td><span class="y">да</span>, если заложить в задание</td><td class="rec"><span class="y">да</span></td></tr>
+      <tr><td>Новый отчёт или доработка</td><td>только то, что есть в системе</td><td>новое задание, оплата, ожидание в очереди</td><td class="rec">своими силами, без доплат и очереди</td></tr>
+      <tr><td>Кто знает ваш бизнес</td><td>—</td><td>подрядчик, ему всё нужно объяснять</td><td class="rec">сотрудник, который уже ведёт эти отчёты</td></tr>
+      <tr><td>Кому принадлежит система</td><td>сервису</td><td>зависит от договора</td><td class="rec">компании: ваш сервер, ваши данные</td></tr>
+      <tr><td>Стоимость</td><td>входит в подписку</td><td>первая версия плюс оплата каждой доработки</td><td class="rec">стоимость обучения один раз</td></tr>
+    </table>
+    </div>
+  </section>
+
+  <section class="section" id="plan">
+    <div class="tnum">ПЛАН</div>
+    <h2>Что и когда заработает</h2>
+    <p class="sub">Поток стартует 30 ноября. Ирина собирает систему по ходу обучения на ваших данных, первые отчёты появляются уже в декабре.</p>
+    <ul class="plan">
+      <li><div class="d">26 НОЯБРЯ – ДЕКАБРЬ</div><div class="t">Сводка сети и прибыль по филиалам <span class="p">ПРАКТИКА И ПРОФИ</span></div><div class="r">Инструменты, постановка задачи, первый дашборд на выгрузках из YCLIENTS и 1С.</div></li>
+      <li><div class="d">ЯНВАРЬ</div><div class="t">Данные тянутся сами, сверка кассы каждый день <span class="p">ПРАКТИКА И ПРОФИ</span></div><div class="r">Подключение YCLIENTS и 1С без ручных выгрузок, система на своём сервере.</div></li>
+      <li><div class="d">КОНЕЦ ЯНВАРЯ</div><div class="t">Утренняя сводка руководителю в Telegram <span class="p">ПРАКТИКА И ПРОФИ</span></div><div class="r">Бот присылает главные цифры сети и сигналы о расхождениях.</div></li>
+      <li><div class="d">ФЕВРАЛЬ</div><div class="t">Готовая система с ролями и входом по паролю <span class="p">ПРОФИ</span></div><div class="r">Руководитель видит всю сеть, управляющие свой салон. Защита данных клиентов, свой домен. Куратор ведёт проект до рабочей ссылки.</div></li>
+      <li style="padding-bottom:0"><div class="d">27 ФЕВРАЛЯ</div><div class="t">Защита проекта перед командой курса</div><div class="r">Система работает, дальше Ирина развивает её сама.</div></li>
+    </ul>
+  </section>
+
+  <section class="section" id="tarif">
+    <div class="tnum">ВАРИАНТЫ ОБУЧЕНИЯ</div>
+    <h2>Практика или Профи: что получит сеть</h2>
+    <p class="sub">Оба варианта дают работающие отчёты на ваших данных. Разница в том, станет ли это готовой системой для всей сети с ролями или рабочими инструментами для Ирины и руководителя.</p>
+    <div class="tar">
+      <div class="card">
+        <div class="k">6 МОДУЛЕЙ</div>
+        <h3>Практика</h3>
+        <div class="pr">69 000 ₽</div>
+        <div class="ps">компании: счёт, можно 2 платежа по 34 500 ₽ · физлицу: ≈ 11 500 ₽/мес</div>
+        <div class="res"><b>РЕЗУЛЬТАТ ДЛЯ СЕТИ</b>Отчёты и сверка кассы работают сами, сводка приходит в Telegram. Пользуются Ирина и руководитель.</div>
+        <ul>
+          <li>Прибыль по филиалам и сводка сети</li>
+          <li>Данные из YCLIENTS и 1С без ручных выгрузок</li>
+          <li>Сверка кассы и отчёты с фильтрами</li>
+          <li>Утренняя сводка в Telegram</li>
+          <li>Доступ к материалам 1 год</li>
+          <li class="no">Роли для управляющих и вход по паролю</li>
+          <li class="no">Куратор ведёт именно ваш проект до готовой системы</li>
+        </ul>
+      </div>
+      <div class="card rec">
+        <div class="k">РЕКОМЕНДУЮ · 7 МОДУЛЕЙ + ЗАЩИТА</div>
+        <h3>Профи</h3>
+        <div class="pr">99 000 ₽</div>
+        <div class="ps">компании: счёт, можно 2 платежа по 49 500 ₽ · физлицу: ≈ 16 500 ₽/мес</div>
+        <div class="res"><b>РЕЗУЛЬТАТ ДЛЯ СЕТИ</b>Готовая система для всей сети: руководитель видит всё, управляющие свой салон, данные клиентов защищены.</div>
+        <div class="plus">ВСЁ ИЗ ПРАКТИКИ +</div>
+        <ul>
+          <li>Роли: руководитель и управляющие 8 филиалов, вход по паролю</li>
+          <li>Система на сервере компании, свой домен, защита персональных данных клиентов</li>
+          <li>Куратор ведёт проект Ирины до рабочей ссылки и защиты</li>
+          <li>Доступ к материалам 2 года и поддержка ещё 2 месяца после курса</li>
+        </ul>
+      </div>
+    </div>
+    <div class="under">
+      <div><b>Можно начать с Практики</b>и доплатить разницу до Профи позже, когда станет понятно, что система нужна всей сети.</div>
+      <div><b>Без риска</b>Если в первые 2 недели обучения станет понятно, что курс не подходит, деньги вернём полностью.</div>
+      <div><b>Документы для компании</b>Счёт, договор и закрывающие документы, оплата от юрлица или ИП.</div>
+    </div>
+
+    <div class="cta">
+      <h2>Поток стартует 30 ноября</h2>
+      <p>Первые модули откроются 26 ноября. Это последний поток, где кураторами будут Софья, Натали и Алексей. Напишите мне, и я подготовлю счёт для компании или помогу с оформлением.</p>
+      <a class="dl" href="https://t.me/m/_P3MK8LfYTgy" target="_blank" rel="noopener">Написать Александре</a>
+      <span class="dline">МЕНЕДЖЕР ШКОЛЫ «МАСТЕР CFO»</span>
+    </div>
+  </section>
+</div>
+<footer>Онлайн-школа «Мастер CFO» · vibe.fin-academy.pro · примеры и цифры условные</footer>
+
+<script>
+var BR=["ул. Ленина","ул. Мира","пр. Победы","ул. Садовая","ул. Гагарина","ул. Советская","ул. Пушкина","ул. Лесная"];
+var BASE=[[2840,2900,2650,7],[2310,2400,2480,6],[1720,2100,2320,5],[2050,2000,2560,6],[1580,1600,2210,4],[2470,2500,2700,7],[1390,1600,2150,4],[1960,1900,2420,5]];
+var RENT=[310,260,240,250,190,280,180,230];
+var MON=[{n:"Август",k:.94,pk:.95},{n:"Сентябрь",k:1.0,pk:1.0},{n:"Октябрь",k:1.04,pk:1.05}];
+var VAR=[[0,0,0],[.01,-.04,.02],[-.05,-.07,-.09],[.03,.02,.04],[-.02,.01,0],[0,.02,.01],[-.04,-.08,-.06],[.02,.03,.05]];
+var SVC=[["Маникюр с покрытием",.46,.44],["Педикюр",.22,.22],["Наращивание",.14,.16],["Дизайн и снятие",.10,.10],["Уход и SPA",.08,.08]];
+var MATX=[1.00,1.02,1.18,0.99,1.03,1.01,1.11,0.98];
+var CASH=[0,18400,0,0,0,0,6200,0];
+var EMPTY=[28,34,96,40,22,46,71,26];
+var NOSHOW=[9,11,27,8,6,12,19,7];
+function T(x){return Math.round(x).toLocaleString("ru-RU").replace(/[  ,]/g," ")}
+function pct(x){return Math.round(x)+"%"}
+function data(b,m){
+ var B=BASE[b],rev=B[0]*MON[m].k*(1+VAR[b][m]),plan=B[1]*MON[m].pk,chk=B[2]*(1+VAR[b][m]/2);
+ var visits=rev*1000/chk,load=Math.min(96,visits/(B[3]*22*9)*100);
+ var fot=rev*.47,mat=rev*.10*MATX[b],other=rev*.10,rent=RENT[b];
+ return {rev:rev,plan:plan,chk:chk,visits:visits,load:load,fot:fot,mat:mat,rent:rent,other:other,profit:rev-fot-mat-rent-other};
+}
+var role="all",month=2;
+function brs(){return role=="all"?[0,1,2,3,4,5,6,7]:[+role]}
+function tabs(sel,cb){document.querySelectorAll(sel).forEach(function(b){b.onclick=function(){document.querySelectorAll(sel).forEach(function(x){x.classList.remove("on")});b.classList.add("on");cb(b)}})}
+function kp(a){return a.map(function(x){return '<div class="kpi'+(x[3]?' red':'')+'"><div class="l">'+x[0]+'</div><div class="v">'+x[1]+'</div><div class="s">'+(x[2]||"")+'</div></div>'}).join("")}
+tabs(".side button",function(b){["pr","loss","ms","rep","tg"].forEach(function(v){document.getElementById("v-"+v).classList.toggle("hide",v!=b.dataset.v)})});
+document.getElementById("role").onchange=function(){role=this.value;document.getElementById("lockmsg").classList.toggle("hide",role=="all");fillSel();drawAll()};
+
+/* прибыль */
+document.getElementById("p-month").innerHTML=MON.map(function(m,i){return '<button class="'+(i==month?'on':'')+'" data-m="'+i+'">'+m.n+'</button>'}).join("");
+tabs("#p-month button",function(b){month=+b.dataset.m;drawP()});
+function drawP(){
+ var ids=brs(),R=0,PR=0,rows=ids.map(function(b){var d=data(b,month);R+=d.rev;PR+=d.profit;return [b,d]});
+ var mx=Math.max.apply(null,rows.map(function(r){return r[1].profit}));
+ document.getElementById("p-kpi").innerHTML=kp([["Выручка",T(R)+" тыс. ₽"],["Расходы",T(R-PR)+" тыс. ₽","из 1С"],[role=="all"?"Прибыль сети":"Прибыль салона",T(PR)+" тыс. ₽"],["Рентабельность",pct(PR/R*100),role=="all"?"по сети":"салона"]]);
+ var h='<tr><th>Филиал</th><th>Выручка</th><th>Зарплата мастеров</th><th>Аренда</th><th>Материалы</th><th>Прочее</th><th>Прибыль</th><th>Рентаб.</th></tr>';
+ rows.sort(function(a,b){return b[1].profit/b[1].rev-a[1].profit/a[1].rev}).forEach(function(r){var d=r[1],m=d.profit/d.rev*100;
+  h+='<tr><td>'+BR[r[0]]+'</td><td>'+T(d.rev)+'</td><td>'+T(d.fot)+'</td><td>'+T(d.rent)+'</td><td'+(MATX[r[0]]>1.08?' class="warn"':'')+'>'+T(d.mat)+'</td><td>'+T(d.other)+'</td><td><b>'+T(d.profit)+'</b><span class="mbar'+(m<17?' lo':'')+'" style="width:'+Math.max(4,d.profit/mx*50)+'px"></span></td><td class="'+(m<17?'warn':m>=22?'okc':'')+'">'+pct(m)+'</td></tr>'});
+ if(rows.length>1)h+='<tr class="tot"><td>Сеть</td><td>'+T(R)+'</td><td colspan="4"></td><td>'+T(PR)+'</td><td>'+pct(PR/R*100)+'</td></tr>';
+ document.getElementById("p-table").innerHTML=h;
+ var hi=rows[0],lo=rows[rows.length-1];
+ document.getElementById("p-ai").innerHTML='<div class="who">НЕЙРОСЕТЬ · КОММЕНТАРИЙ</div>'+(role=="all"?
+  "За "+MON[month].n.toLowerCase()+" самый прибыльный салон: "+BR[hi[0]]+", рентабельность "+pct(hi[1].profit/hi[1].rev*100)+". Слабее всех "+BR[lo[0]]+": "+pct(lo[1].profit/lo[1].rev*100)+". Там выручка ниже плана, а материалов уходит на 18% больше нормы. Это первый кандидат на разбор с управляющей.":
+  "Рентабельность вашего салона "+pct(hi[1].profit/hi[1].rev*100)+", это выше среднего по сети. Материалы в норме.");
+}
+
+/* потери */
+function drawL(){
+ var ids=brs(),hourRev=1.6,tc=0,te=0,tn=0,tm=0,h='<tr><th>Филиал</th><th>Касса: YCLIENTS ≠ 1С</th><th>Пустые окна, ч</th><th>Неявки</th><th>Недополучено, тыс. ₽</th><th>Материалы к норме</th></tr>';
+ ids.forEach(function(b){var d=data(b,2),lost=EMPTY[b]*hourRev+NOSHOW[b]*d.chk/1000,over=Math.max(0,d.mat-d.mat/MATX[b]);
+  tc+=CASH[b];te+=EMPTY[b]*hourRev;tn+=NOSHOW[b]*d.chk/1000;tm+=over;
+  h+='<tr><td>'+BR[b]+'</td><td class="'+(CASH[b]?'warn':'okc')+'">'+(CASH[b]?T(CASH[b])+' ₽':'сходится')+'</td><td'+(EMPTY[b]>60?' class="warn"':'')+'>'+EMPTY[b]+'</td><td'+(NOSHOW[b]>15?' class="warn"':'')+'>'+NOSHOW[b]+'</td><td>'+T(lost)+'</td><td class="'+(MATX[b]>1.08?'warn':'')+'">'+(MATX[b]>=1?'+':'−')+pct(Math.abs(MATX[b]-1)*100)+'</td></tr>'});
+ document.getElementById("l-table").innerHTML=h;
+ document.getElementById("l-kpi").innerHTML=kp([["Расхождения кассы",T(tc)+" ₽","не дошло до 1С",tc>0],["Пустые окна",T(te)+" тыс. ₽","недополучено"],["Неявки",T(tn)+" тыс. ₽","потеряно"],["Материалы сверх нормы",T(tm)+" тыс. ₽","за месяц",tm>30]]);
+ document.getElementById("l-ai").innerHTML='<div class="who">НЕЙРОСЕТЬ · ЧТО ПРОВЕРИТЬ</div>'+(role=="all"?
+  "1) ул. Мира: оплаты в YCLIENTS за 27.10 на 18 400 ₽ больше поступлений в 1С. Похоже, не проведена инкассация, стоит уточнить у администратора. 2) пр. Победы: 96 пустых часов и 27 неявок за месяц, больше всех в сети. И материалов там списано на 18% больше нормы. 3) ул. Пушкина: касса не сошлась на 6 200 ₽, 71 пустой час.":
+  "Касса за октябрь сходится. 40 пустых часов: больше всего свободных окон по вторникам до 13:00, их можно предложить постоянным клиентам.");
+}
+
+/* мастера */
+var NAMES=["Анна С.","Мария К.","Ольга Д.","Елена В.","Наталья Р.","Юлия М.","Ксения Т."];
+var RET=[71,66,62,58,52,47,41];
+var mb=document.getElementById("m-br");
+function drawM(){
+ var b=+mb.value,d=data(b,2),n=BASE[b][3],w=[1.25,1.12,1.04,.96,.9,.84,.78].slice(0,n),sw=0;w.forEach(function(x){sw+=x});
+ var h='<tr><th>Мастер</th><th>Выручка, тыс. ₽</th><th>Визитов</th><th>Загрузка</th><th>Пустые окна, ч</th><th>Клиенты вернулись</th></tr>',rows=[],shift=b==2?-8:0;
+ w.forEach(function(x,i){var rv=d.rev*x/sw,ld=Math.min(97,d.load*x*n/sw),emp=Math.round(EMPTY[b]*(1.3-x)/(1.3*n-sw));
+  rows.push([NAMES[i],rv,rv*1000/d.chk,ld,emp,RET[i]+shift])});
+ rows.forEach(function(r){h+='<tr><td>'+r[0]+'</td><td>'+T(r[1])+'</td><td>'+T(r[2])+'</td><td'+(r[3]<70?' class="warn"':'')+'>'+pct(r[3])+'</td><td>'+r[4]+'</td><td class="'+(r[5]<45?'warn':r[5]>=60?'okc':'')+'">'+r[5]+'%</td></tr>'});
+ document.getElementById("m-table").innerHTML=h;
+ var f=rows[0],l=rows[rows.length-1];
+ document.getElementById("m-ai").innerHTML='<div class="who">НЕЙРОСЕТЬ · КОММЕНТАРИЙ</div>'+"Салон "+BR[b]+": у мастера "+f[0]+" возвращаются "+f[5]+"% клиентов, у мастера "+l[0]+" только "+l[5]+"%, и у неё же больше всего пустых окон ("+l[4]+" ч). Стоит посмотреть отзывы и предложить наставничество.";
+}
+mb.onchange=drawM;
+
+/* отчёт */
+var rm=document.getElementById("r-month"),rb=document.getElementById("r-br"),rs=document.getElementById("r-svc"),by="br";
+rm.innerHTML=MON.map(function(m,i){return '<option value="'+i+'"'+(i==2?' selected':'')+'>'+m.n+'</option>'}).join("")+'<option value="q">Август–октябрь</option>';
+rs.innerHTML='<option value="all">Все услуги</option>'+SVC.map(function(s,i){return '<option value="'+i+'">'+s[0]+'</option>'}).join("");
+[rm,rb,rs].forEach(function(s){s.onchange=drawR});
+tabs("#r-by button",function(b){by=b.dataset.by;drawR()});
+function agg(b,ms,svc){var r={rev:0,plan:0,visits:0};ms.forEach(function(m){var d=data(b,m),sh=svc=="all"?1:SVC[+svc][1],ps=svc=="all"?1:SVC[+svc][2];r.rev+=d.rev*sh;r.plan+=d.plan*ps;r.visits+=d.visits*sh});return r}
+function drawR(){
+ var ms=rm.value=="q"?[0,1,2]:[+rm.value],ids=rb.value=="all"?brs():[+rb.value],svc=rs.value,rows=[];
+ if(by=="br"){ids.forEach(function(b){rows.push([BR[b],agg(b,ms,svc)])})}
+ else{(svc=="all"?[0,1,2,3,4]:[+svc]).forEach(function(i){var a={rev:0,plan:0,visits:0};ids.forEach(function(b){var x=agg(b,ms,i);a.rev+=x.rev;a.plan+=x.plan;a.visits+=x.visits});rows.push([SVC[i][0],a])})}
+ var R=0,P=0,V=0;rows.forEach(function(r){R+=r[1].rev;P+=r[1].plan;V+=r[1].visits});
+ document.getElementById("r-kpi").innerHTML=kp([["Выручка",T(R)+" тыс. ₽"],["% плана",pct(R/P*100)],["Визитов",T(V)],["Средний чек",T(R*1000/V)+" ₽"]]);
+ var h='<tr><th>'+(by=="br"?"Филиал":"Услуга")+'</th><th>Выручка, тыс. ₽</th><th>План</th><th>% плана</th><th>Визитов</th><th>Доля</th></tr>';
+ rows.sort(function(a,b){return b[1].rev-a[1].rev}).forEach(function(r){var p=r[1].rev/r[1].plan*100;h+='<tr><td>'+r[0]+'</td><td>'+T(r[1].rev)+'</td><td>'+T(r[1].plan)+'</td><td class="'+(p<95?'warn':p>=100?'okc':'amb')+'">'+pct(p)+'</td><td>'+T(r[1].visits)+'</td><td>'+pct(r[1].rev/R*100)+'</td></tr>'});
+ if(rows.length>1)h+='<tr class="tot"><td>Итого</td><td>'+T(R)+'</td><td>'+T(P)+'</td><td>'+pct(R/P*100)+'</td><td>'+T(V)+'</td><td>100%</td></tr>';
+ document.getElementById("r-table").innerHTML=h;document.getElementById("r-toast").textContent="";
+}
+document.getElementById("r-xls").onclick=function(){document.getElementById("r-toast").textContent="Файл отчёта сформирован"};
+document.getElementById("r-send").onclick=function(){document.getElementById("r-toast").textContent="Отчёт отправлен руководителю в Telegram"};
+
+/* telegram */
+function drawTG(){
+ var R=0,P=0;[0,1,2,3,4,5,6,7].forEach(function(b){var d=data(b,2);R+=d.rev;P+=d.plan});
+ var y=R/31*1.04,sd=data(3,2);
+ document.getElementById("tg").innerHTML=role=="all"?
+ '<div class="msg"><b>Сеть салонов · вчера</b><div>Выручка: '+T(y)+' тыс. ₽ при плане '+T(P/31)+'</div><div>С начала месяца: '+pct(R/P*100)+' плана</div><div>Лучший салон дня: ул. Лесная, 112%</div><div>⚠ ул. Мира: касса не сошлась с 1С на 18 400 ₽</div><div>⚠ пр. Победы: 6 пустых часов и 2 неявки</div><div style="margin-top:6px;color:#3E7BFA">Открыть панель сети →</div></div><div class="tm">09:00</div>':
+ '<div class="msg"><b>Ул. Садовая · вчера</b><div>Выручка: '+T(sd.rev/31*1.02)+' тыс. ₽, 104% плана</div><div>Свободно сегодня: 5 окон, больше всего с 10 до 13</div><div style="margin-top:6px;color:#3E7BFA">Открыть отчёт салона →</div></div><div class="tm">09:00</div>';
+}
+
+function fillSel(){
+ var ids=brs();
+ rb.innerHTML=(role=="all"?'<option value="all">Все филиалы</option>':'')+ids.map(function(b){return '<option value="'+b+'">'+BR[b]+'</option>'}).join("");
+ mb.innerHTML=ids.map(function(b){return '<option value="'+b+'"'+(b==2?' selected':'')+'>'+BR[b]+'</option>'}).join("");
+}
+function drawAll(){drawP();drawL();drawM();drawR();drawTG()}
+fillSel();drawAll();
+
+/* окупаемость */
+function roi(){
+ var h=+document.getElementById("i-h").value,c=+document.getElementById("i-c").value,k=+document.getElementById("i-k").value,g=+document.getElementById("i-g").value;
+ var lag=(data(2,2).rev+data(6,2).rev)*1000,eff=h*c+k+lag*g/100*.4;
+ document.getElementById("o-h").textContent=h+" ч";
+ document.getElementById("o-c").textContent=T(c)+" ₽";
+ document.getElementById("o-k").textContent=T(k)+" ₽";
+ document.getElementById("o-g").textContent=g+"%";
+ document.getElementById("o-total").textContent=T(eff)+" ₽";
+ function pb(p){if(eff<1000)return "—";var m=p/eff;return m<1?"меньше чем за месяц":"≈ за "+(m<10?m.toFixed(1).replace(".",","):Math.round(m))+" мес."}
+ document.getElementById("o-pp").textContent=pb(99000);
+ document.getElementById("o-pr").textContent=pb(69000);
+}
+["i-h","i-c","i-k","i-g"].forEach(function(id){document.getElementById(id).oninput=roi});roi();
+</script>
+</body>
+</html>
