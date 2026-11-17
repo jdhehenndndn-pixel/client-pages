@@ -1,0 +1,717 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Codex для уроков английского</title>
+<meta name="robots" content="noindex">
+<style>
+:root{
+  --bg:#05080B;--panel:#0C1217;--line:#1F2C2A;--tx:#F2F8F5;--tx2:#C9D8D1;--mut:#8EA39B;
+  --ac:#5CF2A6;--onac:#04110B;
+  --app:#FFFFFF;--app2:#F5F7F9;--appline:#E4E8EC;--apptx:#16212B;--appmut:#6A7783;
+  --red:#D93A3F;--amber:#B86E00;--green:#1E9E5E;--blue:#2F6FEB;
+  --mono:Consolas,"SFMono-Regular",Menlo,monospace;--body:"Segoe UI",-apple-system,Roboto,Arial,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;background:var(--bg)}
+html,body{overflow-x:hidden}
+body{background:radial-gradient(900px 600px at 0 0,#0f3a2a 0,transparent 70%) no-repeat,var(--bg);color:var(--tx);font-family:var(--body);line-height:1.5;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1080px;margin:0 auto;padding:0 16px}
+button,select,input,textarea{font:inherit}
+button,select{cursor:pointer}
+.top{display:flex;justify-content:space-between;gap:12px;font:12px var(--mono);color:var(--mut);letter-spacing:.08em;padding:22px 0 0;flex-wrap:wrap}
+.top b{color:var(--ac)}
+.hero{padding:44px 0 8px}
+.eb{font:700 12px var(--mono);letter-spacing:.1em;color:var(--tx2);margin-bottom:14px;text-transform:uppercase}
+.eb:before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--ac);margin-right:8px;vertical-align:1px}
+h1{font-size:clamp(30px,5vw,50px);line-height:1.08;font-weight:800;letter-spacing:-.02em;max-width:880px}
+h1 em,h2 em{font-style:normal;color:var(--ac)}
+.lead{font-size:18px;color:var(--tx2);max-width:760px;margin-top:16px}
+.quote{margin-top:22px;border-left:3px solid var(--ac);padding:10px 16px;background:var(--panel);border-radius:0 12px 12px 0;max-width:760px;color:var(--tx2)}
+.quote b{color:var(--tx)}
+h2{font-size:clamp(24px,3.4vw,34px);font-weight:800;letter-spacing:-.015em;line-height:1.15;margin:56px 0 8px}
+.sub{color:var(--mut);max-width:760px}
+/* tabs */
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-top:22px}
+.tab{background:var(--panel);border:1px solid var(--line);color:var(--tx2);border-radius:999px;padding:9px 15px;font-size:14px;font-weight:600}
+.tab span{font:700 11px var(--mono);color:var(--mut);margin-right:6px}
+.tab.on{background:var(--ac);color:var(--onac);border-color:var(--ac)}
+.tab.on span{color:var(--onac)}
+.proto{display:none;margin-top:18px}
+.proto.on{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:18px}
+.side{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px}
+.side h3{font-size:20px;margin-bottom:8px}
+.side p{color:var(--tx2);font-size:15px}
+.side .lbl{font:700 11px var(--mono);letter-spacing:.1em;color:var(--mut);text-transform:uppercase;margin:16px 0 6px}
+.side ul{list-style:none}
+.side li{position:relative;padding:3px 0 3px 16px;color:var(--tx2);font-size:15px}
+.side li:before{content:"";position:absolute;left:0;top:11px;width:7px;height:7px;border-radius:50%;background:var(--ac)}
+.tar{display:inline-block;margin-top:14px;font:700 12px var(--mono);color:var(--ac);border:1px solid #1d6b48;background:#0b2219;border-radius:999px;padding:5px 11px}
+/* app frame */
+.app{background:var(--app);color:var(--apptx);border-radius:16px;overflow:hidden;border:1px solid #233;min-width:0}
+.bar{display:flex;align-items:center;gap:6px;background:var(--app2);border-bottom:1px solid var(--appline);padding:10px 14px;font-size:13px;color:var(--appmut)}
+.bar i{width:10px;height:10px;border-radius:50%;background:#dfe3e7;display:inline-block}
+.bar .u{margin-left:10px;background:#fff;border:1px solid var(--appline);border-radius:6px;padding:2px 10px;font-family:var(--mono);font-size:12px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.body{padding:18px}
+.btn{background:var(--apptx);color:#fff;border:0;border-radius:10px;padding:10px 16px;font-weight:600;font-size:14px}
+.btn.g{background:var(--green)}
+.btn.o{background:#fff;color:var(--apptx);border:1px solid var(--appline)}
+.muted{color:var(--appmut);font-size:13px}
+.pill{display:inline-block;font-size:12px;font-weight:600;border-radius:999px;padding:2px 9px;background:var(--app2);color:var(--apptx)}
+.pill.r{background:#fdecec;color:var(--red)}.pill.a{background:#fff3df;color:var(--amber)}.pill.gr{background:#e3f6ec;color:var(--green)}
+/* bot */
+.phone{max-width:380px;margin:0 auto;background:#e6ebee;border-radius:16px;overflow:hidden;border:1px solid var(--appline)}
+.tghead{background:#fff;padding:10px 14px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--appline)}
+.ava{width:36px;height:36px;border-radius:50%;background:var(--green);color:#fff;display:grid;place-items:center;font-weight:800}
+.chat{height:360px;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:8px}
+.msg{max-width:86%;padding:8px 11px;border-radius:12px;font-size:14px;line-height:1.4;background:#fff;align-self:flex-start;white-space:pre-line}
+.msg.me{background:#dcf8c6;align-self:flex-end}
+.msg b{font-weight:700}
+.chips{display:flex;gap:6px;flex-wrap:wrap;padding:8px 10px;background:#fff;border-top:1px solid var(--appline)}
+.chip{border:1px solid var(--appline);background:var(--app2);border-radius:999px;padding:5px 10px;font-size:13px;color:var(--apptx)}
+.inrow{display:flex;gap:6px;padding:8px 10px;background:#fff;border-top:1px solid var(--appline)}
+.inrow input{flex:1;min-width:0;border:1px solid var(--appline);border-radius:999px;padding:8px 12px;font-size:14px}
+/* panel */
+.seg{display:inline-flex;background:var(--app2);border-radius:10px;padding:3px;margin-bottom:14px}
+.seg button{border:0;background:transparent;padding:7px 14px;border-radius:8px;font-size:14px;font-weight:600;color:var(--appmut)}
+.seg button.on{background:#fff;color:var(--apptx);box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.kpis{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-bottom:14px}
+.kpi{background:var(--app2);border-radius:12px;padding:10px 12px}
+.kpi b{display:block;font-size:22px}
+.kpi span{font-size:12px;color:var(--appmut)}
+.tbl{width:100%;border-collapse:collapse;font-size:14px}
+.tbl th{text-align:left;font-size:12px;color:var(--appmut);font-weight:600;padding:6px 8px;border-bottom:1px solid var(--appline)}
+.tbl td{padding:8px;border-bottom:1px solid var(--appline);vertical-align:middle}
+.tbl tr.row{cursor:pointer}
+.tbl tr.row:hover td{background:#f4f8fb}
+.tbl tr.sel td{background:#eaf6ef}
+.scroll{overflow-x:auto}
+.det{margin-top:14px;background:var(--app2);border-radius:12px;padding:14px}
+.topic{display:grid;grid-template-columns:150px 1fr 40px;gap:10px;align-items:center;font-size:13px;margin:6px 0}
+.track{height:8px;background:#dfe5ea;border-radius:99px;overflow:hidden}
+.track i{display:block;height:100%;border-radius:99px}
+.task{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--appline);font-size:14px}
+.task input{width:18px;height:18px;accent-color:var(--green)}
+.task .muted{margin-left:auto;white-space:nowrap}
+.note{background:#eef4ff;border-radius:10px;padding:10px 12px;font-size:14px;margin-top:12px}
+/* report */
+.rep{border:1px solid var(--appline);border-radius:14px;padding:16px;margin-top:12px}
+.rep h4{font-size:17px}
+.rep .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}
+.rep .box{background:var(--app2);border-radius:10px;padding:10px 12px;font-size:14px}
+.rep .box b{display:block;font-size:12px;color:var(--appmut);font-weight:600;margin-bottom:2px}
+.toast{margin-top:10px;font-size:14px;color:var(--green);font-weight:600;min-height:20px}
+select.s{border:1px solid var(--appline);border-radius:10px;padding:8px 10px;background:#fff;font-size:14px;max-width:100%}
+/* essay */
+textarea.es{width:100%;height:210px;border:1px solid var(--appline);border-radius:12px;padding:12px;font-size:14px;line-height:1.5;resize:vertical}
+.crit{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:14px 0}
+.crit div{background:var(--app2);border-radius:12px;padding:10px 12px;font-size:13px}
+.crit b{display:block;font-size:22px}
+.marked{background:var(--app2);border-radius:12px;padding:12px;font-size:14px;line-height:1.7;white-space:pre-wrap}
+.marked mark{background:#ffe1e1;color:var(--red);border-radius:4px;padding:0 2px;text-decoration:line-through}
+.marked ins{background:#e3f6ec;color:var(--green);text-decoration:none;border-radius:4px;padding:0 2px;font-weight:600}
+.fix{font-size:14px;margin-top:10px}
+.fix li{margin:5px 0 5px 18px}
+/* quiz */
+.q{font-size:17px;font-weight:600;margin:6px 0 12px}
+.opts{display:grid;gap:8px}
+.opt{text-align:left;border:1px solid var(--appline);background:#fff;border-radius:10px;padding:10px 12px;font-size:15px;color:var(--apptx)}
+.opt.ok{border-color:var(--green);background:#e3f6ec}
+.opt.no{border-color:var(--red);background:#fdecec}
+.expl{margin-top:12px;font-size:14px;background:var(--app2);border-radius:10px;padding:10px 12px;display:none}
+.prog{height:6px;background:var(--app2);border-radius:99px;overflow:hidden;margin-bottom:14px}
+.prog i{display:block;height:100%;background:var(--green);width:0;transition:width .3s}
+.lvl{font-size:46px;font-weight:900;color:var(--green);line-height:1}
+.form{display:grid;gap:8px;margin-top:12px}
+.form input,.form select{border:1px solid var(--appline);border-radius:10px;padding:9px 12px;font-size:14px;width:100%}
+/* tariffs */
+.tt{width:100%;border-collapse:separate;border-spacing:0;margin-top:20px;font-size:15px;background:var(--panel);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.tt th,.tt td{padding:12px 14px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+.tt th{font-size:13px;color:var(--mut);font-weight:600}
+.tt th.rec{color:var(--ac)}
+.tt td{color:var(--tx2)}
+.tt td.y{color:var(--tx)}
+.tt td.n{color:#4c5c57}
+.tt tr:last-child td{border-bottom:0}
+.tcards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:22px}
+.tc{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px;position:relative}
+.tc.rec{border:1.5px solid var(--ac);background:linear-gradient(180deg,#0f2a20,var(--panel) 60%)}
+.badge{position:absolute;top:-11px;left:18px;background:var(--ac);color:var(--onac);font:800 11px var(--mono);letter-spacing:.1em;padding:4px 10px;border-radius:6px}
+.tc h3{font-size:22px}
+.tc .pr{font-size:26px;font-weight:800;margin-top:6px}
+.tc .pm{font-size:13px;color:var(--ac)}
+.tc p{color:var(--tx2);font-size:15px;margin-top:10px}
+.tc .f{font:12px var(--mono);color:var(--mut);margin-top:12px}
+.why{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:18px}
+.why div{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:18px;color:var(--tx2);font-size:15px}
+.why b{color:var(--tx);display:block;margin-bottom:6px;font-size:16px}
+.facts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:20px}
+.facts div{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px;font-size:14px;color:var(--tx2)}
+.facts b{display:block;color:var(--tx);font-size:16px;margin-bottom:2px}
+.cta{margin:48px 0 20px;background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:28px;display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
+.cta h3{font-size:24px}
+.cta p{color:var(--tx2)}
+.cbtn{background:var(--ac);color:var(--onac);text-decoration:none;font-weight:800;border-radius:12px;padding:14px 22px;white-space:nowrap}
+.foot{font:12px var(--mono);color:var(--mut);padding:10px 0 40px}
+@media(max-width:820px){
+  .proto.on{grid-template-columns:1fr}
+  .tcards,.why{grid-template-columns:1fr}
+  .facts{grid-template-columns:1fr 1fr}
+  .kpis,.crit{grid-template-columns:1fr 1fr 1fr}
+  .topic{grid-template-columns:110px 1fr 36px}
+  .rep .grid2{grid-template-columns:1fr}
+  .hide-m{display:none}
+}
+@media(max-width:480px){
+  .kpis,.crit{grid-template-columns:1fr}
+  .tt{font-size:13px}.tt th,.tt td{padding:9px 8px}
+  .body{padding:14px}
+}
+
+/* flow */
+.flow{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:18px;margin-top:20px}
+.steps{display:grid;gap:8px}
+.step{display:flex;gap:12px;align-items:flex-start;text-align:left;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px 14px;color:var(--tx2)}
+.step b{display:block;color:var(--tx);font-size:15px}
+.step .no{font:800 13px var(--mono);color:var(--mut);border:1px solid var(--line);border-radius:8px;min-width:30px;height:30px;display:grid;place-items:center}
+.step.on{border-color:var(--ac)}
+.step.on .no{background:var(--ac);color:var(--onac);border-color:var(--ac)}
+.fcard{animation:fi .3s}
+@keyframes fi{from{opacity:0;transform:translateY(6px)}to{opacity:1}}
+/* voice */
+.vtask{background:var(--app2);border-radius:12px;padding:12px;font-size:14px}
+.rec{display:flex;align-items:center;gap:10px;margin:12px 0}
+.dot{width:12px;height:12px;border-radius:50%;background:var(--red);animation:bl 1s infinite}
+@keyframes bl{50%{opacity:.2}}
+.wave{flex:1;height:28px;background:repeating-linear-gradient(90deg,#c9d3db 0 3px,transparent 3px 6px);border-radius:6px;opacity:.7}
+.vgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.vgrid div{background:var(--app2);border-radius:10px;padding:10px 12px;font-size:13.5px}
+.vgrid b{display:block;font-size:12px;color:var(--appmut);font-weight:600;margin-bottom:3px}
+.demo{font-size:12.5px;color:var(--appmut);margin-top:10px;border-top:1px dashed var(--appline);padding-top:8px}
+/* hard */
+.hard{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:20px}
+.hard div{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:18px;color:var(--tx2);font-size:15px}
+.hard b{color:var(--tx);display:block;margin-bottom:6px;font-size:16px}
+.where{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:20px}
+.where div{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:18px;color:var(--tx2);font-size:15px}
+.where div.rec{border-color:var(--ac)}
+.where b{color:var(--tx);display:block;font-size:19px;margin-bottom:6px}
+@media(max-width:820px){.flow,.hard,.where,.vgrid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><span>// <b>FIN-ACADEMY.PRO</b> · ВАЙБ-КОДИНГ</span><span>ДЛЯ ЕЛЕНЫ</span></div>
+
+  <section class="hero">
+    <div class="eb">Примеры для преподавателя английского</div>
+    <h1>Что можно собрать в Codex <em>для ваших уроков</em></h1>
+    <p class="lead">Вы рассказали, что преподаёте английский школьникам с 8 класса и взрослым и уже делали интерактивные презентации в Claude. Я собрала примеры того, что можно сделать дальше в Codex: бота, кабинет ученика, проверку письменных работ и отчёты родителям. Всё кликается, данные выдуманные.</p>
+  </section>
+
+  <h2>Как это выглядит <em>на одном ученике</em></h2>
+  <p class="sub">Месяц Маши из 9 класса. Нажимайте на шаги.</p>
+  <div class="flow">
+    <div class="steps" id="steps">
+      <button class="step on" data-s="0"><span class="no">1</span><span><b>Маша пишет боту фразу</b>и сразу получает исправление</span></button>
+      <button class="step" data-s="1"><span class="no">2</span><span><b>Ошибка попадает к вам в панель</b>вы видите, что тема пока не усвоена</span></button>
+      <button class="step" data-s="2"><span class="no">3</span><span><b>Маше приходит тренажёр</b>по этой теме, одной кнопкой</span></button>
+      <button class="step" data-s="3"><span class="no">4</span><span><b>Мама получает отчёт</b>в конце месяца</span></button>
+    </div>
+    <div class="app"><div class="bar"><i></i><i></i><i></i><span class="u" id="flowurl">Telegram · English with Elena</span></div><div class="body" id="flowcard"></div></div>
+  </div>
+
+  <h2>Каждый инструмент <em>отдельно</em></h2>
+  <p class="sub">Данные выдуманные, это демонстрация. На курсе вы соберёте такое на своих учениках и материалах.</p>
+
+  <div class="tabs" id="tabs">
+    <button class="tab on" data-t="voice"><span>01</span>Говорение голосом</button>
+    <button class="tab" data-t="bot"><span>02</span>Бот: проверка фраз</button>
+    <button class="tab" data-t="panel"><span>03</span>Панель и кабинет ученика</button>
+    <button class="tab" data-t="trainer"><span>04</span>Тренажёр по ошибкам</button>
+    <button class="tab" data-t="essay"><span>05</span>Проверка письма ЕГЭ</button>
+    <button class="tab" data-t="report"><span>06</span>Отчёт родителям</button>
+    <button class="tab" data-t="test"><span>07</span>Входной тест для взрослых</button>
+  </div>
+
+  <!-- 01 VOICE -->
+  <div class="proto on" id="p-voice">
+    <div class="app">
+      <div class="bar"><i></i><i></i><i></i><span class="u">Telegram · English with Elena · Speaking</span></div>
+      <div class="body">
+        <div class="seg"><button class="on" data-vt="oge">9 класс · ОГЭ</button><button data-vt="adult">Взрослый</button></div>
+        <div id="vbox"></div>
+      </div>
+    </div>
+    <div class="side">
+      <h3>Говорение: ученик отвечает голосовым</h3>
+      <p>Бот даёт задание, ученик записывает голосовое. Бот расшифровывает речь и разбирает: грамматику, лексику, паузы, слова с трудным произношением и раскрыты ли все пункты плана.</p>
+      <div class="lbl">Что меняется для вас</div>
+      <ul><li>Ученики говорят по-английски не только на уроке</li><li>Устную часть ОГЭ и ЕГЭ можно тренировать дома</li><li>Вы слушаете не сырые голосовые, а уже разобранные</li></ul>
+      <span class="tar">Практика и Профи</span>
+    </div>
+  </div>
+
+  <!-- 02 BOT -->
+  <div class="proto" id="p-bot">
+    <div class="app">
+      <div class="bar"><i></i><i></i><i></i><span class="u">Telegram · English with Elena</span></div>
+      <div class="body">
+        <div class="phone">
+          <div class="tghead"><div class="ava">E</div><div><b style="font-size:15px">English with Elena</b><div class="muted">бот</div></div></div>
+          <div class="chat" id="chat"></div>
+          <div class="chips">
+            <button class="chip" data-c="word">Слово дня</button>
+            <button class="chip" data-c="hw">Моя домашка</button>
+            <button class="chip" data-c="ex1">He don't like coffee</button>
+            <button class="chip" data-c="ex2">I have seen him yesterday</button>
+          </div>
+          <form class="inrow" id="botf"><input id="boti" placeholder="Напишите фразу на английском" autocomplete="off"><button class="btn g" type="submit">→</button></form>
+        </div>
+        <p class="demo">В демо бот знает около 25 типичных ошибок русскоговорящих. Настоящий бот проверяет любую фразу через нейросеть и объясняет так, как вы его научите.</p>
+      </div>
+    </div>
+    <div class="side">
+      <h3>Бот, который занимается с учениками между уроками</h3>
+      <p>Ученик пишет фразу, бот исправляет и объясняет по-русски, почему так. Каждое утро — слово дня, перед дедлайном — напоминание про домашку. Все ошибки собираются в вашу панель.</p>
+      <div class="lbl">Что меняется для вас</div>
+      <ul><li>Ученики занимаются и между уроками</li><li>Не нужно никому писать «где домашка?»</li><li>Вы видите, кто на чём ошибается</li></ul>
+      <span class="tar">Практика и Профи</span>
+    </div>
+  </div>
+
+  <!-- 03 PANEL -->
+  <div class="proto" id="p-panel">
+    <div class="app">
+      <div class="bar"><i></i><i></i><i></i><span class="u">elena-english.ru/cabinet</span></div>
+      <div class="body">
+        <div class="seg" id="pseg"><button class="on" data-v="teacher">Я учитель</button><button data-v="student">Я ученик</button></div>
+        <div id="v-teacher">
+          <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:12px">
+            <select class="s" id="grp"><option value="all">Все группы</option><option>8 класс</option><option>9 класс · ОГЭ</option><option>11 класс · ЕГЭ</option><option>Взрослые</option></select>
+            <span class="muted">Нажмите на ученика</span>
+          </div>
+          <div class="kpis" id="kpis"></div>
+          <div class="scroll"><table class="tbl"><thead><tr><th>Ученик</th><th class="hide-m">Группа</th><th>ДЗ</th><th>Балл</th><th>Слабая тема</th><th>Прогноз</th></tr></thead><tbody id="stb"></tbody></table></div>
+          <div class="det" id="sdet"></div>
+        </div>
+        <div id="v-student" style="display:none">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;flex-wrap:wrap">
+            <div><div class="muted">Личный кабинет</div><b style="font-size:20px">Маша Соколова · 9 класс</b></div>
+            <div style="text-align:right"><div class="muted">Прогноз ОГЭ</div><b style="font-size:22px;color:var(--green)">«5» · 59 из 68</b></div>
+          </div>
+          <div class="kpis" style="margin-top:14px">
+            <div class="kpi"><b>12 дней</b><span>занимаюсь подряд</span></div>
+            <div class="kpi"><b id="stDone">2 из 4</b><span>заданий на неделю</span></div>
+            <div class="kpi"><b>+9</b><span>к прогнозу ОГЭ за месяц</span></div>
+          </div>
+          <b style="font-size:15px">Задания на эту неделю</b>
+          <div id="stasks"></div>
+          <b style="font-size:15px;display:block;margin-top:16px">Мой прогресс по темам</b>
+          <div id="stopics"></div>
+          <div class="note"><b>Елена:</b> Маша, письмо стало гораздо лучше, молодец! На этой неделе разбираемся с Present Perfect, тренажёр уже в заданиях.</div>
+        </div>
+      </div>
+    </div>
+    <div class="side">
+      <h3>Панель учителя и личный кабинет ученика</h3>
+      <p>Вы видите всех: кто сдал домашку, баллы, слабые темы и прогноз к экзамену. Ученик заходит в свой кабинет по логину: его задания, прогресс, серия дней и ваш комментарий.</p>
+      <div class="lbl">Что меняется для вас</div>
+      <ul><li>Сразу видно, что повторить с каждым</li><li>Не нужно вести таблицу вручную</li><li>Ученик видит свои задания и прогресс, ничего не теряется в переписке</li></ul>
+      <span class="tar">Кабинеты со входом — Профи</span>
+    </div>
+  </div>
+
+  <!-- 04 TRAINER -->
+  <div class="proto" id="p-trainer">
+    <div class="app">
+      <div class="bar"><i></i><i></i><i></i><span class="u">elena-english.ru/t/present-perfect</span></div>
+      <div class="body" id="trbody"></div>
+    </div>
+    <div class="side">
+      <h3>Тренажёр, который подстраивается под ученика</h3>
+      <p>Если ученик ошибся, тренажёр объясняет правило и через пару вопросов даёт похожее задание. Тему он берёт из панели: то, на чём ученик ошибался в боте.</p>
+      <div class="lbl">Что меняется для вас</div>
+      <ul><li>Каждый ученик тренирует свою слабую тему</li><li>Проверять ничего не нужно</li><li>Результат сам попадает в панель</li></ul>
+      <span class="tar">Страница — с Базы, связь с панелью — Профи</span>
+    </div>
+  </div>
+
+  <!-- 05 ESSAY -->
+  <div class="proto" id="p-essay">
+    <div class="app">
+      <div class="bar"><i></i><i></i><i></i><span class="u">elena-english.ru/check</span></div>
+      <div class="body">
+        <div class="muted" style="margin-bottom:6px">Задание 37 ЕГЭ: электронное письмо другу, 100–140 слов. Можно исправить текст и проверить снова.</div>
+        <textarea class="es" id="etext"></textarea>
+        <div style="display:flex;gap:10px;margin-top:10px;flex-wrap:wrap"><button class="btn g" id="echeck">Проверить по критериям</button><button class="btn o" id="ereset">Вернуть пример</button></div>
+        <div id="eout"></div>
+        <p class="demo">В демо проверка идёт по формальным требованиям (объём, вопросы, обращение, подпись) и по списку типичных ошибок, поэтому ваш собственный текст она оценит лишь примерно. В настоящем сервисе письмо проверяет нейросеть по критериям ФИПИ и вашим комментариям, а последнее слово остаётся за вами.</p>
+      </div>
+    </div>
+    <div class="side">
+      <h3>Проверка письма и эссе по критериям ЕГЭ и ОГЭ</h3>
+      <p>Ученик вставляет текст и сразу получает баллы, найденные ошибки и подсказки. Он исправляет до сдачи, а вам приходит уже размеченная работа.</p>
+      <div class="lbl">Что меняется для вас</div>
+      <ul><li>Например, 15 писем в неделю по 10 минут — это 2,5 часа. Когда ошибки уже размечены, уходит заметно меньше</li><li>Ученик исправляет ошибки до того, как сдать работу</li></ul>
+      <span class="tar">Практика и Профи</span>
+    </div>
+  </div>
+
+  <!-- 06 REPORT -->
+  <div class="proto" id="p-report">
+    <div class="app">
+      <div class="bar"><i></i><i></i><i></i><span class="u">elena-english.ru/reports</span></div>
+      <div class="body">
+        <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+          <select class="s" id="rsel"></select>
+          <button class="btn o" id="rgen">Собрать отчёт за ноябрь</button>
+        </div>
+        <div id="rout"></div>
+      </div>
+    </div>
+    <div class="side">
+      <h3>Отчёт родителям в один клик</h3>
+      <p>Раз в месяц родитель получает короткое сообщение простыми словами: что прошли, что получается, чем помочь дома. Цифры подтягиваются из панели, вы перечитываете и дописываете своё.</p>
+      <div class="lbl">Что меняется для вас</div>
+      <ul><li>Родители видят результат занятий</li><li>Меньше вопросов «ну как там успехи?»</li><li>Сообщения всем родителям за пару минут, а не за вечер</li></ul>
+      <span class="tar">Практика и Профи</span>
+    </div>
+  </div>
+
+  <!-- 07 TEST -->
+  <div class="proto" id="p-test">
+    <div class="app">
+      <div class="bar"><i></i><i></i><i></i><span class="u">elena-english.ru/level</span></div>
+      <div class="body" id="tsbody"></div>
+    </div>
+    <div class="side">
+      <h3>Входной тест и запись на пробный урок</h3>
+      <p>Если вы набираете взрослых: человек проходит короткий тест, видит примерный уровень и сразу записывается к вам. Заявка прилетает вам в Telegram, точный уровень вы определяете на пробном.</p>
+      <div class="lbl">Что меняется для вас</div>
+      <ul><li>Новые ученики записываются сами, по ссылке</li><li>Вы заранее знаете цель и уровень</li><li>Ссылку можно ставить в соцсети и рассылки</li></ul>
+      <span class="tar">Страница — База, заявки в Telegram — Практика</span>
+    </div>
+  </div>
+
+  <h2>Почему это сложно <em>собрать одной</em></h2>
+  <p class="sub">Вы легко разбираетесь в нейросетях, и простую страницу Codex соберёт и без курса. Сложности начинаются, когда инструментом пользуются ученики каждый день.</p>
+  <div class="hard">
+    <div><b>Бот должен работать без вашего ноутбука</b>Чтобы бот отвечал ученикам в 11 вечера, когда ваш компьютер выключен, его нужно разместить на сервере. Это отдельный навык, и на нём застревают чаще всего.</div>
+    <div><b>У каждого ученика свой вход</b>Маша видит только свои задания, вы видите всех, родитель — только отчёт. Логины, роли и хранение данных Codex сам за вас не продумает.</div>
+    <div><b>Данные детей и родителей</b>Имена, оценки, телефоны несовершеннолетних — это персональные данные. Их нужно хранить по правилам 152-ФЗ, и на курсе это разбирают отдельно.</div>
+    <div><b>Токены и расходы</b>Проверка письма и голосовых идёт через нейросеть, и это стоит денег. На курсе разбирают, как считать расходы и не тратить лишнее, — как раз то, о чём вы спрашивали.</div>
+  </div>
+
+  <h2>Где этому <em>учат</em></h2>
+  <p class="sub">Старт 30 ноября, основная учёба приходится на декабрь–февраль. Всё собирается в Codex.</p>
+  <div class="where">
+    <div><b>База</b>Тренажёры, тест и страницы по ссылке вместо pptx.</div>
+    <div><b>Практика</b>Плюс боты: голосовое говорение, проверка фраз и письма нейросетью, отчёты и заявки в Telegram.</div>
+    <div class="rec"><b>Профи</b>Всё вместе в одной системе: кабинеты учеников со входом, панель, связь бота с тренажёрами и отчётами. Свой проект с куратором до рабочей ссылки, на сервере.</div>
+  </div>
+
+  <div class="facts">
+    <div><b>Старт 30 ноября</b>последний поток в этом году</div>
+    <div><b>Кураторы</b>Софья, Натали и Алексей</div>
+    <div><b>Инструмент</b>Codex, без Claude</div>
+    <div><b>Возврат</b>в первые 2 недели обучения</div>
+  </div>
+
+  <div class="cta">
+    <div><h3>Что из этого вам ближе?</h3><p>Напишите, я подскажу, с чего начать.</p></div>
+    <a class="cbtn" href="https://t.me/m/_P3MK8LfYTgy" target="_blank" rel="noopener">Написать Александре</a>
+  </div>
+  <div class="foot">fin-academy.pro · вайб-кодинг · прототипы на выдуманных данных</div>
+</div>
+
+<script>
+document.querySelectorAll('.tab').forEach(t=>t.onclick=()=>{
+  document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('on',x===t));
+  document.querySelectorAll('.proto').forEach(p=>p.classList.toggle('on',p.id==='p-'+t.dataset.t));
+});
+const esc=s=>s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const col=v=>v>=80?'var(--green)':v>=60?'var(--amber)':'var(--red)';
+const pc=v=>v>=80?'gr':v>=60?'a':'r';
+
+// ---------- error rules
+const IRR={go:'went',see:'saw',buy:'bought',do:'did',have:'had',come:'came',take:'took',make:'made',eat:'ate',write:'wrote',meet:'met',be:'was'};
+const RULES=[
+  {re:/\bI am agree\b/i,to:'I agree',why:'agree — глагол, ему не нужен am: I agree.'},
+  {re:/\bhave (seen|been|done|met|visited|watched|bought|went|lost|finished) ([^.!?]*?)\b(yesterday|last (week|year|month|summer|weekend)|ago)\b/i,why:'Есть точное время в прошлом (yesterday, last…, ago), значит, нужен Past Simple, а не Present Perfect.',fix:m=>({seen:'saw',been:'was',done:'did',met:'met',visited:'visited',watched:'watched',bought:'bought',went:'went',lost:'lost',finished:'finished'}[m[1].toLowerCase()])+' '+m[2]+m[3]},
+  {re:/\b(he|she|it) (go|like|want|play|work|live|have|do|know|need|speak|watch)\b/i,why:'He / she / it в Present Simple: к глаголу добавляем -s (goes, likes, has).',fix:m=>m[1]+' '+({go:'goes',have:'has',do:'does',watch:'watches'}[m[2].toLowerCase()]||m[2]+'s')},
+  {re:/\b(he|she|it) don't\b/i,why:'С he / she / it — doesn\'t, а не don\'t.',fix:m=>m[1]+" doesn't"},
+  {re:/\b(didn't|did not|doesn't|does not) (went|saw|bought|did|had|came|took|made|ate|wrote|goes|likes|has|wants)\b/i,why:'После did / does глагол в начальной форме: didn\'t go, doesn\'t like.',fix:m=>{const b={went:'go',saw:'see',bought:'buy',did:'do',had:'have',came:'come',took:'take',made:'make',ate:'eat',wrote:'write',goes:'go',likes:'like',has:'have',wants:'want'};return m[1]+' '+b[m[2].toLowerCase()];}},
+  {re:/\bpeople is\b/i,to:'people are',why:'people — множественное число: people are.'},
+  {re:/\b(books|friends|children|parents) is\b/i,why:'Множественное число — are.',fix:m=>m[1]+' are'},
+  {re:/\bmore (better|bigger|easier|faster|worse)\b/i,why:'Сравнительная степень уже есть в слове: better, а не more better.',fix:m=>m[1]},
+  {re:/\bdepends? from\b/i,why:'depend on, а не from.',fix:m=>m[0].replace(/from/i,'on')},
+  {re:/\bexplain me\b/i,to:'explain to me',why:'explain something to someone: explain to me.'},
+  {re:/\bspend time with read(ing)?\b/i,to:'spend time reading',why:'spend time + -ing без предлога: spend time reading.'},
+  {re:/\bvery like\b/i,to:'really like',why:'Не very like, а really like или like … very much.'},
+  {re:/\bmake a (photo|picture)\b/i,why:'Фотографируют глаголом take: take a photo.',fix:m=>'take a '+m[1]},
+  {re:/\b(an?) (information|advice|news)\b/i,why:'Неисчисляемое: some information / a piece of advice, без a.',fix:m=>'some '+m[2]},
+  {re:/\badvices\b/i,to:'advice',why:'advice неисчисляемое, без -s.'},
+  {re:/\blisten (music|the music|to me)?\s?music\b|\blisten music\b/i,to:'listen to music',why:'listen to music — с to.'},
+  {re:/\bdiscuss about\b/i,to:'discuss',why:'discuss без about: discuss the problem.'},
+  {re:/\bmarried with\b/i,to:'married to',why:'married to someone.'},
+  {re:/\bsince (\d+|two|three|five|ten) (years|months|days|weeks)\b/i,why:'Длительность — for: for 3 years. Since — с момента: since 2020.',fix:m=>'for '+m[1]+' '+m[2]},
+  {re:/\bI want that you\b/i,to:'I want you to',why:'want someone to do: I want you to come.'},
+  {re:/\bon the next (week|month|year)\b/i,why:'next week без on и без the.',fix:m=>'next '+m[1]},
+  {re:/\bin the last (week|month|year)\b(?=[^.]*\b(went|was|saw|did)\b)/i,why:'В прошлом: last week, без in the.',fix:m=>'last '+m[1]},
+  {re:/\bI am (1[2-9]|[2-9]\d) years\b(?! old)/i,why:'Возраст: I am 16 или I am 16 years old.',fix:m=>m[0]+' old'},
+  {re:/\bhow it is going\b/i,to:'how is it going',why:'В вопросе порядок слов меняется: How is it going?'},
+  {re:/\bwhere you (live|work|go)\?/i,why:'В вопросе нужен вспомогательный глагол: Where do you live?',fix:m=>'where do you '+m[1]+'?'},
+  {re:/\bI (very )?interested in\b/i,why:'Нужен глагол be: I am interested in.',fix:m=>'I am '+(m[1]?'very ':'')+'interested in'},
+  {re:/\bI am boring\b/i,to:'I am bored',why:'boring — скучный (о том, что скучно), bored — мне скучно.'},
+];
+function findErrors(text){
+  const out=[];
+  RULES.forEach(r=>{const g=new RegExp(r.re.source,'gi');let m;while((m=g.exec(text))){out.push({i:m.index,len:m[0].length,src:m[0],to:r.to||r.fix(m),why:r.why});if(!m[0].length)g.lastIndex++;}});
+  return out.sort((a,b)=>a.i-b.i).filter((e,k,arr)=>k===0||e.i>=arr[k-1].i+arr[k-1].len);
+}
+
+// ---------- FLOW
+const FLOW=[
+  {u:'Telegram · English with Elena',h:`<div class="phone"><div class="chat" style="height:auto"><div class="msg me">I have seen him yesterday</div><div class="msg">Почти! Правильно так:\n<b>I saw him yesterday</b>\n\nYesterday — точное время в прошлом, значит, Past Simple.</div></div></div>`},
+  {u:'elena-english.ru/cabinet',h:`<b>Маша Соколова · 9 класс</b><div class="muted" style="margin-bottom:8px">Ошибки в боте за неделю</div><div class="topic"><span>Present Perfect</span><div class="track"><i style="width:58%;background:var(--red)"></i></div><b>58</b></div><div class="topic"><span>Лексика</span><div class="track"><i style="width:90%;background:var(--green)"></i></div><b>90</b></div><div class="topic"><span>Письмо</span><div class="track"><i style="width:85%;background:var(--green)"></i></div><b>85</b></div><div class="note"><b>За неделю 3 ошибки в Present Perfect.</b> Стоит повторить.</div>`},
+  {u:'elena-english.ru/cabinet',h:`<div class="note" style="margin-top:0"><b>Панель предлагает:</b> отправить Маше тренажёр «Present Perfect или Past Simple»</div><div style="margin:12px 0"><span class="pill gr">Отправлено в бот и в кабинет Маши</span></div><div class="muted">Через два дня:</div><div class="topic"><span>Тренажёр</span><div class="track"><i style="width:83%;background:var(--green)"></i></div><b>5/6</b></div><div class="topic"><span>Present Perfect</span><div class="track"><i style="width:76%;background:var(--amber)"></i></div><b>76</b></div>`},
+  {u:'Telegram · сообщение маме Маши',h:`<div class="phone"><div class="chat" style="height:auto"><div class="msg">Наталья Сергеевна, добрый вечер! Итоги ноября по Маше.\n\nЛичное письмо: в начале месяца было 6 баллов из 10, сейчас 9.\nДва прошедших времени Маша путала, за месяц ошибок стало вдвое меньше.\nПо прогнозу ОГЭ уверенно идём на «5».\n\nЕлена</div></div></div><div class="note">Елена не писала это с нуля: цифры подтянулись из бота, тренажёра и панели, она только перечитала и отправила.</div>`},
+];
+function flow(n){document.querySelectorAll('.step').forEach(b=>b.classList.toggle('on',+b.dataset.s===n));document.getElementById('flowurl').textContent=FLOW[n].u;document.getElementById('flowcard').innerHTML='<div class="fcard">'+FLOW[n].h+(n<3?'<button class="btn" style="margin-top:14px" onclick="flow('+(n+1)+')">Дальше</button>':'')+'</div>';}
+document.querySelectorAll('.step').forEach(b=>b.onclick=()=>flow(+b.dataset.s));flow(0);
+
+// ---------- 01 VOICE
+const VT={
+  oge:{task:'<b>ОГЭ, задание 3. Монолог «My favourite holiday»</b><br>Расскажите: какой праздник любимый, как его отмечают, что вы делаете, почему он вам нравится. До 2 минут.',
+    tr:'My favourite holiday is New Year. <mark>Eee</mark> we celebrate it with my family. We <mark>are decorate</mark> <ins>decorate</mark> the New Year tree and cook a lot of tasty food, for example salads and <u>vegetables</u>. At midnight we <mark>are listening</mark> <ins>listen to</ins> the President and <mark>eee</mark> open presents. It is very <mark>good</mark> <ins>exciting</ins> holiday.',
+    g:'2 ошибки: we are decorate → we decorate; are listening → listen to (+ to).',l:'very good → exciting / special. Не хватает связок: firstly, after that, that\'s why.',f:'1 мин 05 сек · 2 паузы «эээ»',p:'vegetables: «ВЕДЖ-тэблз», ударение на первый слог, без «е» в середине.',plan:'3 из 4 пунктов. <b>Не раскрыто:</b> почему праздник любимый. На экзамене за это снимут балл.',sc:'Не хватило одного пункта плана, в остальном хороший ответ.'},
+  adult:{task:'<b>Speaking practice. Tell me about your job</b><br>Что вы делаете, что нравится, что сложно. 1–2 минуты.',
+    tr:'I work as a manager in a logistic company <mark>since five years</mark> <ins>for five years</ins>. <mark>Eee</mark> my job is <mark>very interesting for me</mark> <ins>really interesting</ins>, because I <mark>speak with</mark> <ins>talk to</ins> clients from different countries. <mark>Eee</mark> the most difficult is <mark>eee</mark> to plan everything, it is a lot of <mark>informations</mark> <ins>information</ins>. I am <u>comfortable</u> with English emails, but speaking is harder.',
+    g:'2 ошибки: since five years → for five years; informations → information.',l:'speak with clients → talk to clients. very interesting for me → really interesting.',f:'1 мин 20 сек · 4 паузы «эээ». Ошибок немного, можно говорить смелее.',p:'comfortable: «КАМФ-тэбл», три слога, ударение на первый.',plan:'Все 3 пункта раскрыты.',sc:'Хороший B1. Следующий шаг: говорить без пауз и точнее с предлогами.'},
+};
+let vt='oge';
+function voice(){
+  const v=VT[vt];
+  document.getElementById('vbox').innerHTML=`<div class="vtask">${v.task}</div><div class="rec" id="vrec"><button class="btn g" id="vgo">Записать голосовое</button><span class="muted">демо: запись имитируется</span></div><div id="vres"></div>`;
+  document.getElementById('vgo').onclick=()=>{
+    document.getElementById('vrec').innerHTML='<span class="dot"></span><div class="wave"></div><span class="muted" id="vt">0:01</span>';
+    let s=1;const iv=setInterval(()=>{s++;const e=document.getElementById('vt');if(e)e.textContent='0:0'+s;},350);
+    setTimeout(()=>{clearInterval(iv);
+      document.getElementById('vrec').innerHTML='<span class="pill gr">Голосовое расшифровано</span><button class="btn o" id="vagain" style="margin-left:auto">Ещё раз</button>';
+      document.getElementById('vagain').onclick=voice;
+      document.getElementById('vres').innerHTML=`<div class="muted" style="margin-bottom:4px">Что вы сказали:</div><div class="marked">${v.tr}</div>
+      <div class="vgrid"><div><b>Грамматика</b>${v.g}</div><div><b>Лексика</b>${v.l}</div><div><b>Беглость</b>${v.f}</div><div><b>Произношение</b>${v.p}</div><div><b>План ответа</b>${v.plan}</div><div><b>Итог</b>${v.sc}</div></div>
+      <p class="demo">В демо расшифровка заготовлена. В настоящем боте голос расшифровывает нейросеть, а разбор строится по критериям, которые зададите вы.</p>`;
+    },2200);
+  };
+}
+document.querySelectorAll('[data-vt]').forEach(b=>b.onclick=()=>{document.querySelectorAll('[data-vt]').forEach(x=>x.classList.toggle('on',x===b));vt=b.dataset.vt;voice();});
+voice();
+
+// ---------- 02 BOT
+const chat=document.getElementById('chat');
+function say(t,me){const d=document.createElement('div');d.className='msg'+(me?' me':'');d.innerHTML=t;chat.appendChild(d);chat.scrollTop=chat.scrollHeight;}
+function botReply(text){
+  const errs=findErrors(text);
+  setTimeout(()=>{
+    if(errs.length){
+      let fixed=text;[...errs].reverse().forEach(e=>{fixed=fixed.slice(0,e.i)+e.to+fixed.slice(e.i+e.len);});
+      say('Почти! Правильно так:\n<b>'+esc(fixed)+'</b>\n\n'+errs.map(e=>esc(e.why)).join('\n'));
+    } else if(/^[\x00-\x7F]+$/.test(text)&&text.trim().split(/\s+/).length>1){
+      say('Типичных ошибок не нашёл, отлично!\n<span class="muted">Это демо: я знаю около 25 частых ошибок. Настоящий бот проверяет любую фразу через нейросеть.</span>');
+    } else say('Напиши фразу на английском, я проверю)');
+  },450);
+}
+const BOT={
+  word:()=>{say('Слово дня',true);setTimeout(()=>say('<b>to look forward to</b> — с нетерпением ждать\n\nI\'m looking forward to the holidays.\nПосле to идёт -ing: looking forward to <b>seeing</b> you.\n\nПридумай свою фразу и пришли мне)'),400);},
+  hw:()=>{say('Моя домашка',true);setTimeout(()=>say('На эту неделю:\n1. Тренажёр Present Perfect — <b>до четверга</b>\n2. Голосовое: монолог «My favourite holiday» — <b>до пятницы</b>\n3. Письмо другу, задание 37 — <b>до субботы</b>\n\nНапомню в среду вечером. Удачи!'),400);},
+  ex1:()=>{say("He don't like coffee",true);botReply("He don't like coffee");},
+  ex2:()=>{say('I have seen him yesterday',true);botReply('I have seen him yesterday');},
+};
+document.querySelectorAll('.chip').forEach(c=>c.onclick=()=>BOT[c.dataset.c]());
+document.getElementById('botf').onsubmit=e=>{e.preventDefault();const i=document.getElementById('boti');const v=i.value.trim();if(!v)return;say(esc(v),true);i.value='';botReply(v);};
+say('Good morning, Маша!\nПришли любую фразу на английском, я проверю и объясню, если что-то не так. Или нажми кнопку внизу.');
+
+// ---------- 03 PANEL
+const S=[
+  {n:'Маша Соколова',g:'9 класс · ОГЭ',hw:[7,8],sc:87,weak:'Present Perfect',fc:'«5» · 59/68',t:[['Грамматика',82],['Лексика',90],['Письмо',85],['Говорение',80],['Present Perfect',58]]},
+  {n:'Артём Белов',g:'9 класс · ОГЭ',hw:[4,8],sc:64,weak:'Письмо',fc:'«4» · 47/68',t:[['Грамматика',66],['Лексика',70],['Письмо',41],['Говорение',72],['Чтение',68]]},
+  {n:'Лиза Миронова',g:'11 класс · ЕГЭ',hw:[8,8],sc:91,weak:'Эссе: аргументы',fc:'84 балла',t:[['Грамматика',93],['Лексика',90],['Эссе',74],['Говорение',95],['Чтение',92]]},
+  {n:'Даня Ким',g:'11 класс · ЕГЭ',hw:[5,8],sc:70,weak:'Словообразование',fc:'66 баллов',t:[['Грамматика',72],['Словообразование',49],['Эссе',68],['Говорение',80],['Чтение',74]]},
+  {n:'Соня Орлова',g:'8 класс',hw:[6,8],sc:78,weak:'Past Simple',fc:'«4»',t:[['Past Simple',55],['Лексика',84],['Чтение',80],['Говорение',82],['Аудирование',79]]},
+  {n:'Ваня Петров',g:'8 класс',hw:[3,8],sc:58,weak:'Неправильные глаголы',fc:'«3»',t:[['Неправ. глаголы',38],['Лексика',62],['Чтение',60],['Говорение',66],['Аудирование',64]]},
+  {n:'Ольга, 34 года',g:'Взрослые',hw:[6,6],sc:85,weak:'Говорение',fc:'B1 → B2 к маю',t:[['Грамматика',86],['Говорение',63],['Лексика',88],['Аудирование',80],['Письмо',84]]},
+  {n:'Игорь, 41 год',g:'Взрослые',hw:[2,6],sc:61,weak:'Аудирование',fc:'A2 → B1 к июню',t:[['Грамматика',68],['Говорение',62],['Лексика',66],['Аудирование',39],['Письмо',60]]},
+];
+let selS=0;
+function renderPanel(){
+  const g=document.getElementById('grp').value;
+  const L=S.map((s,i)=>({...s,i})).filter(s=>g==='all'||s.g===g);
+  if(!L.find(s=>s.i===selS))selS=L[0].i;
+  const hwAll=L.reduce((a,s)=>a+s.hw[0],0),hwMax=L.reduce((a,s)=>a+s.hw[1],0);
+  const avg=Math.round(L.reduce((a,s)=>a+s.sc,0)/L.length);
+  const risk=L.filter(s=>s.sc<65||s.hw[0]/s.hw[1]<.6).length;
+  document.getElementById('kpis').innerHTML=`<div class="kpi"><b>${Math.round(hwAll/hwMax*100)}%</b><span>домашки сдано</span></div><div class="kpi"><b>${avg}</b><span>средний балл</span></div><div class="kpi"><b style="color:${risk?'var(--red)':'var(--green)'}">${risk}</b><span>требуют внимания</span></div>`;
+  document.getElementById('stb').innerHTML=L.map(s=>`<tr class="row${s.i===selS?' sel':''}" data-i="${s.i}"><td><b>${s.n}</b></td><td class="hide-m">${s.g}</td><td><span class="pill ${pc(s.hw[0]/s.hw[1]*100)}">${s.hw[0]}/${s.hw[1]}</span></td><td>${s.sc}</td><td>${s.weak}</td><td>${s.fc}</td></tr>`).join('');
+  document.querySelectorAll('#stb tr').forEach(r=>r.onclick=()=>{selS=+r.dataset.i;renderPanel();});
+  const s=S[selS];const w=s.t.reduce((a,b)=>b[1]<a[1]?b:a);
+  document.getElementById('sdet').innerHTML=`<b>${s.n}</b> <span class="muted">· ${s.g}</span>`+s.t.map(t=>`<div class="topic"><span>${t[0]}</span><div class="track"><i style="width:${t[1]}%;background:${col(t[1])}"></i></div><b>${t[1]}</b></div>`).join('')+`<div class="note"><b>Что повторить:</b> ${w[0]}. <button class="btn g" style="padding:5px 10px;font-size:13px;margin-left:6px" onclick="this.outerHTML='<span class=&quot;pill gr&quot;>Тренажёр отправлен в бот</span>'">Отправить тренажёр</button></div>`;
+}
+document.getElementById('grp').onchange=renderPanel;renderPanel();
+document.querySelectorAll('#pseg button').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('#pseg button').forEach(x=>x.classList.toggle('on',x===b));
+  document.getElementById('v-teacher').style.display=b.dataset.v==='teacher'?'':'none';
+  document.getElementById('v-student').style.display=b.dataset.v==='student'?'':'none';
+});
+const TASKS=[['Слова урока 12: путешествия',true,'сдано'],['Голосовое: монолог «My favourite holiday»',true,'сдано'],['Тренажёр Present Perfect',false,'до чт'],['Письмо другу, 100–120 слов',false,'до сб']];
+document.getElementById('stasks').innerHTML=TASKS.map((t,i)=>`<label class="task"><input type="checkbox" ${t[1]?'checked':''}><span>${t[0]}</span><span class="muted">${t[2]}</span></label>`).join('');
+document.querySelectorAll('#stasks input').forEach(c=>c.onchange=()=>{document.getElementById('stDone').textContent=[...document.querySelectorAll('#stasks input')].filter(x=>x.checked).length+' из 4';});
+document.getElementById('stopics').innerHTML=S[0].t.map(t=>`<div class="topic"><span>${t[0]}</span><div class="track"><i style="width:${t[1]}%;background:${col(t[1])}"></i></div><b>${t[1]}</b></div>`).join('');
+
+// ---------- 04 TRAINER (adaptive)
+const TQ=[
+  {q:'I ___ to London three times.',o:['have been','was','am'],a:0,e:'Опыт за жизнь, без точного времени — Present Perfect.',k:'exp'},
+  {q:'She ___ her keys yesterday.',o:['has lost','lost','loses'],a:1,e:'Yesterday — точное время в прошлом, значит, Past Simple.',k:'time'},
+  {q:'___ you ever ___ sushi?',o:['Did … try','Have … tried','Do … try'],a:1,e:'Ever — сигнал Present Perfect: «когда-нибудь в жизни».',k:'ever'},
+  {q:'He ___ his homework yet.',o:["didn't finish","hasn't finished","doesn't finish"],a:1,e:'Yet в отрицании — Present Perfect.',k:'yet'},
+  {q:'Look! Someone ___ my cake!',o:['ate','has eaten','eats'],a:1,e:'Результат виден сейчас (торта нет) — Present Perfect.',k:'res'},
+];
+const EXTRA={
+  exp:{q:'We ___ this film twice.',o:['watched','have watched','watch'],a:1,e:'Сколько раз за жизнь, без даты — Present Perfect.'},
+  time:{q:'We ___ to the cinema last Saturday.',o:['have gone','went','go'],a:1,e:'Last Saturday — Past Simple.'},
+  ever:{q:'Has she ever ___ to Italy?',o:['been','was','went'],a:0,e:'Have/has + ever + третья форма: been.'},
+  yet:{q:'___ they ___ yet?',o:['Did … arrive','Have … arrived','Do … arrive'],a:1,e:'Yet в вопросе — Present Perfect.'},
+  res:{q:'Oh no, I ___ my phone! I can\'t call you.',o:['lost','have lost','lose'],a:1,e:'Последствие сейчас (не могу позвонить) — Present Perfect.'},
+};
+const tr=document.getElementById('trbody');
+function trainer(){
+  const Q=TQ.map(x=>({...x}));let i=0,score=0,total=0,added=0;
+  function draw(){
+    if(i>=Q.length){
+      tr.innerHTML=`<div class="muted">Present Perfect или Past Simple</div><div class="lvl" style="margin:10px 0">${score} из ${total}</div><p style="font-size:15px">${added?`Там, где были ошибки, добавились вопросы на повторение: ${added}.`:'Ни одной ошибки, тему можно считать закрытой!'}</p><div class="note">Елена увидит результат у себя.</div><button class="btn o" style="margin-top:12px" id="tragain">Пройти ещё раз</button>`;
+      document.getElementById('tragain').onclick=trainer;return;
+    }
+    const q=Q[i];
+    tr.innerHTML=`<div class="muted">Тема недели: Present Perfect · вопрос ${i+1} из ${Q.length}${q.rep?' · <b style="color:var(--amber)">повторение</b>':''}</div><div class="prog"><i style="width:${i/Q.length*100}%"></i></div><div class="q">${q.q}</div><div class="opts">${q.o.map((o,k)=>`<button class="opt" data-k="${k}">${o}</button>`).join('')}</div><div class="expl"></div><div class="nx" style="margin-top:12px;display:none"><button class="btn">Дальше</button></div>`;
+    let lock=false;
+    tr.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{
+      if(lock)return;lock=true;total++;
+      const k=+b.dataset.k;const ok=k===q.a;if(ok)score++;
+      tr.querySelectorAll('.opt').forEach((x,j)=>{if(j===q.a)x.classList.add('ok');else if(j===k)x.classList.add('no');});
+      let extra='';
+      if(!ok&&!q.rep&&EXTRA[q.k]){Q.splice(Math.min(i+3,Q.length),0,{...EXTRA[q.k],rep:true});added++;extra='<br><span class="muted">Через пару вопросов будет похожий, для закрепления.</span>';}
+      const ex=tr.querySelector('.expl');ex.style.display='block';ex.innerHTML=(ok?'<b style="color:var(--green)">Верно!</b> ':'<b style="color:var(--red)">Не совсем.</b> ')+q.e+extra;
+      const nx=tr.querySelector('.nx');nx.style.display='block';nx.querySelector('button').onclick=()=>{i++;draw();};
+    });
+  }
+  draw();
+}
+trainer();
+
+// ---------- 05 ESSAY
+const SAMPLE=`Dear Ben,
+
+Thanks for your letter. It was great to hear from you!
+
+You asked me about my free time. Usually I spend time with reading and playing football with friends. My brother very like computer games, but I think books is more better. Last weekend I have been to the cinema with my family and we watched a new comedy. It was really funny!
+
+As for my plans, it depends from the weather. If it is sunny, we will go to the countryside.
+
+What kind of films do you prefer? Who do you usually go to the cinema with? How often do you go there?
+
+Write back soon.
+
+Best wishes,
+Masha`;
+const et=document.getElementById('etext');et.value=SAMPLE;
+function essayCheck(){
+  const t=et.value;
+  let errs=findErrors(t);
+  const pp=/\b(Last (weekend|week|year|summer|month)|Yesterday)([^.]*?)\bhave been\b/gi;let m;
+  while((m=pp.exec(t))){const at=m.index+m[0].length-9;errs.push({i:at,len:9,src:'have been',to:'went',why:'Last weekend — точное время в прошлом, значит, Past Simple: went to the cinema.'});}
+  errs=errs.sort((a,b)=>a.i-b.i).filter((e,k,a)=>k===0||e.i>=a[k-1].i+a[k-1].len);
+  const words=(t.match(/[A-Za-z']+/g)||[]).length;
+  const hasGreet=/^\s*(Dear|Hi|Hello)\b/i.test(t);
+  const hasClose=/(Best wishes|Love|Take care|Yours|Best)[,\s]*\n?\s*\w+\s*$/i.test(t.trim());
+  const thanks=/thank/i.test(t);const back=/(write back|hope to hear|keep in touch|write soon)/i.test(t);
+  const qs=(t.match(/\?/g)||[]).length;
+  let k1=2,k2=2,k3=2;const notes=[];
+  if(words<90){k1=0;notes.push(`Объём ${words} слов: меньше 90 — по правилам ЕГЭ работа не оценивается.`);}
+  else if(words>154){notes.push(`Объём ${words} слов: проверяются только первые 140.`);}
+  if(qs<3){k1=Math.max(0,k1-1);notes.push('Нужно задать другу 3 вопроса, сейчас '+qs+'.');}
+  if(!hasGreet||!hasClose){k2=Math.max(0,k2-1);notes.push('Не хватает обращения или подписи в конце.');}
+  if(!thanks||!back){k2=Math.max(0,k2-1);notes.push('Нужны благодарность за письмо и надежда на ответ.');}
+  if(errs.length>=4)k3=0;else if(errs.length>=2)k3=1;
+  if(k1===0){k2=0;k3=0;}
+  let html='',p=0;errs.forEach(e=>{html+=esc(t.slice(p,e.i))+'<mark>'+esc(e.src)+'</mark> <ins>'+esc(e.to)+'</ins>';p=e.i+e.len;});html+=esc(t.slice(p));
+  const total=k1+k2+k3;
+  document.getElementById('eout').innerHTML=`<div class="crit"><div><b style="color:${col(k1*50)}">${k1}/2</b>Решение задачи</div><div><b style="color:${col(k2*50)}">${k2}/2</b>Организация текста</div><div><b style="color:${col(k3*50)}">${k3}/2</b>Язык: грамматика и лексика</div></div>
+  <div style="font-size:15px;margin-bottom:10px"><b>Предварительно: ${total} из 6</b> <span class="muted">· ${words} слов · найдено ошибок: ${errs.length}</span></div>
+  ${notes.length?'<ul class="fix">'+notes.map(n=>'<li>'+n+'</li>').join('')+'</ul>':''}
+  <div class="marked">${html}</div>
+  ${errs.length?'<ul class="fix">'+errs.map(e=>'<li><b>'+esc(e.src)+' → '+esc(e.to)+'</b>: '+esc(e.why)+'</li>').join('')+'</ul>':'<p class="toast">Типичных ошибок из списка не найдено.</p>'}
+  <div class="note">Работа отправлена Елене, окончательную оценку поставит она.</div>`;
+}
+document.getElementById('echeck').onclick=essayCheck;
+document.getElementById('ereset').onclick=()=>{et.value=SAMPLE;document.getElementById('eout').innerHTML='';};
+
+// ---------- 06 REPORT
+const R={
+  0:{att:'8 из 8',p:'Наталья Сергеевна',who:'Маше',fc:'ОГЭ: «5»',done:'Present Perfect, тема «Путешествия», личное письмо, устный монолог',good:'Письмо: в начале месяца было 6 баллов из 10, сейчас 9. Устные ответы стали увереннее.',work:'Путает два прошедших времени (Present Perfect и Past Simple). Ошибок уже вдвое меньше, добиваем тренажёром.',home:'Специально ничего делать не нужно, Маша занимается сама. Похвалите её за письмо)',c:'Маша очень старается, на «5» выходим уверенно.'},
+  1:{att:'7 из 8',p:'Андрей Викторович',who:'Артёму',fc:'ОГЭ: «4», можно «5»',done:'Тема «Технологии», чтение, личное письмо',good:'Чтение и устная часть уверенно на «4».',work:'В письме теряет баллы из-за структуры. Дала шаблон, пишем по 2 письма в неделю.',home:'Напомните ему про письма: из 8 домашек сдано 4.',c:'Если подтянуть письмо, «5» вполне реальна.'},
+  2:{att:'8 из 8',p:'Ирина Павловна',who:'Лизе',fc:'ЕГЭ: около 84 баллов',done:'Эссе, словообразование, устная часть',good:'Грамматика и лексика почти без ошибок, устная часть на высоком уровне.',work:'В эссе пока не хватает аргументов и примеров. Разбираем по одному эссе в неделю.',home:'Всё хорошо, Лиза полностью в графике.',c:'Сейчас идём на 84 балла, цель 90.'},
+  5:{att:'6 из 8',p:'Елена Николаевна',who:'Ване',fc:'Четверть: «3», цель «4»',done:'Past Simple, неправильные глаголы, чтение',good:'На уроках стал отвечать смелее и чаще.',work:'Неправильные глаголы пока не выучены, из-за этого ошибки почти в каждом предложении.',home:'Из 8 домашек сдано 3. Если 2–3 раза в неделю спросите, сделал ли он тренажёр, это очень поможет.',c:'Ваня способный, ему не хватает только регулярности.'},
+};
+const rsel=document.getElementById('rsel');
+rsel.innerHTML=Object.keys(R).map(k=>`<option value="${k}">${S[k].n}</option>`).join('');
+function renderRep(){
+  const k=rsel.value,r=R[k],s=S[k];
+  document.getElementById('rout').innerHTML=`<div class="rep"><div class="muted">Сообщение в Telegram · ${r.p}</div>
+  <div style="font-size:15px;margin-top:8px">${r.p}, добрый вечер! Итоги ноября по ${r.who}.</div>
+  <div class="grid2"><div class="box"><b>Занятия</b>${r.att}</div><div class="box"><b>Домашние задания</b>сдано ${s.hw[0]} из ${s.hw[1]}</div><div class="box"><b>Прогноз</b>${r.fc}</div><div class="box"><b>Прошли</b>${r.done}</div></div>
+  <div style="font-size:14px;display:grid;gap:8px"><div><b>Что получается:</b> ${r.good}</div><div><b>Над чем работаем:</b> ${r.work}</div><div><b>Чем помочь дома:</b> ${r.home}</div></div>
+  <div class="note"><span contenteditable="true" style="outline:none;border-bottom:1px dashed #9ab">${r.c}</span><br>Елена</div>
+  <div style="display:flex;gap:10px;margin-top:12px;flex-wrap:wrap"><button class="btn g" id="rsend">Отправить родителю в Telegram</button><span class="muted" style="align-self:center">последнюю фразу можно изменить</span></div>
+  <div class="toast" id="rtoast"></div></div>`;
+  document.getElementById('rsend').onclick=()=>{document.getElementById('rtoast').textContent='Отправлено: '+r.p+' получит сообщение в Telegram (в демо ничего не отправляется).';};
+}
+rsel.onchange=renderRep;document.getElementById('rgen').onclick=renderRep;renderRep();
+
+// ---------- 07 TEST
+const LQ=[
+  {q:'My sister ___ in Moscow.',o:['live','lives','living'],a:1},
+  {q:'There aren\'t ___ apples left.',o:['some','any','no'],a:1},
+  {q:'If I ___ more time, I would travel more.',o:['have','had','will have'],a:1},
+  {q:'She asked me where I ___.',o:['live','lived','do live'],a:1},
+  {q:'I\'m not used to ___ up so early.',o:['get','getting','got'],a:1},
+  {q:'By the time we arrived, the film ___.',o:['already started','had already started','has already started'],a:1},
+  {q:'Hardly ___ the house when it started to rain.',o:['I had left','had I left','I left'],a:1},
+];
+const ts=document.getElementById('tsbody');
+function levelTest(){
+  ts.innerHTML=`<div class="muted">Английский для взрослых</div><div class="q" style="font-size:22px">Узнайте примерный уровень за 2 минуты</div><p style="font-size:15px;color:var(--appmut)">7 вопросов, от простых к сложным. Это только грамматика, а говорение Елена послушает на бесплатном пробном уроке.</p><button class="btn g" style="margin-top:14px" id="tsgo">Начать тест</button>`;
+  document.getElementById('tsgo').onclick=()=>{
+    let i=0,sc=0;
+    const draw=()=>{
+      if(i>=LQ.length){
+        const L=sc<=2?['A2','Elementary','Вы понимаете простые фразы и можете рассказать о себе. Дальше нужны времена и разговорная практика.']:sc<=4?['B1','Intermediate','Объяснитесь в поездке и поймёте сериал с субтитрами. Чтобы свободно говорить на работе, нужна практика речи.']:sc<=5?['B1+','Intermediate+','Крепкая база. На этом уровне обычно мешает не грамматика, а нехватка слов и страх говорить.']:['B2','Upper-Intermediate','Уверенный уровень. Дальше — свободная речь, деловой английский и нюансы.'];
+        ts.innerHTML=`<div class="muted">Ваш результат: ${sc} из ${LQ.length}</div><div class="muted" style="margin-top:6px">Примерный уровень по грамматике</div><div class="lvl" style="margin:4px 0">${L[0]}</div><b>${L[1]}</b><p style="font-size:15px;margin-top:6px">${L[2]}</p>
+        <div class="note">Хотите понять, что подтянуть под вашу цель? Запишитесь на бесплатный пробный урок.</div>
+        <form class="form" id="tsf"><input placeholder="Ваше имя" required><select><option>Цель: для работы</option><option>Цель: для путешествий</option><option>Цель: переезд</option><option>Цель: для себя</option></select><select><option>Удобно: утром</option><option>Удобно: днём</option><option>Удобно: вечером</option></select><button class="btn g" type="submit">Записаться на пробный</button></form><div class="toast" id="tst"></div>`;
+        document.getElementById('tsf').onsubmit=e=>{e.preventDefault();document.getElementById('tst').textContent='Заявка отправлена! Елена получила в Telegram: уровень '+L[0]+', цель и удобное время (в демо ничего не отправляется).';};
+        return;
+      }
+      const q=LQ[i];
+      ts.innerHTML=`<div class="muted">Вопрос ${i+1} из ${LQ.length}</div><div class="prog"><i style="width:${i/LQ.length*100}%"></i></div><div class="q">${q.q}</div><div class="opts">${q.o.map((o,k)=>`<button class="opt" data-k="${k}">${o}</button>`).join('')}</div>`;
+      let lock=false;
+      ts.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{if(lock)return;lock=true;if(+b.dataset.k===q.a)sc++;b.style.borderColor='var(--apptx)';setTimeout(()=>{i++;draw();},300);});
+    };
+    draw();
+  };
+}
+levelTest();
+</script>
+</body>
+</html>
