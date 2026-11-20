@@ -1,0 +1,353 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Сверки и отчёты — Дарья</title>
+<meta name="robots" content="noindex">
+<style>
+:root{
+  --bg:#05080B;--panel:#0C1217;--panel2:#0F1A17;--line:#1F2C2A;--tx:#F2F8F5;--tx2:#C9D8D1;--mut:#8EA39B;
+  --ac:#5CF2A6;--onac:#04110B;
+  --app:#FFFFFF;--app2:#F5F7F9;--appline:#E4E8EC;--apptx:#16212B;--appmut:#6A7783;
+  --red:#E5484D;--amber:#B86E00;--green:#1E9E5E;--blue:#3E7BFA;
+  --mono:Consolas,"SFMono-Regular",Menlo,monospace;--body:"Segoe UI",-apple-system,Roboto,Arial,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;background:var(--bg)}
+html,body{overflow-x:hidden}
+body{background:radial-gradient(900px 600px at 0 0,#0f3a2a 0,transparent 70%) no-repeat,var(--bg);color:var(--tx);font-family:var(--body);line-height:1.5;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1040px;margin:0 auto;padding:0 16px}
+button{font:inherit;cursor:pointer}
+.top{display:flex;justify-content:space-between;gap:12px;font:12px var(--mono);color:var(--mut);letter-spacing:.08em;padding:22px 0 0}
+.top b{color:var(--ac)}
+.hero{padding:46px 0 26px}
+.eb{font:700 12px var(--mono);letter-spacing:.1em;color:var(--tx2);margin-bottom:14px;text-transform:uppercase}
+.eb:before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--ac);margin-right:8px;vertical-align:1px}
+h1{font-size:clamp(29px,5vw,48px);line-height:1.08;font-weight:700;letter-spacing:-.01em;margin-bottom:18px}
+h1 em{font-style:normal;color:var(--ac)}
+h2{font-size:clamp(23px,3.3vw,33px);line-height:1.15;margin-bottom:10px}
+.lead{font-size:18px;color:var(--tx2);max-width:780px}
+.note{font-size:13px;color:var(--mut);margin-top:14px}
+.gets{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:24px}
+.get{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+.get b{display:block;font-size:24px;color:var(--ac);line-height:1.1}
+.get span{font-size:13px;color:var(--tx2)}
+.section{padding:50px 0 8px;border-top:1px solid var(--line)}
+.tnum{font:700 12px var(--mono);color:var(--ac);letter-spacing:.1em;margin-bottom:10px}
+.menu{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:22px 0 18px}
+.menu button{text-align:left;background:var(--panel);border:1px solid var(--line);color:var(--tx);border-radius:12px;padding:12px 14px;font-size:14px;line-height:1.3}
+.menu button span{display:block;font:700 11px var(--mono);color:var(--mut);letter-spacing:.08em;margin-bottom:3px}
+.menu button.on{border-color:var(--ac);background:var(--panel2)}
+.menu button.on span{color:var(--ac)}
+.task{display:none}.task.on{display:block}
+.thead{display:grid;grid-template-columns:1.35fr 1fr;gap:24px;margin-bottom:18px}
+.thead h3{font-size:22px;line-height:1.25;margin-bottom:6px}
+.thead p{color:var(--tx2)}
+.mod{background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:14px 16px;font-size:14px;color:var(--tx2)}
+.mod .k{font:700 11px var(--mono);letter-spacing:.1em;color:var(--mut);margin-bottom:6px}
+.mod .r2{display:flex;justify-content:space-between;gap:10px;padding:6px 0;border-top:1px solid var(--line)}
+.mod .r2:first-of-type{border-top:0}
+.mod .r2 b{color:var(--tx);white-space:nowrap}
+.app{background:var(--app);color:var(--apptx);border-radius:16px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.45)}
+.bar{display:flex;align-items:center;gap:8px;background:var(--app2);border-bottom:1px solid var(--appline);padding:10px 14px;font:12px var(--mono);color:var(--appmut)}
+.bar i{width:10px;height:10px;border-radius:50%;background:#d9dee3;display:inline-block;flex:none}
+.bar span{margin-left:8px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.body{padding:18px}
+.steps{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.steps span{font-size:13px;border:1px solid var(--appline);border-radius:20px;padding:5px 12px;color:var(--appmut)}
+.steps span.on{background:var(--apptx);color:#fff;border-color:var(--apptx)}
+.steps span.done{background:#e9f7ef;color:var(--green);border-color:#cdeedb}
+.drops{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.drop{border:2px dashed #cfd6dc;border-radius:12px;padding:18px;text-align:center;color:var(--appmut);font-size:13px}
+.drop b{display:block;color:var(--apptx);font-size:14px;margin-bottom:4px}
+.btn{border:0;background:var(--apptx);color:#fff;border-radius:10px;padding:10px 16px;font-weight:600;font-size:14px}
+.btn.alt{background:#fff;color:var(--apptx);border:1px solid var(--appline)}
+.btn:disabled{opacity:.5;cursor:default}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:14px 0 0}
+.tw{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:14px;min-width:600px}
+th,td{padding:9px 10px;border-bottom:1px solid var(--appline);text-align:left;white-space:nowrap}
+th{font:600 12px var(--body);color:var(--appmut);background:var(--app2)}
+td.r,th.r{text-align:right}
+.pill{display:inline-block;font-size:12px;font-weight:600;border-radius:20px;padding:2px 9px;white-space:nowrap}
+.p-ok{background:#e9f7ef;color:var(--green)}
+.p-chk{background:#fff3e0;color:var(--amber)}
+.p-red{background:#fdecec;color:var(--red)}
+.p-no{background:var(--app2);color:var(--appmut)}
+.p-new{background:#eaf1ff;color:var(--blue)}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}
+.kpi{background:var(--app2);border-radius:10px;padding:10px 12px}
+.kpi .l{font-size:12px;color:var(--appmut)}
+.kpi .v{font-size:19px;font-weight:700}
+.kpi .s{font-size:12px;color:var(--appmut)}
+.kpi.bad .v{color:var(--red)}.kpi.good .v{color:var(--green)}
+.ai-msg{margin-top:14px;background:#f0fbf5;border:1px solid #cdeedb;border-radius:12px;padding:12px 14px;font-size:14px}
+.ai-msg .who{font:700 11px var(--mono);letter-spacing:.08em;color:#0d7a46;margin-bottom:4px}
+.hide{display:none}
+.gain{margin:16px 0 0;font-size:15px;color:var(--tx2);padding-left:14px;border-left:3px solid var(--ac)}
+.gain b{color:var(--ac);font:700 11px var(--mono);letter-spacing:.08em;display:block;margin-bottom:2px}
+.tar{margin-top:12px;font-size:14px;color:var(--tx2)}
+.tar b{font:700 11px var(--mono);letter-spacing:.08em;color:var(--mut);margin-right:8px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.chips button{border:1px solid var(--appline);background:#fff;color:var(--apptx);border-radius:20px;padding:6px 12px;font-size:13px}
+.chips button.on{background:var(--apptx);color:#fff;border-color:var(--apptx)}
+/* план-факт */
+.pf .ln{display:grid;grid-template-columns:150px 1fr 120px;gap:12px;align-items:center;font-size:13px;padding:7px 0;border-bottom:1px solid var(--appline)}
+.pf .tr{position:relative;height:16px;background:var(--app2);border-radius:5px}
+.pf .tr i{position:absolute;left:0;top:0;bottom:0;border-radius:5px;background:#bfe9d2}
+.pf .tr u{position:absolute;left:0;top:4px;bottom:4px;border-radius:3px;background:var(--green);text-decoration:none}
+.pf .tr u.over{background:var(--red)}
+.pf .ln b{text-align:right;white-space:nowrap}
+.legend{display:flex;flex-wrap:wrap;gap:14px;font-size:12px;color:var(--appmut);margin-top:10px}
+.legend i{display:inline-block;width:12px;height:8px;border-radius:2px;margin-right:6px;vertical-align:0}
+/* бот */
+.tg{background:#e7eef3;border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:8px;min-height:260px}
+.msg{max-width:80%;border-radius:12px;padding:8px 12px;font-size:14px;animation:fi .3s}
+.msg.me{align-self:flex-end;background:#d9f7c6}
+.msg.bot{align-self:flex-start;background:#fff}
+.msg .t{display:block;font-size:11px;color:var(--appmut);margin-top:2px;text-align:right}
+@keyframes fi{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.qs{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.qs button{border:1px solid var(--appline);background:#fff;color:var(--apptx);border-radius:20px;padding:6px 12px;font-size:13px}
+/* как устроено */
+.how{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:20px}
+.hs{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px}
+.hs .n{font:700 12px var(--mono);color:var(--ac);letter-spacing:.08em}
+.hs h3{font-size:16px;margin:6px 0 6px}
+.hs p{font-size:14px;color:var(--tx2)}
+.safe{margin-top:14px;background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:16px 18px;color:var(--tx2);font-size:15px}
+.safe b{color:var(--tx)}
+.cards{display:grid;grid-template-columns:1fr 1.15fr;gap:14px;align-items:stretch;margin-top:22px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px}
+.card.rec{border-color:var(--ac);box-shadow:0 0 0 1px var(--ac) inset}
+.card .k{font:700 11px var(--mono);letter-spacing:.1em;color:var(--mut)}
+.card.rec .k{color:var(--ac)}
+.card h3{font-size:24px;margin:6px 0 2px}
+.card .pr{font-size:20px;font-weight:700}
+.card .sub{font-size:13px;color:var(--mut);margin-bottom:14px}
+.card .has{list-style:none;margin-top:4px}
+.card .has li{font-size:14px;color:var(--tx2);padding:6px 0 6px 20px;position:relative;border-top:1px solid var(--line)}
+.card .has li:first-child{border-top:0}
+.card .has li:before{content:"✓";position:absolute;left:0;color:var(--ac);font-weight:700}
+.card .has li.new{color:var(--tx);font-weight:600}
+.card .plus{font:700 11px var(--mono);letter-spacing:.08em;color:var(--mut);margin:14px 0 2px}
+.refund{font-size:13px;color:var(--ac);margin-top:14px}
+.end{margin:36px 0 70px;text-align:center;background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:30px 20px}
+.end p{color:var(--tx2);max-width:660px;margin:8px auto 0}
+footer{font-size:12px;color:var(--mut);text-align:center;padding:0 0 30px}
+@media (max-width:760px){
+  .thead,.cards,.drops{grid-template-columns:1fr}
+  .how{grid-template-columns:1fr 1fr}
+  .kpis,.menu{grid-template-columns:1fr 1fr}
+  .gets{grid-template-columns:1fr}
+  .top{flex-direction:column;gap:4px}
+  .pf .ln{grid-template-columns:1fr auto}
+  .pf .tr{grid-column:1/3;grid-row:2}
+  .msg{max-width:92%}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><span>МАСТЕР CFO · <b>ИНСТРУМЕНТЫ ДЛЯ СВЕРОК</b></span><span>ЛИЧНАЯ ПОДБОРКА ДЛЯ ДАРЬИ</span></div>
+
+  <section class="hero">
+    <div class="eb">Бухгалтер-экономист · сверки и отчёты</div>
+    <h1>Дарья, ваши сверки могут делаться <em>в своём сервисе в один клик</em></h1>
+    <p class="lead">Ниже четыре инструмента под ваши задачи: сверка банка, акты с контрагентами, план-факт и ответы руководителю. Всё можно понажимать.</p>
+    <div class="gets">
+      <div class="get"><b>1 846 строк</b><span>выписки и 51-го счёта сверяются за секунды</span></div>
+      <div class="get"><b>128 актов</b><span>сверки с контрагентами и видно, кто ответил</span></div>
+      <div class="get"><b>08:00</b><span>каждое утро план-факт обновляется сам</span></div>
+    </div>
+    <p class="note">Компании, суммы и данные в примерах условные.</p>
+  </section>
+
+  <section class="section" id="tasks">
+    <div class="tnum">ПОТЫКАЙТЕ</div>
+    <h2>Что вы сможете собрать сами</h2>
+    <div class="menu" id="menu">
+      <button data-t="0" class="on"><span>01</span>Банк и 1С в один клик</button>
+      <button data-t="1"><span>02</span>Акты сверки всем контрагентам</button>
+      <button data-t="2"><span>03</span>План-факт по ЦФО</button>
+      <button data-t="3"><span>04</span>Бот для руководителя</button>
+    </div>
+
+    <!-- 01 -->
+    <div class="task on" id="k0">
+      <div class="thead">
+        <div><h3>Выписка банка и 51-й счёт: сверка за секунды</h3>
+          <p>Вы загружаете выписку и выгрузку из 1С. Сервис сам сопоставляет операции по дате, сумме и контрагенту и показывает только то, что не сошлось, с причиной.</p></div>
+        <div class="mod"><div class="k">СЕЙЧАС → СО СВОИМ СЕРВИСОМ</div>
+          <div class="r2"><span>Сверка за месяц</span><b>полдня → 2 минуты</b></div>
+          <div class="r2"><span>В чат копировать</span><b>больше не нужно</b></div></div>
+      </div>
+      <div class="app">
+        <div class="bar"><i></i><i></i><i></i><span>sverka · банк ↔ 1С · октябрь</span></div>
+        <div class="body">
+          <div class="steps" id="st0"><span class="on">1. Файлы</span><span>2. Расхождения</span><span>3. Что сделать</span></div>
+          <div id="a1">
+            <div class="drops">
+              <div class="drop"><b>Выписка_Сбер_октябрь.xlsx</b>1 846 операций</div>
+              <div class="drop"><b>ОСВ_51_октябрь_1С.xlsx</b>1 841 проводка</div>
+            </div>
+            <div class="row"><button class="btn" id="b1">Сверить</button></div>
+          </div>
+          <div id="a2" class="hide">
+            <div class="kpis">
+              <div class="kpi good"><div class="l">Совпало</div><div class="v">1 812</div><div class="s">98%</div></div>
+              <div class="kpi bad"><div class="l">Нет в 1С</div><div class="v">12</div><div class="s">на 284 360 ₽</div></div>
+              <div class="kpi bad"><div class="l">Сумма или дубль</div><div class="v">7</div></div>
+              <div class="kpi"><div class="l">Только дата</div><div class="v">15</div><div class="s">не ошибка</div></div>
+            </div>
+            <div class="chips" id="f1"><button class="on" data-f="all">Все расхождения</button><button data-f="red">Только ошибки</button></div>
+            <div class="tw"><table id="t1"></table></div>
+            <div class="row"><button class="btn" id="b2">Что с этим сделать</button></div>
+          </div>
+          <div id="a3" class="hide">
+            <div class="ai-msg"><div class="who">СЕРВИС</div>12 платежей есть в банке, но не проведены в 1С: 9 из них комиссии банка, 3 оплаты поставщикам. Сформировала файл для загрузки этих 12 операций в 1С. По 7 суммам расхождения от 0,40 до 18 600 ₽: список с номерами платёжек выгружен в Excel. Дубль «ТрансЛайн» на 46 800 ₽ стоит проверить первым.</div>
+            <div class="row"><button class="btn alt" id="b3">Скачать отчёт (пример)</button><button class="btn alt" id="b3r">Начать заново</button></div>
+          </div>
+        </div>
+      </div>
+      <p class="gain"><b>ЧТО ЭТО ДАЁТ</b>Та же сверка, которую вы сейчас делаете с нейросетью в чате, только на всём объёме сразу и каждый месяц одинаково.</p>
+    </div>
+
+    <!-- 02 -->
+    <div class="task" id="k1">
+      <div class="thead">
+        <div><h3>Акты сверки всем контрагентам и панель ответов</h3>
+          <p>Сервис формирует акты по 62 и 60 счёту, рассылает их и собирает ответы. Вы видите, кто подтвердил, у кого расхождение и кому пора напомнить.</p></div>
+        <div class="mod"><div class="k">СЕЙЧАС → СО СВОИМ СЕРВИСОМ</div>
+          <div class="r2"><span>128 актов в квартал</span><b>2–3 дня → вечер</b></div>
+          <div class="r2"><span>Кто не ответил</span><b>в голове → на экране</b></div></div>
+      </div>
+      <div class="app">
+        <div class="bar"><i></i><i></i><i></i><span>akty-sverki · III квартал 2026</span></div>
+        <div class="body">
+          <div class="kpis">
+            <div class="kpi"><div class="l">Отправлено</div><div class="v">128</div><div class="s">12.10</div></div>
+            <div class="kpi good"><div class="l">Подтвердили</div><div class="v" id="ok2">94</div></div>
+            <div class="kpi bad"><div class="l">С расхождением</div><div class="v">9</div></div>
+            <div class="kpi"><div class="l">Молчат</div><div class="v" id="sil2">25</div><div class="s">больше 10 дней</div></div>
+          </div>
+          <div class="tw"><table>
+            <tr><th>Контрагент</th><th>Счёт</th><th class="r">Сальдо у нас, ₽</th><th class="r">У них, ₽</th><th>Статус</th></tr>
+            <tr><td>ООО «Альтаир»</td><td>62</td><td class="r">1 284 600,00</td><td class="r">1 284 600,00</td><td><span class="pill p-ok">подтвердил</span></td></tr>
+            <tr><td>ООО «ТрансЛайн»</td><td>60</td><td class="r">−312 450,00</td><td class="r">−265 650,00</td><td><span class="pill p-red">расхождение 46 800</span></td></tr>
+            <tr><td>ИП Смирнова Е. В.</td><td>62</td><td class="r">58 200,00</td><td class="r">—</td><td><span class="pill p-chk" id="sm">молчит 14 дней</span></td></tr>
+            <tr><td>ООО «ПромКомплект»</td><td>60</td><td class="r">−97 318,40</td><td class="r">−97 318,40</td><td><span class="pill p-ok">подтвердил</span></td></tr>
+            <tr><td>ООО «Вектор-М»</td><td>62</td><td class="r">421 090,00</td><td class="r">—</td><td><span class="pill p-chk">молчит 11 дней</span></td></tr>
+          </table></div>
+          <div class="row"><button class="btn" id="b21">Напомнить 25 молчащим</button><span id="s21" style="font-size:13px;color:var(--appmut)"></span></div>
+        </div>
+      </div>
+      <p class="gain"><b>ЧТО ЭТО ДАЁТ</b>Квартальная сверка с контрагентами перестаёт быть авралом: акты уходят сами, а у вас перед глазами только расхождения.</p>
+    </div>
+
+    <!-- 03 -->
+    <div class="task" id="k2">
+      <div class="thead">
+        <div><h3>План-факт затрат по ЦФО, который обновляется сам</h3>
+          <p>Каждое утро сервис забирает данные из 1С, сравнивает с бюджетом и подсвечивает, где расходы ушли за план. Руководитель открывает по ссылке.</p></div>
+        <div class="mod"><div class="k">СЕЙЧАС → СО СВОИМ СЕРВИСОМ</div>
+          <div class="r2"><span>Свод план-факт</span><b>раз в месяц → каждый день</b></div>
+          <div class="r2"><span>Ручная сборка</span><b>день → 0</b></div></div>
+      </div>
+      <div class="app">
+        <div class="bar"><i></i><i></i><i></i><span>plan-fakt · ноябрь · обновлено сегодня 08:00 из 1С</span></div>
+        <div class="body">
+          <div class="chips" id="pm"><button class="on" data-m="0">Ноябрь</button><button data-m="1">С начала года</button></div>
+          <div class="pf" id="pf"></div>
+          <div class="legend"><span><i style="background:#bfe9d2"></i>план</span><span><i style="background:#1E9E5E"></i>факт в плане</span><span><i style="background:#E5484D"></i>факт сверх плана</span></div>
+          <div class="ai-msg" id="pfm"></div>
+        </div>
+      </div>
+      <p class="gain"><b>ЧТО ЭТО ДАЁТ</b>О перерасходе вы узнаёте в середине месяца, пока его ещё можно остановить.</p>
+    </div>
+
+    <!-- 04 -->
+    <div class="task" id="k3">
+      <div class="thead">
+        <div><h3>Telegram-бот: руководитель спрашивает сам</h3>
+          <p>Бот отвечает по вашим же данным: долги, сверки, платежи. Вопросы «сколько нам должен…» перестают отвлекать вас посреди дня.</p></div>
+        <div class="mod"><div class="k">СЕЙЧАС → СО СВОИМ СЕРВИСОМ</div>
+          <div class="r2"><span>Ответить руководителю</span><b>найти, посчитать, написать → он спрашивает бота</b></div></div>
+      </div>
+      <div class="app">
+        <div class="bar"><i></i><i></i><i></i><span>Telegram · бот бухгалтерии</span></div>
+        <div class="body">
+          <div class="tg" id="tg"><div class="msg bot">Здравствуйте! Спросите про долги контрагентов, сверки или платежи.<span class="t">09:12</span></div></div>
+          <div class="qs" id="qs">
+            <button data-q="0">Сколько нам должен «Альтаир»?</button>
+            <button data-q="1">Какие сверки не подтверждены?</button>
+            <button data-q="2">Что платим на этой неделе?</button>
+          </div>
+        </div>
+      </div>
+      <p class="gain"><b>ЧТО ЭТО ДАЁТ</b>Руководитель получает ответ за секунды, а вы не отрываетесь от закрытия месяца.</p>
+    </div>
+  </section>
+
+  <section class="section" id="how">
+    <div class="tnum">КАК ЭТО УСТРОЕНО</div>
+    <h2>Такие инструменты собираются без программиста</h2>
+    <div class="how">
+      <div class="hs"><div class="n">01</div><h3>Задача словами</h3><p>Вы описываете нейросети, что нужно сверить и что считать ошибкой. Так же, как сейчас пишете в чат.</p></div>
+      <div class="hs"><div class="n">02</div><h3>Код пишет нейросеть</h3><p>В Codex нейросеть собирает сервис. Вы смотрите на результат, а не на код.</p></div>
+      <div class="hs"><div class="n">03</div><h3>Проверка на копии</h3><p>Сначала на старом месяце, где вы знаете правильный ответ. Потом на свежих данных.</p></div>
+    </div>
+    <div class="safe"><b>Честно.</b> Первые инструменты получаются простыми, следующие уже с выгрузкой из 1С и ботом. Данные компании перед работой с нейросетью обезличиваются.</div>
+  </section>
+
+  <section class="section" id="end">
+    <div class="end">
+      <h2>Какой из четырёх вам ближе?</h2>
+      <p>Проще всего начинать со сверки, которую вы уже делаете: правильный ответ вы знаете, поэтому сразу видно, работает ли инструмент.</p>
+    </div>
+  </section>
+</div>
+<footer>Онлайн-школа «Мастер CFO» · примеры условные</footer>
+
+<script>
+function $(i){return document.getElementById(i)}
+document.querySelectorAll("#menu button").forEach(function(b){b.onclick=function(){var t=+b.dataset.t;
+ document.querySelectorAll("#menu button").forEach(function(x,i){x.className=i==t?"on":""});
+ document.querySelectorAll(".task").forEach(function(x,i){x.classList.toggle("on",i==t)});}});
+// 01
+var R=[["03.10","ПАО Сбербанк","−1 250,00","нет в 1С","комиссия за обслуживание","red"],
+ ["07.10","ООО «ТрансЛайн»","−46 800,00","дубль в 1С","проведено дважды","red"],
+ ["09.10","ООО «ПромКомплект»","−97 318,40 / −97 318,00","сумма отличается","0,40 ₽, округление","red"],
+ ["14.10","ООО «Альтаир»","+420 000,00","дата отличается","в 1С 15.10","date"],
+ ["21.10","ИП Кузнецов А. П.","−18 600,00","нет в 1С","оплата по счёту 214","red"],
+ ["28.10","ООО «Вектор-М»","+156 900,00","дата отличается","в 1С 29.10","date"]];
+var flt="all";
+function d1(){var h='<tr><th>Дата</th><th>Контрагент</th><th class="r">Сумма, ₽</th><th>Что не так</th><th>Подробно</th></tr>';
+ R.filter(function(r){return flt=="all"||r[5]=="red"}).forEach(function(r){h+='<tr><td>'+r[0]+'</td><td>'+r[1]+'</td><td class="r">'+r[2]+'</td><td><span class="pill '+(r[5]=="red"?"p-red":"p-no")+'">'+r[3]+'</span></td><td>'+r[4]+'</td></tr>'});
+ h+='<tr><td colspan="5" style="color:var(--appmut)">… всего 34 расхождения</td></tr>';$("t1").innerHTML=h}
+function s0(n){[1,2,3].forEach(function(i){$("a"+i).classList.toggle("hide",i!=n)});document.querySelectorAll("#st0 span").forEach(function(s,i){s.className=i+1<n?"done":i+1==n?"on":""})}
+$("b1").onclick=function(){var b=this;b.disabled=true;b.textContent="Сверяю 1 846 операций…";setTimeout(function(){b.disabled=false;b.textContent="Сверить";flt="all";document.querySelectorAll("#f1 button").forEach(function(x,i){x.className=i==0?"on":""});d1();s0(2)},900)};
+document.querySelectorAll("#f1 button").forEach(function(b){b.onclick=function(){flt=b.dataset.f;document.querySelectorAll("#f1 button").forEach(function(x){x.className=x==b?"on":""});d1()}});
+$("b2").onclick=function(){s0(3)};$("b3").onclick=function(){this.textContent="Готово: отчёт_сверка_октябрь.xlsx";this.disabled=true};$("b3r").onclick=function(){$("b3").disabled=false;$("b3").textContent="Скачать отчёт (пример)";s0(1)};
+// 02
+$("b21").onclick=function(){this.disabled=true;$("s21").textContent="Напоминания отправлены 25 контрагентам. Ответы попадут в эту таблицу.";$("sm").textContent="напоминание отправлено";$("sm").className="pill p-new"};
+// 03
+var PF=[[["Производство",4.82,4.61],["Склад и логистика",1.94,2.27],["Продажи",1.36,1.18],["Маркетинг",0.62,0.81],["IT",0.48,0.44],["Администрация",1.15,1.09]],
+ [["Производство",51.4,49.8],["Склад и логистика",20.7,23.9],["Продажи",14.6,13.2],["Маркетинг",6.8,8.3],["IT",5.1,4.9],["Администрация",12.4,12.0]]];
+var PM=["Сверх плана два ЦФО: склад и логистика +330 тыс. ₽ (17%), в основном топливо и аренда временного склада, и маркетинг +190 тыс. ₽ (31%), оплачена выставка декабря. Остальные в плане.","С начала года перерасход по складу и логистике 3,2 млн ₽ и по маркетингу 1,5 млн ₽. Экономия по производству и продажам перекрывает их только частично: в целом затраты на 1,1 млн ₽ выше бюджета."];
+function f2(x){return x.toFixed(2).replace(".",",")}
+function pf(m){var d=PF[m],mx=Math.max.apply(null,d.map(function(x){return Math.max(x[1],x[2])}));
+ $("pf").innerHTML=d.map(function(x){var over=x[2]>x[1];return '<div class="ln"><span>'+x[0]+'</span><div class="tr"><i style="width:'+(x[1]/mx*100)+'%"></i><u class="'+(over?"over":"")+'" style="width:'+(x[2]/mx*100)+'%"></u></div><b style="color:'+(over?"var(--red)":"inherit")+'">'+(m?x[2].toFixed(1).replace(".",","):f2(x[2]))+' / '+(m?x[1].toFixed(1).replace(".",","):f2(x[1]))+' млн</b></div>'}).join("");
+ $("pfm").innerHTML='<div class="who">СВОДКА</div>'+PM[m]}
+document.querySelectorAll("#pm button").forEach(function(b){b.onclick=function(){document.querySelectorAll("#pm button").forEach(function(x){x.className=x==b?"on":""});pf(+b.dataset.m)}});pf(0);
+// 04
+var QA=[["Сколько нам должен «Альтаир»?","1 284 600 ₽. Из них просрочено 312 000 ₽ с 14.10 по счёту 1187. Последняя оплата 06.11 на 420 000 ₽. Акт сверки за III квартал подтверждён."],
+ ["Какие сверки не подтверждены?","Расхождение у 9 контрагентов, крупнейшее: «ТрансЛайн», 46 800 ₽. Молчат 25, напоминание отправлено сегодня."],
+ ["Что платим на этой неделе?","5 платежей на 1 846 300 ₽: аренда 420 000 ₽ (вт), «ПромКомплект» 97 318,40 ₽ (ср), налоги 1 120 000 ₽ (чт), ещё 2 поставщика. Денег на счёте хватает с запасом 2,3 млн ₽."]];
+document.querySelectorAll("#qs button").forEach(function(b){b.onclick=function(){var q=QA[+b.dataset.q],tg=$("tg");
+ tg.insertAdjacentHTML("beforeend",'<div class="msg me">'+q[0]+'<span class="t">09:14</span></div>');
+ setTimeout(function(){tg.insertAdjacentHTML("beforeend",'<div class="msg bot">'+q[1]+'<span class="t">09:14</span></div>')},500);b.disabled=true}});
+</script>
+</body>
+</html>
