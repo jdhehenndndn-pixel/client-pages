@@ -1,0 +1,613 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Задачи главбуха и финдира — Елена</title>
+<meta name="robots" content="noindex">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#1d2125;--panel:#262b30;--panel2:#22393d;--line:#343a40;--tx:#eef2f4;--tx2:#c3ccd2;--mut:#8d989f;
+  --ac:#34d9e0;--onac:#0e1a1c;
+  --app:#ffffff;--app2:#f4f6f8;--appline:#e3e7eb;--apptx:#17212a;--appmut:#6a7681;
+  --red:#d9363e;--amber:#b46a00;--green:#16884f;--cy:#1fb3ba;--cy2:#bfeef0;--cyd:#0b8a91;
+  --mono:"JetBrains Mono",Consolas,Menlo,monospace;--body:"Segoe UI",-apple-system,Roboto,Arial,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;background:var(--bg)}
+html,body{overflow-x:hidden}
+body{background:radial-gradient(800px 520px at 100% 0,rgba(52,217,224,.14),transparent 70%) no-repeat,var(--bg);color:var(--tx);font-family:var(--body);line-height:1.5;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1040px;margin:0 auto;padding:0 16px}
+button{font:inherit;cursor:pointer}
+a{color:inherit}
+.top{display:flex;justify-content:space-between;gap:12px;font:12px var(--mono);color:var(--mut);letter-spacing:.08em;padding:22px 0 0}
+.top b{color:var(--ac)}
+.hero{padding:44px 0 26px}
+.eb{font:700 12px var(--mono);letter-spacing:.1em;color:var(--ac);margin-bottom:14px}
+h1{font-size:clamp(28px,4.8vw,46px);line-height:1.12;font-weight:700;margin-bottom:18px}
+h1 em{font-style:normal;color:var(--ac)}
+h2{font-size:clamp(23px,3.2vw,32px);line-height:1.18;margin-bottom:10px}
+.lead{font-size:18px;color:var(--tx2);max-width:780px}
+.note{font-size:13px;color:var(--mut);margin-top:14px}
+.gets{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:24px}
+.get{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+.get b{display:block;font-size:24px;color:var(--ac);line-height:1.1}
+.get span{font-size:13px;color:var(--tx2)}
+.flag{margin-top:16px;background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:12px 16px;font-size:14px;color:var(--tx2)}
+.section{padding:48px 0 8px;border-top:1px solid var(--line)}
+.tnum{font:700 12px var(--mono);color:var(--ac);letter-spacing:.1em;margin-bottom:10px}
+/* окна */
+.app{background:var(--app);color:var(--apptx);border-radius:16px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.4)}
+.bar{display:flex;align-items:center;gap:8px;background:var(--app2);border-bottom:1px solid var(--appline);padding:10px 14px;font:12px var(--mono);color:var(--appmut)}
+.bar i{width:10px;height:10px;border-radius:50%;background:#d9dee3;display:inline-block;flex:none}
+.bar span{margin-left:8px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.body{padding:18px}
+.btn{border:0;background:var(--apptx);color:#fff;border-radius:10px;padding:10px 16px;font-weight:600;font-size:14px}
+.btn.alt{background:#fff;color:var(--apptx);border:1px solid var(--appline)}
+.btn:disabled{opacity:.5;cursor:default}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:14px 0 0}
+.tw{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:14px;min-width:560px}
+th,td{padding:9px 10px;border-bottom:1px solid var(--appline);text-align:left;white-space:nowrap}
+th{font:600 12px var(--body);color:var(--appmut);background:var(--app2)}
+td.r,th.r{text-align:right}
+td.w{white-space:normal;min-width:220px}
+.pill{display:inline-block;font-size:12px;font-weight:600;border-radius:20px;padding:2px 9px;white-space:nowrap}
+.p-ok{background:#e6f8f9;color:var(--cyd)}
+.p-chk{background:#fff3e0;color:var(--amber)}
+.p-red{background:#fdecec;color:var(--red)}
+.p-no{background:var(--app2);color:var(--appmut)}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}
+.kpi{background:var(--app2);border-radius:10px;padding:10px 12px}
+.kpi .l{font-size:12px;color:var(--appmut)}
+.kpi .v{font-size:19px;font-weight:700}
+.kpi .s{font-size:12px;color:var(--appmut)}
+.kpi.bad .v{color:var(--red)}
+.ai-msg{margin-top:14px;background:#ecfbfc;border:1px solid #c4eef0;border-radius:12px;padding:12px 14px;font-size:14px}
+.ai-msg .who{font:700 11px var(--mono);letter-spacing:.08em;color:var(--cyd);margin-bottom:4px}
+.chk{margin-top:12px;display:flex;flex-wrap:wrap;gap:8px;font-size:13px}
+.chk span{border-radius:8px;padding:5px 10px}
+.chk .ok{background:#e6f8f9;color:var(--cyd)}
+.chk .q{background:#fff3e0;color:var(--amber)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.chips button{border:1px solid var(--appline);background:#fff;color:var(--apptx);border-radius:20px;padding:6px 12px;font-size:13px}
+.chips button.on{background:var(--apptx);color:#fff;border-color:var(--apptx)}
+.chips button:disabled{cursor:default}
+.hide{display:none}
+/* боль */
+.duo2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:20px}
+.bub{background:var(--app2);border-radius:12px;padding:10px 12px;font-size:14px;margin-bottom:10px}
+.ans{border:1px solid var(--appline);border-radius:12px;padding:10px 12px;font-size:14px;margin-top:8px;animation:fi .35s}
+.ans .n{font:700 11px var(--mono);color:var(--appmut);letter-spacing:.06em;display:block;margin-bottom:2px}
+@keyframes fi{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.verdict{margin-top:10px;font-size:13px;font-weight:600;border-radius:8px;padding:6px 10px;display:inline-block}
+.verdict.bad{background:#fdecec;color:var(--red)}
+.verdict.good{background:#e6f8f9;color:var(--cyd)}
+.mats{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.mats span{font:12px var(--mono);background:var(--app2);border:1px solid var(--appline);border-radius:6px;padding:3px 8px;color:var(--appmut)}
+.four{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:16px}
+.four div{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px 14px;font-size:14px;color:var(--tx2)}
+.four b{display:block;font:700 12px var(--mono);color:var(--ac);letter-spacing:.06em;margin-bottom:4px}
+.safe{margin-top:14px;background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:14px 18px;color:var(--tx2);font-size:15px}
+.safe b{color:var(--tx)}
+/* меню задач */
+.menu{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:22px 0 18px}
+.menu button{text-align:left;background:var(--panel);border:1px solid var(--line);color:var(--tx);border-radius:12px;padding:12px 14px;font-size:14px;line-height:1.3}
+.menu button span{display:block;font:700 11px var(--mono);color:var(--mut);letter-spacing:.08em;margin-bottom:3px}
+.menu button.on{border-color:var(--ac);background:var(--panel2)}
+.menu button.on span{color:var(--ac)}
+.task{display:none}
+.task.on{display:block}
+.thead{display:grid;grid-template-columns:1.35fr 1fr;gap:24px;margin-bottom:18px}
+.thead h3{font-size:22px;line-height:1.25;margin-bottom:6px}
+.thead p{color:var(--tx2)}
+.mod{background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:14px 16px;font-size:14px;color:var(--tx2)}
+.mod .k{font:700 11px var(--mono);letter-spacing:.1em;color:var(--ac);margin-bottom:6px}
+.mod .r2{display:flex;justify-content:space-between;gap:10px;padding:6px 0;border-top:1px solid var(--line)}
+.mod .r2:first-of-type{border-top:0}
+.mod .r2 b{color:var(--tx);white-space:nowrap}
+.oncourse{margin-top:14px;font-size:14px;color:var(--tx2)}
+.oncourse b{font:700 11px var(--mono);letter-spacing:.08em;color:var(--mut);margin-right:8px}
+.gain{margin:10px 0 0;font-size:15px;color:var(--tx2);padding-left:14px;border-left:3px solid var(--ac)}
+.gain b{color:var(--ac);font:700 11px var(--mono);letter-spacing:.08em;display:block;margin-bottom:2px}
+.also{margin-top:22px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 18px;font-size:15px;color:var(--tx2)}
+.also b{color:var(--tx)}
+/* графики */
+.hb .ln{display:grid;grid-template-columns:220px 1fr 110px;gap:10px;align-items:center;font-size:13px;padding:6px 0}
+.hb .ln s{display:block;text-decoration:none;height:12px;background:var(--app2);border-radius:6px;overflow:hidden}
+.hb .ln s i{display:block;height:100%;background:var(--cy);border-radius:6px}
+.hb .ln b{text-align:right;white-space:nowrap}
+.prog{display:flex;align-items:center;gap:8px}
+.prog s{display:block;text-decoration:none;width:90px;height:8px;background:var(--app2);border-radius:4px;overflow:hidden}
+.prog s i{display:block;height:100%;border-radius:4px;background:var(--cy)}
+.prog s i.hot{background:var(--red)}
+.prog s i.warm{background:#e0a030}
+.chart{display:flex;align-items:center;gap:6px;height:190px;position:relative;border-top:1px dashed transparent}
+.chart .c{flex:1;height:100%;position:relative}
+.chart .c i{position:absolute;left:12%;right:12%;border-radius:4px;background:var(--cy);transition:all .35s}
+.chart .c i.neg{background:var(--red)}
+.chart .zero{position:absolute;left:0;right:0;height:1px;background:#9aa5ae}
+.chart .c em{position:absolute;left:0;right:0;text-align:center;font-style:normal;font-size:10px;color:var(--apptx);font-weight:600}
+.xl{display:flex;gap:6px;margin-top:4px}
+.xl span{flex:1;text-align:center;font-size:11px;color:var(--appmut)}
+.sl{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:14px}
+.sl label{display:block;font-size:13px;color:var(--appmut)}
+.sl label b{float:right;color:var(--apptx)}
+.sl input{width:100%;accent-color:#1fb3ba}
+.wf{margin-top:6px}
+.wf .ln{display:grid;grid-template-columns:150px 1fr 60px;gap:10px;align-items:center;font-size:13px;padding:5px 0}
+.wf .track{position:relative;height:14px;background:var(--app2);border-radius:4px}
+.wf .track i{position:absolute;top:0;bottom:0;border-radius:4px}
+.wf .ln b{text-align:right}
+.src{display:none;margin-top:12px;background:var(--apptx);color:#fff;border-radius:10px;padding:10px 14px;font:13px var(--mono)}
+td.cl{cursor:pointer;text-decoration:underline dotted #9aa5ae;text-underline-offset:3px}
+td.cl:hover{background:#ecfbfc}
+.doc{background:var(--app2);border-radius:12px;padding:14px 16px;font-size:14px;line-height:1.6}
+.doc mark{background:#fff1b8;padding:0 2px;border-radius:3px}
+.doc .tag{background:#e6f8f9;color:var(--cyd);font:12px var(--mono);padding:1px 5px;border-radius:4px}
+.cmp{display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:14px}
+.cmp div{border:1px solid var(--appline);border-radius:10px;padding:10px 12px}
+.cmp .h{font:700 11px var(--mono);letter-spacing:.06em;color:var(--appmut);margin-bottom:4px}
+.cmp .our{background:#ecfbfc;border-color:#c4eef0}
+/* калькулятор */
+.calc{display:grid;grid-template-columns:1fr 1fr;gap:22px;align-items:center}
+.calc label{display:block;font-size:14px;color:var(--appmut);margin-top:10px}
+.calc label b{color:var(--apptx);float:right}
+.calc input[type=range]{width:100%;accent-color:#1fb3ba}
+.big{font-size:34px;font-weight:800;line-height:1.1}
+.big small{font-size:15px;font-weight:600;color:var(--appmut)}
+/* люди и учёба */
+.people{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:20px}
+.pp{display:block;text-decoration:none;color:var(--tx);background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px}
+.pp:hover{border-color:var(--ac)}
+.pp .k{font:700 11px var(--mono);letter-spacing:.08em;color:var(--mut)}
+.pp h3{font-size:17px;line-height:1.3;margin:6px 0}
+.pp p{font-size:14px;color:var(--tx2)}
+.pp .go{display:inline-block;margin-top:10px;font:700 12px var(--mono);color:var(--ac)}
+.how{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:20px}
+.how div{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;font-size:14px;color:var(--tx2)}
+.how b{display:block;color:var(--tx);font-size:16px;margin-bottom:4px}
+/* тарифы */
+.cards{display:grid;grid-template-columns:1fr 1.15fr 1fr;gap:14px;align-items:stretch;margin-top:22px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px}
+.card.rec{border-color:var(--ac);box-shadow:0 0 0 1px var(--ac) inset}
+.card .k{font:700 11px var(--mono);letter-spacing:.1em;color:var(--mut)}
+.card.rec .k{color:var(--ac)}
+.card h3{font-size:24px;margin:6px 0 2px}
+.card .pr{font-size:20px;font-weight:700}
+.card .sub{font-size:13px;color:var(--mut);margin-bottom:12px}
+.card p{font-size:14px;color:var(--tx2)}
+.card .has{list-style:none;margin-top:4px}
+.card .has li{font-size:14px;color:var(--tx2);padding:6px 0 6px 20px;position:relative;border-top:1px solid var(--line)}
+.card .has li:first-child{border-top:0}
+.card .has li:before{content:"✓";position:absolute;left:0;color:var(--ac);font-weight:700}
+.card .has li b{color:var(--tx)}
+.card .plus{font:700 11px var(--mono);letter-spacing:.08em;color:var(--mut);margin:12px 0 2px}
+.refund{font-size:13px;color:var(--ac);margin-top:14px}
+.qa{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px}
+.qa div{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;font-size:14px;color:var(--tx2)}
+.qa b{display:block;font:700 12px var(--mono);letter-spacing:.08em;color:var(--ac);margin-bottom:6px}
+.end{margin:36px 0 70px;text-align:center;background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:30px 20px}
+.end p{color:var(--tx2);max-width:640px;margin:8px auto 0}
+footer{font-size:12px;color:var(--mut);text-align:center;padding:0 0 30px}
+@media (max-width:900px){.menu{grid-template-columns:repeat(3,1fr)}.cards{grid-template-columns:1fr}}
+@media (max-width:760px){
+  .thead,.calc,.duo2,.sl,.cmp,.qa{grid-template-columns:1fr}
+  .people,.how{grid-template-columns:1fr}
+  .gets{grid-template-columns:1fr}
+  .four,.kpis{grid-template-columns:1fr 1fr}
+  .menu{grid-template-columns:1fr 1fr}
+  .top{flex-direction:column;gap:4px}
+  .hb .ln{grid-template-columns:1fr auto;}
+  .hb .ln s{grid-column:1/3;grid-row:2}
+  .wf .ln{grid-template-columns:110px 1fr 46px}
+  .chart .c em{font-size:8px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><span>МАСТЕР CFO · <b>AI-НАВЫКИ ФИНАНСИСТА</b></span><span>ЛИЧНАЯ ПОДБОРКА ДЛЯ ЕЛЕНЫ</span></div>
+
+  <section class="hero">
+    <div class="eb">НАЛОГИ · ФИНАНАЛИТИКА · ДОГОВОРЫ</div>
+    <h1>Елена, вот ваши задачи, где нейросеть работает по вашим документам и правилам. <em>А каждый её ответ можно проверить</em></h1>
+    <p class="lead">Всё можно понажимать, а в конце пересчитать время под себя.</p>
+    <div class="gets">
+      <div class="get"><b>8 клиентов</b><span>лимиты и сроки в одной таблице</span></div>
+      <div class="get"><b>≈ 25 мин</b><span>первая вычитка договора на 12 страниц вместе с вашей проверкой</span></div>
+      <div class="get"><b id="heroH">≈ 18 ч</b><span>в месяц в расчёте ниже</span></div>
+    </div>
+    <div class="flag">Окна на странице сделаны для наглядности. На курсе это обычные Excel-таблицы, документы и схемы, без программирования. Компании, суммы, ставки и даты условные.</div>
+  </section>
+
+  <!-- почему ответы разные -->
+  <section class="section" id="why">
+    <div class="tnum">ОТКУДА РАЗНЫЕ ОТВЕТЫ</div>
+    <h2>Один вопрос, два способа его задать</h2>
+    <p class="lead">Когда у нейросети нет ваших цифр и правил, она каждый раз достраивает недостающее сама, поэтому ответы расходятся.</p>
+    <div class="duo2">
+      <div class="app">
+        <div class="bar"><i></i><i></i><i></i><span>чат · без данных</span></div>
+        <div class="body">
+          <div class="bub">Клиент: производство мебели, выручка около 85 млн в год. Какой режим выгоднее?</div>
+          <div id="leftA"></div>
+          <div class="row"><button class="btn alt" id="bl">Спросить ещё раз</button><span id="lc" style="font-size:13px;color:var(--appmut)"></span></div>
+          <div id="lv"></div>
+        </div>
+      </div>
+      <div class="app">
+        <div class="bar"><i></i><i></i><i></i><span>папка клиента · ООО «Северная мебель»</span></div>
+        <div class="body">
+          <div class="mats"><span>карточка клиента</span><span>ОСВ за 9 мес</span><span>план выручки 2027</span><span>справочник ставок</span><span>правила проверки</span></div>
+          <div id="rightA"></div>
+          <div class="row"><button class="btn" id="br">Спросить 3 раза</button></div>
+          <div id="rv"></div>
+        </div>
+      </div>
+    </div>
+    <p class="note">Если выводы при повторе всё-таки расходятся, это сигнал, что в данных чего-то не хватает.</p>
+    <div class="four">
+      <div><b>01 · СВОИ ДАННЫЕ</b>Выгрузки, карточка клиента, договор. Нейросеть опирается на них, а не на свою память.</div>
+      <div><b>02 · ПРАВИЛА ЗАРАНЕЕ</b>Откуда брать ставки и что делать, если каких-то данных нет.</div>
+      <div><b>03 · КОНТРОЛЬНЫЕ ЦИФРЫ</b>Итог сверяется с ОСВ или отчётностью.</div>
+      <div><b>04 · СПОРНОЕ РЕШАЕТЕ ВЫ</b>Нейросеть сама помечает, где не уверена.</div>
+    </div>
+    <div class="safe"><b>Честно.</b> Нейросеть может ошибаться, особенно в нормах, которые недавно поменялись. Поэтому на курсе много времени уходит на проверку: как увидеть ошибку до того, как документ уйдёт клиенту или в налоговую. Итог всегда подписываете вы.</div>
+  </section>
+
+  <!-- задачи -->
+  <section class="section" id="tasks">
+    <div class="tnum">ПОТЫКАЙТЕ</div>
+    <h2>Пять ваших задач</h2>
+    <div class="menu" id="menu">
+      <button data-t="0" class="on"><span>01</span>Режим для клиента</button>
+      <button data-t="1"><span>02</span>Лимиты, сроки, самозанятые</button>
+      <button data-t="2"><span>03</span>Финмодель</button>
+      <button data-t="3"><span>04</span>Анализ отчётности</button>
+      <button data-t="4"><span>05</span>Договоры</button>
+    </div>
+
+    <!-- 01 -->
+    <div class="task on" id="k0">
+      <div class="thead">
+        <div><h3>Сравнение режимов на цифрах клиента</h3>
+          <p>Нейросеть считает нагрузку на каждом режиме по выгрузке клиента и ставкам из вашего справочника и готовит список вопросов, которые стоит задать клиенту до решения.</p></div>
+        <div class="mod"><div class="k">СЕЙЧАС → С НЕЙРОСЕТЬЮ</div>
+          <div class="r2"><span>Расчёт по одному клиенту</span><b>3–4 ч → ≈ 40 мин</b></div>
+          <div class="r2"><span>Пересчёт при новых вводных</span><b>заново → пара минут</b></div></div>
+      </div>
+      <div class="app">
+        <div class="bar"><i></i><i></i><i></i><span>налоги · ООО «Северная мебель» · план 2027</span></div>
+        <div class="body">
+          <div class="kpis">
+            <div class="kpi"><div class="l">Выручка, план</div><div class="v">84,6 млн ₽</div><div class="s">из карточки</div></div>
+            <div class="kpi"><div class="l">Расходы</div><div class="v">61,3 млн ₽</div><div class="s">по ОСВ, прогноз</div></div>
+            <div class="kpi"><div class="l">ФОТ</div><div class="v">14,2 млн ₽</div><div class="s">23 сотрудника</div></div>
+            <div class="kpi"><div class="l">Покупатели с НДС</div><div class="v">70%</div><div class="s">со слов клиента</div></div>
+          </div>
+          <div class="hb">
+            <div class="ln"><span>УСН «доходы минус расходы»</span><s><i style="width:85%"></i></s><b>7 420 300 ₽</b></div>
+            <div class="ln"><span>ОСНО</span><s><i style="width:93%"></i></s><b>8 106 900 ₽</b></div>
+            <div class="ln"><span>УСН «доходы»</span><s><i style="width:100%"></i></s><b>8 691 400 ₽</b></div>
+          </div>
+          <p style="font-size:12px;color:var(--appmut);margin-top:6px">Налоги и взносы за год, условно. Ставки и пороги из справочника, который вы ведёте сами.</p>
+          <div class="ai-msg"><div class="who">НЕЙРОСЕТЬ</div>При этих вводных разница между режимами около 1,3 млн ₽ в год. До решения уточните у клиента: сколько покупателей откажутся работать без входящего НДС, какая выручка ожидается в 2028 году и планируются ли крупные закупки оборудования.</div>
+          <div class="chk"><span class="ok">выручка = план из карточки</span><span class="ok">ФОТ сверен с ОСВ по сч. 70</span><span class="q">ставки 2027: проверьте справочник</span></div>
+        </div>
+      </div>
+      <div class="oncourse"><b>НА КУРСЕ ЭТО</b>Excel-расчёт с формулами и список вопросов клиенту</div>
+      <p class="gain"><b>ЧТО ЭТО ДАЁТ</b>Клиент получает расчёт с цифрами и вопросами, которые важны для решения. Если вводные поменялись, пересчёт занимает пару минут.</p>
+    </div>
+
+    <!-- 02 -->
+    <div class="task" id="k1">
+      <div class="thead">
+        <div><h3>Все клиенты на одном экране: лимиты, сроки и подрядчики</h3>
+          <p>Раз в месяц таблица обновляется из выгрузок. Нейросеть считает, кто подходит к лимиту, собирает календарь под режим каждого клиента и проверяет выплаты самозанятым по вашему списку признаков.</p></div>
+        <div class="mod"><div class="k">СЕЙЧАС → С НЕЙРОСЕТЬЮ</div>
+          <div class="r2"><span>Свод по 8 клиентам</span><b>полдня → ≈ 30 мин</b></div>
+          <div class="r2"><span>Проверка самозанятых</span><b>день → ≈ 1 ч</b></div></div>
+      </div>
+      <div class="app">
+        <div class="bar"><i></i><i></i><i></i><span>клиенты · ноябрь 2026</span></div>
+        <div class="body">
+          <div class="chips" id="tabs2"><button class="on" data-v="0">Лимиты</button><button data-v="1">Календарь на январь</button><button data-v="2">Самозанятые</button></div>
+          <div id="v0">
+            <div class="tw"><table>
+              <tr><th>Клиент</th><th>Режим</th><th>От лимита режима</th><th>Прогноз</th><th>Статус</th></tr>
+              <tr><td>ИП Карпова Т. С.</td><td>УСН 6%</td><td><div class="prog"><s><i style="width:41%"></i></s>41%</div></td><td>не превысит</td><td><span class="pill p-ok">ок</span></td></tr>
+              <tr><td>ООО «Тепломонтаж»</td><td>УСН 15%</td><td><div class="prog"><s><i class="hot" style="width:87%"></i></s>87%</div></td><td>превысит в декабре</td><td><span class="pill p-red">риск</span></td></tr>
+              <tr><td>ООО «Лира-Дент»</td><td>УСН 6%</td><td><div class="prog"><s><i style="width:68%"></i></s>68%</div></td><td>не превысит</td><td><span class="pill p-ok">ок</span></td></tr>
+              <tr><td>ООО «СтройЛогистик»</td><td>УСН 6%</td><td><div class="prog"><s><i class="hot" style="width:93%"></i></s>93%</div></td><td>превысит в декабре</td><td><span class="pill p-red">риск</span></td></tr>
+              <tr><td>ИП Гусев А. А.</td><td>ПСН</td><td><div class="prog"><s><i class="warm" style="width:72%"></i></s>72%</div></td><td>близко к лимиту в I кв. 2027</td><td><span class="pill p-chk">проверьте</span></td></tr>
+              <tr><td>ООО «Бюро Арт-Проект»</td><td>УСН 15%</td><td><div class="prog"><s><i style="width:29%"></i></s>29%</div></td><td>не превысит</td><td><span class="pill p-ok">ок</span></td></tr>
+              <tr><td>ИП Ахмедова Л. Р.</td><td>НПД</td><td><div class="prog"><s><i class="hot" style="width:96%"></i></s>96%</div></td><td>превысит в декабре</td><td><span class="pill p-red">риск</span></td></tr>
+              <tr><td>ООО «Северная мебель»</td><td>ОСНО</td><td>—</td><td>—</td><td><span class="pill p-no">лимита нет</span></td></tr>
+            </table></div>
+            <div class="ai-msg"><div class="who">НЕЙРОСЕТЬ</div>Трое могут выйти за лимит в декабре: «Тепломонтаж», «СтройЛогистик» и ИП Ахмедова. Подготовила каждому короткое письмо с цифрами и вариантами, что можно сделать до конца года.</div>
+            <div class="chk"><span class="ok">выручка сверена с КУДиР по каждому клиенту</span><span class="q">лимиты 2027: обновите справочник</span></div>
+          </div>
+          <div id="v1" class="hide">
+            <div class="kpis"><div class="kpi"><div class="l">Сроков в январе</div><div class="v">8</div><div class="s">по 5 клиентам</div></div><div class="kpi"><div class="l">В работе</div><div class="v">5</div></div><div class="kpi bad"><div class="l">Горят</div><div class="v">1</div><div class="s">на этой неделе</div></div><div class="kpi"><div class="l">Сдано</div><div class="v">2</div></div></div>
+            <div class="tw"><table>
+              <tr><th>Дата</th><th>Клиент</th><th>Что сдать или уплатить</th><th>Кто</th><th>Статус</th></tr>
+              <tr><td>12.01</td><td>Северная мебель</td><td>Уведомление об исчисленных налогах</td><td>Елена</td><td><span class="pill p-ok">сдано</span></td></tr>
+              <tr><td>12.01</td><td>Лира-Дент</td><td>Уведомление об исчисленных налогах</td><td>Марина</td><td><span class="pill p-ok">сдано</span></td></tr>
+              <tr><td>20.01</td><td>Тепломонтаж</td><td>Сведения о стаже за год</td><td>Марина</td><td><span class="pill p-red">горит</span></td></tr>
+              <tr><td>26.01</td><td>Северная мебель</td><td>Декларация по НДС за IV квартал</td><td>Елена</td><td><span class="pill p-chk">в работе</span></td></tr>
+              <tr><td>26.01</td><td>Северная мебель</td><td>Расчёт по страховым взносам за год</td><td>Елена</td><td><span class="pill p-chk">в работе</span></td></tr>
+              <tr><td>26.01</td><td>Тепломонтаж</td><td>Расчёт по страховым взносам за год</td><td>Марина</td><td><span class="pill p-chk">в работе</span></td></tr>
+              <tr><td>26.01</td><td>Бюро Арт-Проект</td><td>Расчёт по страховым взносам за год</td><td>Марина</td><td><span class="pill p-chk">в работе</span></td></tr>
+              <tr><td>28.01</td><td>все клиенты</td><td>Уплата единого налогового платежа</td><td>Елена</td><td><span class="pill p-chk">в работе</span></td></tr>
+            </table></div>
+            <p style="font-size:12px;color:var(--appmut);margin-top:8px">Даты и виды отчётов условные. На курсе календарь собирается из вашего справочника сроков.</p>
+          </div>
+          <div id="v2" class="hide">
+            <div class="tw"><table>
+              <tr><th>Исполнитель</th><th>Услуга</th><th class="r">Выплачено в 2026, ₽</th><th>Что нашла нейросеть</th><th>Статус</th></tr>
+              <tr><td>Белова К. А.</td><td>администратор</td><td class="r">538 900</td><td class="w">до марта 2026 работала в штате. Бывшему работодателю НПД применять нельзя 2 года</td><td><span class="pill p-red">нельзя</span></td></tr>
+              <tr><td>Орлова М. В.</td><td>ведение соцсетей</td><td class="r">412 000</td><td class="w">одинаковая сумма 10 месяцев подряд, похоже на оклад</td><td><span class="pill p-red">риск</span></td></tr>
+              <tr><td>Лаптева О. Н.</td><td>уборка</td><td class="r">263 700</td><td class="w">статус НПД на дату выплаты 14.06 не подтверждён</td><td><span class="pill p-chk">проверьте</span></td></tr>
+              <tr><td>Мирзоев Р. Т.</td><td>дизайн буклетов</td><td class="r">74 500</td><td class="w">нет акта к одной выплате</td><td><span class="pill p-chk">проверьте</span></td></tr>
+              <tr><td>Зуев Д. П.</td><td>ремонт оборудования</td><td class="r">186 400</td><td class="w">—</td><td><span class="pill p-ok">ок</span></td></tr>
+            </table></div>
+            <p style="font-size:12px;color:var(--appmut);margin-top:8px">ООО «Лира-Дент». Список признаков вы задаёте сами и обновляете по актуальным разъяснениям.</p>
+          </div>
+        </div>
+      </div>
+      <div class="oncourse"><b>НА КУРСЕ ЭТО</b>Сводная таблица клиентов и календарь в Excel</div>
+      <p class="gain"><b>ЧТО ЭТО ДАЁТ</b>О риске превышения лимита вы узнаёте за месяцы до него. Подрядчиков проверяете раз в квартал по одному и тому же списку.</p>
+    </div>
+
+    <!-- 03 -->
+    <div class="task" id="k2">
+      <div class="thead">
+        <div><h3>Финмодель, которую можно крутить на встрече с собственником</h3>
+          <p>Модель собирается из ваших вводных: продажи, отсрочки, закупки, кредит. Меняете допущение и сразу видите деньги по месяцам.</p></div>
+        <div class="mod"><div class="k">СЕЙЧАС → С НЕЙРОСЕТЬЮ</div>
+          <div class="r2"><span>Модель на 12 месяцев</span><b>2–3 дня → полдня</b></div>
+          <div class="r2"><span>Новый сценарий</span><b>час → минута</b></div></div>
+      </div>
+      <div class="app">
+        <div class="bar"><i></i><i></i><i></i><span>финмодель · ООО «Северная мебель» · 2027</span></div>
+        <div class="body">
+          <div class="sl">
+            <div><label>Отсрочка покупателям, дней <b id="vd">45</b></label><input type="range" id="rd" min="15" max="60" step="5" value="45"></div>
+            <div><label>Кредит в марте, млн ₽ <b id="vk">0</b></label><input type="range" id="rk" min="0" max="3" step="0.5" value="0"></div>
+          </div>
+          <div class="kpis" id="fk"></div>
+          <div class="chart" id="ch"></div>
+          <div class="xl"><span>янв</span><span>фев</span><span>мар</span><span>апр</span><span>май</span><span>июн</span><span>июл</span><span>авг</span><span>сен</span><span>окт</span><span>ноя</span><span>дек</span></div>
+          <div class="ai-msg" id="fm"></div>
+          <div class="chk"><span class="ok">деньги на 31.12 совпадают в ОДДС и балансе</span><span class="ok">в ячейках формулы, без вписанных чисел</span><span class="q">допущения: рост цен поставщиков, сезонность</span></div>
+        </div>
+      </div>
+      <div class="oncourse"><b>НА КУРСЕ ЭТО</b>Модель в Excel со сценариями, все ячейки на формулах</div>
+      <p class="gain"><b>ЧТО ЭТО ДАЁТ</b>На вопрос собственника «а если» вы отвечаете на встрече, и пересчитывать вечером уже не нужно.</p>
+    </div>
+
+    <!-- 04 -->
+    <div class="task" id="k3">
+      <div class="thead">
+        <div><h3>Баланс и отчёт о финрезультатах за два года → выводы для руководителя</h3>
+          <p>Нейросеть считает показатели, сравнивает годы и пишет выводы обычным языком. Нажмите на любую цифру, чтобы увидеть, из какой строки она взята.</p></div>
+        <div class="mod"><div class="k">СЕЙЧАС → С НЕЙРОСЕТЬЮ</div>
+          <div class="r2"><span>Анализ за 2 года</span><b>день → ≈ 1 ч</b></div></div>
+      </div>
+      <div class="app">
+        <div class="bar"><i></i><i></i><i></i><span>анализ · ООО «Альфа-Снаб» · ОСНО · 2024–2025</span></div>
+        <div class="body">
+          <div class="tw"><table id="ft"></table></div>
+          <div class="src" id="src"></div>
+          <div style="margin-top:16px;font-size:13px;font-weight:600">Куда ушла прибыль, млн ₽</div>
+          <div class="wf" id="wf"></div>
+          <div class="row"><button class="btn" id="bconc">Выводы для руководителя</button></div>
+          <div class="ai-msg hide" id="conc"><div class="who">ВЫВОДЫ</div>Выручка выросла на 11%, примерно на уровне инфляции, а чистая прибыль упала на 40%. Основная причина в марже: закупочные цены росли быстрее отпускных. Дебиторка оборачивается на 17 дней дольше, в расчётах с покупателями стоит около 16 млн ₽ лишних денег. Что сделать первым: пересмотреть отпускные цены по трём основным группам товаров и ужесточить отсрочку для крупных покупателей.</div>
+          <div class="chk"><span class="ok">итоги актива и пассива сходятся</span><span class="q">коды строк сверьте со своей формой</span></div>
+        </div>
+      </div>
+      <div class="oncourse"><b>НА КУРСЕ ЭТО</b>Таблица показателей в Excel и страница выводов в Word</div>
+      <p class="gain"><b>ЧТО ЭТО ДАЁТ</b>Из двух форм отчётности получается одна страница выводов, по которой руководитель принимает решения.</p>
+    </div>
+
+    <!-- 05 -->
+    <div class="task" id="k4">
+      <div class="thead">
+        <div><h3>Договор поставки: первая вычитка и протокол разногласий</h3>
+          <p>Перед отправкой Обезличиватель прячет названия, ФИО и реквизиты. Нейросеть проверяет договор по вашему списку обязательных условий, а настоящие реквизиты возвращаются в готовый протокол.</p></div>
+        <div class="mod"><div class="k">СЕЙЧАС → С НЕЙРОСЕТЬЮ</div>
+          <div class="r2"><span>Вычитка договора на 12 стр.</span><b>1–1,5 ч → ≈ 25 мин</b></div>
+          <div class="r2"><span>Протокол разногласий</span><b>час → ≈ 15 мин</b></div></div>
+      </div>
+      <div class="app">
+        <div class="bar"><i></i><i></i><i></i><span>договоры · поставка, мы покупатель</span></div>
+        <div class="body">
+          <div class="chips" id="cs"><button class="on" disabled>1. Договор</button><button disabled>2. Что видит нейросеть</button><button disabled>3. Замечания</button><button disabled>4. Протокол</button></div>
+          <div id="d1"></div>
+          <div class="row"><button class="btn" id="bd">Обезличить</button><button class="btn alt hide" id="bdr">Начать заново</button></div>
+        </div>
+      </div>
+      <div class="oncourse"><b>НА КУРСЕ ЭТО</b>Документ с замечаниями и протокол разногласий в Word</div>
+      <p class="gain"><b>ЧТО ЭТО ДАЁТ</b>Каждый договор проверяется по одному списку, даже если он пришёл в конце долгого дня. Юрист получает от вас готовый список вопросов.</p>
+    </div>
+
+    <div class="also"><b>Процессы между отделами.</b> Тем же способом пишется регламент: вы описываете, как сейчас идёт, например, оплата счёта, нейросеть показывает, где теряются дни, и готовит регламент на одну страницу.</div>
+  </section>
+
+  <!-- калькулятор -->
+  <section class="section" id="calc">
+    <div class="tnum">ПОСЧИТАЙТЕ НА СВОИХ ЦИФРАХ</div>
+    <h2>Сколько часов в месяц это освобождает</h2>
+    <div class="app" style="margin-top:20px">
+      <div class="bar"><i></i><i></i><i></i><span>калькулятор</span></div>
+      <div class="body calc">
+        <div>
+          <label>Клиентов на сопровождении <b id="c1v">8</b></label><input type="range" id="c1" min="1" max="30" value="8">
+          <label>Договоров в месяц на проверку <b id="c2v">6</b></label><input type="range" id="c2" min="0" max="30" value="6">
+          <label>Часов в месяц на отчётность и модели <b id="c3v">12</b></label><input type="range" id="c3" min="0" max="60" value="12">
+          <label>Стоимость вашего часа, ₽ <b id="c4v">2 500</b></label><input type="range" id="c4" min="1000" max="6000" step="250" value="2500">
+        </div>
+        <div>
+          <div class="kpi"><div class="l">Освобождается в месяц</div><div class="big" id="ch1">18 <small>часов</small></div><div class="s" id="ch2">≈ 45 000 ₽ по стоимости вашего часа</div></div>
+          <div class="kpi" style="margin-top:10px"><div class="l">Тариф Профи окупается</div><div class="big" style="color:var(--cyd)" id="ch3">≈ 1,3 <small>мес</small></div></div>
+          <p class="note" style="color:var(--appmut)">Оценка осторожная. Первые недели уходят на то, чтобы собрать свои шаблоны и правила, экономия появляется после.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- люди -->
+  <section class="section">
+    <div class="tnum">НЕ ПРОТОТИПЫ, А ЛЮДИ</div>
+    <h2>Коллеги, которые уже прошли курс</h2>
+    <div class="people">
+      <a class="pp" href="https://cases-ai.fin-academy.pro/#k79db3" target="_blank" rel="noopener"><div class="k">АНДРЕЙ · ГЛАВНЫЙ БУХГАЛТЕР</div><h3>Из Контур.Экстерна в 1С через нейросеть</h3><p>Карточки ОС-1 из Контура нейросеть собрала в Excel под загрузку, и документы создались в 1С без ручного ввода.</p><span class="go">Читать историю →</span></a>
+      <a class="pp" href="https://cases-ai.fin-academy.pro/#k480ac" target="_blank" rel="noopener"><div class="k">ЕКАТЕРИНА П. · БУХГАЛТЕРСКАЯ КОМПАНИЯ</div><h3>Помощник пишет пояснения для налоговой</h3><p>Свой помощник готовит пояснения к балансу и ответы на требования для 100+ клиентов.</p><span class="go">Читать историю →</span></a>
+      <a class="pp" href="https://cases-ai.fin-academy.pro/#k9cfa2" target="_blank" rel="noopener"><div class="k">ОЛЯ С. · БУХГАЛТЕР</div><h3>Первичка, зарплата, банк</h3><p>С нейросетью пишет претензии, готовит с главбухом пояснения к балансу и делает дашборды.</p><span class="go">Читать историю →</span></a>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="tnum">КАК УЧИТЬСЯ В ЯНВАРЕ</div>
+    <h2>Годовая отчётность не помешает</h2>
+    <div class="how">
+      <div><b>Уроки в записи</b>Смотрите вечером или в выходные. Ведёт Софья Бурцева, финансовый директор, 16 лет в профессии.</div>
+      <div><b>Задания на своих файлах</b>Сдавать можно весь срок доступа, поэтому пик отчётности не выбьет вас из курса.</div>
+      <div><b>Есть кому задать вопрос</b>Куратор в чате, а нейрокуратор проверяет задания в любое время.</div>
+    </div>
+  </section>
+
+  <!-- тарифы -->
+  <section class="section" id="tarif">
+    <div class="tnum">КАКОЙ ТАРИФ</div>
+    <h2>Курс «AI-навыки финансиста», поток 11 января</h2>
+    <p class="lead">Курс с нуля, без программирования. Задания можно делать на документах своих клиентов и своей компании, поэтому к концу курса часть этих задач уже будет работать у вас.</p>
+    <div class="cards">
+      <div class="card">
+        <div class="k">БАЗА</div><h3>База</h3><div class="pr">49 990 ₽</div>
+        <div class="sub">≈ 8 330 ₽/мес · 5 недель · доступ 9 месяцев</div>
+        <p>Документы, таблицы и выгрузки, анализ отчётности, договоры. Нейрокуратор 24/7 и чат с куратором.</p>
+      </div>
+      <div class="card rec">
+        <div class="k">РЕКОМЕНДУЮ ВАМ</div><h3>Профи</h3><div class="pr">59 990 ₽</div>
+        <div class="sub">≈ 10 000 ₽/мес · 6 недель · доступ 12 месяцев</div>
+        <div class="plus">ВСЁ ИЗ БАЗЫ +</div>
+        <ul class="has">
+          <li><b>FinAILab</b> на всё время учёбы и ещё месяц после. Удобно отрабатывать финмодели и анализ отчётности из задач 03 и 04.</li>
+          <li><b>CFO-агент</b>: свой помощник, который отвечает руководителю по цифрам компании.</li>
+          <li><b>12 месяцев доступа.</b> Поток стартует в январе, на годовой отчётности. С запасом по времени вы спокойно проходите пик и возвращаетесь к урокам.</li>
+        </ul>
+        <p class="refund">Если в первые 2 недели обучения поймёте, что курс не ваш, вернём деньги полностью.</p>
+      </div>
+      <div class="card">
+        <div class="k">МАСТЕР AI</div><h3>Мастер AI</h3><div class="pr">79 990 ₽</div>
+        <div class="sub">≈ 13 330 ₽/мес · 7 недель · доступ 24 месяца</div>
+        <p>Всё из Профи плюс продажи и коммерческие предложения, тренер по продажам и 3 месяца в клубе «Финансист PRO». Имеет смысл, если подбор режимов и налоговое планирование вы продаёте клиентам как отдельную услугу.</p>
+      </div>
+    </div>
+    <p class="note">Можно начать с младшего тарифа и доплатить до старшего позже. Рассрочка до 6 месяцев без переплаты, первый платёж через месяц.</p>
+  </section>
+
+  <section class="section">
+    <div class="tnum">ВЫ СПРАШИВАЛИ</div>
+    <h2>Коротко про условия</h2>
+    <div class="qa">
+      <div><b>ЧТО НУЖНО ДОКУПИТЬ</b>Только свою нейросеть, обычно это платная подписка ChatGPT. Остальные инструменты курса уже входят в тариф.</div>
+      <div><b>FINAILAB</b>Отдельно платить не нужно: он входит в тарифы Профи и Мастер AI. Доступ на всё время обучения и ещё месяц после.</div>
+      <div><b>ОПЛАТА ЧЕРЕЗ КОМПАНИЮ</b>Да, выставим счёт на ООО или ИП, документы через Диадок. Для себя лично есть рассрочка до 6 месяцев без переплаты.</div>
+      <div><b>ЧТО МОЖНО ЗАГРУЖАТЬ В НЕЙРОСЕТЬ</b>Данные клиентов перед отправкой обезличиваются: на курсе есть Обезличиватель, он прячет ФИО, ИНН, счета и названия и возвращает их в готовый документ.</div>
+    </div>
+    <div class="end">
+      <h2>Начать можно с одного клиента</h2>
+      <p>Первым заданием на курсе может стать карточка одного вашего клиента: режим, лимиты и календарь. Дальше вы сами решите, какую задачу отдать нейросети следующей.</p>
+    </div>
+  </section>
+</div>
+<footer>Онлайн-школа «Мастер CFO» · fin-academy.pro/ai · учебные примеры, данные условные</footer>
+
+<script>
+function $(i){return document.getElementById(i)}
+function sp(n){return String(n).replace(/\B(?=(\d{3})+(?!\d))/g," ")}
+function f1(x){return (x<-0.049?"−":"")+Math.abs(x).toFixed(1).replace(".",",")}
+// меню
+document.querySelectorAll("#menu button").forEach(function(b){b.onclick=function(){var t=+b.dataset.t;
+ document.querySelectorAll("#menu button").forEach(function(x,i){x.className=i==t?"on":""});
+ document.querySelectorAll(".task").forEach(function(x,i){x.classList.toggle("on",i==t)});}});
+// боль
+var LA=["Выгоднее УСН «доходы минус расходы»: при производстве расходы высокие.","Рекомендую общую систему: у производителя много покупателей, которым нужен НДС.","Подойдёт УСН «доходы», если расходы подтверждать сложно."],li=0;
+$("bl").onclick=function(){if(li>=3){li=0;$("leftA").innerHTML="";$("lv").innerHTML="";}
+ $("leftA").insertAdjacentHTML("beforeend",'<div class="ans"><span class="n">ПОПЫТКА '+(li+1)+'</span>'+LA[li]+'</div>');li++;
+ $("lc").textContent="попытка "+li+" из 3";
+ if(li==3){$("lv").innerHTML='<span class="verdict bad">3 попытки: 3 разных вывода, источников нет</span>';this.textContent="Начать заново"}else this.textContent="Спросить ещё раз"};
+var RA=["Нагрузка ниже на УСН «доходы минус расходы»: 7,42 млн ₽ против 8,11 млн на ОСНО и 8,69 млн на УСН «доходы».","По расчёту меньше всего налогов на УСН «доходы минус расходы», 7,42 млн ₽. ОСНО 8,11 млн, УСН «доходы» 8,69 млн.","Лучший вариант по нагрузке: УСН «доходы минус расходы», 7,42 млн ₽ в год. Далее ОСНО 8,11 млн и УСН «доходы» 8,69 млн."];
+$("br").onclick=function(){var b=this;b.disabled=true;$("rightA").innerHTML="";$("rv").innerHTML="";var i=0;
+ var t=setInterval(function(){$("rightA").insertAdjacentHTML("beforeend",'<div class="ans"><span class="n">ПОПЫТКА '+(i+1)+'</span>'+RA[i]+'</div>');i++;
+  if(i==3){clearInterval(t);b.disabled=false;
+   $("rv").innerHTML='<div class="ai-msg"><div class="who">ИСТОЧНИКИ</div>выручка и расходы из ОСВ, ставки из справочника<div class="who" style="margin-top:6px">НЕ УВЕРЕНА</div>за август нет расходов на доставку, посчитала без них, уточните<div class="who" style="margin-top:6px">ПРОВЕРКА</div>выручка в расчёте = стр. 2110 (сверено)</div><span class="verdict good">3 попытки: одинаковые цифры и вывод, видно, откуда каждая цифра</span>'}},450)};
+// вкладки 02
+document.querySelectorAll("#tabs2 button").forEach(function(b){b.onclick=function(){var v=+b.dataset.v;
+ document.querySelectorAll("#tabs2 button").forEach(function(x,i){x.className=i==v?"on":""});
+ [0,1,2].forEach(function(i){$("v"+i).classList.toggle("hide",i!=v)})}});
+// финмодель
+var BASE=[1.86,0.94,-1.34,-0.62,0.18,0.91,1.47,1.22,0.85,1.39,1.96,2.42];
+function fm(){var d=+$("rd").value,k=+$("rk").value;$("vd").textContent=d;$("vk").textContent=f1(k);
+ var free=(45-d)*84.6/365;
+ var m=BASE.map(function(v,i){var x=v;if(i>=2)x+=free*(i<4?0.6:1);if(i>=2&&i<=5)x+=k;if(i>=6)x-=k*0.05;return x});
+ var mn=Math.min.apply(null,m),mi=m.indexOf(mn),mx=Math.max.apply(null,m.concat([0.5])),lo=Math.min(mn,0);
+ var H=170,sc=H/(mx-lo),z=mx*sc+10;
+ $("ch").innerHTML='<div class="zero" style="top:'+z+'px"></div>'+m.map(function(v){var h=Math.max(2,Math.abs(v)*sc),top=v>=0?z-h:z;
+  return '<div class="c"><i class="'+(v<0?'neg':'')+'" style="top:'+top+'px;height:'+h+'px"></i><em style="top:'+(v>=0?top-14:top+h+2)+'px">'+f1(v)+'</em></div>'}).join("");
+ var mon=["январе","феврале","марте","апреле","мае","июне","июле","августе","сентябре","октябре","ноябре","декабре"];
+ $("fk").innerHTML='<div class="kpi"><div class="l">Выручка 2027</div><div class="v">84,6 млн ₽</div><div class="s">план из карточки</div></div><div class="kpi"><div class="l">EBITDA</div><div class="v">9,1 млн ₽</div></div>'+
+  (mn<0?'<div class="kpi bad"><div class="l">Кассовый разрыв</div><div class="v">'+f1(mn)+' млн ₽</div><div class="s">в '+mon[mi]+'</div></div>':'<div class="kpi"><div class="l">Кассовый разрыв</div><div class="v" style="color:var(--cyd)">нет</div><div class="s">минимум '+f1(mn)+' млн ₽</div></div>')+
+  '<div class="kpi"><div class="l">Деньги на 31.12</div><div class="v">'+f1(m[11])+' млн ₽</div></div>';
+ $("fm").innerHTML='<div class="who">НЕЙРОСЕТЬ</div>'+(mn<0?'Разрыв в '+mon[mi]+': закупка сырья под весенний сезон приходится на отсрочку покупателям '+d+' дней. Варианты: сократить отсрочку крупным покупателям на 15 дней или взять кредит около 1,5 млн ₽ на 4 месяца, переплата около 74 тыс. ₽ (условно).':'При этих допущениях разрыва нет. Самый низкий остаток в '+mon[mi]+', '+f1(mn)+' млн ₽: стоит держать его под контролем.')}
+$("rd").oninput=fm;$("rk").oninput=fm;fm();
+// анализ
+var FR=[["Выручка, млн ₽","312,4","346,9","+11,0%","p-chk","≈ инфляция","ОФР, стр. 2110: 312 418 и 346 912 тыс. ₽"],
+ ["Валовая маржа","24,8%","21,3%","−3,5 п.п.","p-chk","внимание","ОФР, стр. 2100 / стр. 2110"],
+ ["Чистая прибыль, млн ₽","18,7","11,2","−40,1%","p-red","риск","ОФР, стр. 2400"],
+ ["Оборачиваемость дебиторки, дней","41","58","+17","p-red","риск","Баланс, стр. 1230 (среднее за год) / ОФР, стр. 2110 × 365"],
+ ["Оборачиваемость запасов, дней","37","44","+7","p-chk","внимание","Баланс, стр. 1210 (среднее) / ОФР, стр. 2120 × 365"],
+ ["Текущая ликвидность","1,42","1,08","−0,34","p-chk","внимание","Баланс, стр. 1200 / стр. 1500"],
+ ["Долг / EBITDA","1,9","3,1","+1,2","p-red","риск","Баланс, стр. 1410 + 1510 / (ОФР, стр. 2300 + 2330 + амортизация из пояснений)"],
+ ["Доля собственного капитала","34%","29%","−5 п.п.","p-chk","внимание","Баланс, стр. 1300 / стр. 1700"]];
+var h='<tr><th>Показатель</th><th class="r">2024</th><th class="r">2025</th><th class="r">Изменение</th><th>Оценка</th></tr>';
+FR.forEach(function(r,i){h+='<tr><td>'+r[0]+'</td><td class="r cl" data-i="'+i+'">'+r[1]+'</td><td class="r cl" data-i="'+i+'">'+r[2]+'</td><td class="r">'+r[3]+'</td><td><span class="pill '+r[4]+'">'+r[5]+'</span></td></tr>'});
+$("ft").innerHTML=h;
+document.querySelectorAll("#ft td.cl").forEach(function(td){td.onclick=function(){var s=$("src");s.style.display="block";s.textContent="ОТКУДА: "+FR[+td.dataset.i][6]}});
+var W=[["Прибыль 2024",0,18.7,"#8d989f"],["Рост выручки",18.7,27.3,"#1fb3ba"],["Падение маржи",15.2,27.3,"#d9363e"],["Проценты по кредитам",12.3,15.2,"#d9363e"],["Прочее",11.2,12.3,"#d9363e"],["Прибыль 2025",0,11.2,"#17212a"]];
+var VAL=["18,7","+8,6","−12,1","−2,9","−1,1","11,2"];
+$("wf").innerHTML=W.map(function(w,i){return '<div class="ln"><span>'+w[0]+'</span><div class="track"><i style="left:'+(w[1]/28*100)+'%;width:'+((w[2]-w[1])/28*100)+'%;background:'+w[3]+'"></i></div><b>'+VAL[i]+'</b></div>'}).join("");
+$("bconc").onclick=function(){$("conc").classList.remove("hide");this.disabled=true};
+// договор
+var step=1;
+var DOC='Общество с ограниченной ответственностью <mark>«Северная мебель»</mark> (ИНН <mark>7816452390</mark>), именуемое «Покупатель», в лице генерального директора <mark>Корнеева Павла Игоревича</mark>, и ООО <mark>«ЛесПромТорг»</mark>, именуемое «Поставщик», заключили договор о нижеследующем… Оплата на р/с <mark>40702810455000123456</mark>.';
+var MASK='Общество с ограниченной ответственностью <span class="tag">[КОМПАНИЯ_1]</span> (ИНН <span class="tag">[ИНН_1]</span>), именуемое «Покупатель», в лице генерального директора <span class="tag">[ФИО_1]</span>, и ООО <span class="tag">[КОМПАНИЯ_2]</span>, именуемое «Поставщик», заключили договор о нижеследующем… Оплата на р/с <span class="tag">[СЧЁТ_1]</span>.';
+var REM='<div class="kpis" style="grid-template-columns:repeat(3,1fr)"><div class="kpi"><div class="l">Замечаний</div><div class="v">5</div></div><div class="kpi bad"><div class="l">Высокий риск</div><div class="v">2</div></div><div class="kpi"><div class="l">Проверьте сами</div><div class="v">1</div></div></div><div class="tw"><table>'+
+ '<tr><th>Пункт</th><th>Что написано</th><th>Чем грозит</th><th>Уровень</th></tr>'+
+ '<tr><td>4.1</td><td class="w">предоплата 50%, срок поставки после оплаты не указан</td><td class="w">деньги уходят без гарантии сроков</td><td><span class="pill p-red">высокий</span></td></tr>'+
+ '<tr><td>5.3</td><td class="w">неустойка покупателя 0,5% в день без ограничения, у поставщика 0,1% с лимитом 10%</td><td class="w">ответственность сторон несимметрична</td><td><span class="pill p-red">высокий</span></td></tr>'+
+ '<tr><td>3.4</td><td class="w">приёмка по качеству «в момент передачи»</td><td class="w">скрытые дефекты потом не предъявить</td><td><span class="pill p-chk">средний</span></td></tr>'+
+ '<tr><td>6.2</td><td class="w">УПД передаётся «в разумный срок»</td><td class="w">вычет НДС может уйти в другой квартал</td><td><span class="pill p-chk">средний</span></td></tr>'+
+ '<tr><td>7.5</td><td class="w">не ясно, относится пункт к гарантии или к возврату товара</td><td class="w">прочитайте сами</td><td><span class="pill p-no">проверьте</span></td></tr></table></div>';
+var PROT='<div class="cmp"><div><div class="h">РЕДАКЦИЯ ПОСТАВЩИКА · П. 4.1</div>Покупатель вносит предоплату 50% в течение 3 дней с даты счёта.</div><div class="our"><div class="h">НАША РЕДАКЦИЯ</div>Покупатель вносит предоплату 50% в течение 3 дней с даты счёта. Поставщик поставляет товар не позднее 10 рабочих дней с даты предоплаты.</div>'+
+ '<div><div class="h">РЕДАКЦИЯ ПОСТАВЩИКА · П. 5.3</div>За просрочку оплаты Покупатель уплачивает неустойку 0,5% в день.</div><div class="our"><div class="h">НАША РЕДАКЦИЯ</div>За просрочку оплаты Покупатель уплачивает неустойку 0,1% в день, не более 10% от неоплаченной суммы.</div>'+
+ '<div><div class="h">РЕДАКЦИЯ ПОСТАВЩИКА · П. 3.4</div>Приёмка по качеству производится в момент передачи товара.</div><div class="our"><div class="h">НАША РЕДАКЦИЯ</div>Скрытые недостатки Покупатель вправе заявить в течение 30 дней с даты приёмки.</div></div>'+
+ '<p style="font-size:13px;color:var(--appmut);margin-top:10px">Реквизиты в протоколе снова настоящие: <mark style="background:#fff1b8">ООО «Северная мебель»</mark>, <mark style="background:#fff1b8">Корнеев П. И.</mark> Нейросеть делает первую вычитку, юрист получает от вас список вопросов.</p>';
+function dstep(n){step=n;$("d1").innerHTML=n==1?'<div class="doc">'+DOC+'</div>':n==2?'<div class="doc">'+MASK+'</div><p style="font-size:13px;color:var(--appmut);margin-top:8px">5 фрагментов спрятано. Нейросеть видит только метки.</p>':n==3?REM:PROT;
+ document.querySelectorAll("#cs button").forEach(function(x,i){x.className=i+1==n?"on":""});
+ $("bd").textContent=n==1?"Обезличить":n==2?"Проверить по списку условий":n==3?"Собрать протокол":"";$("bd").classList.toggle("hide",n==4);$("bdr").classList.toggle("hide",n!=4)}
+$("bd").onclick=function(){dstep(step+1)};$("bdr").onclick=function(){dstep(1)};dstep(1);
+// калькулятор
+function calc(){var a=+$("c1").value,b=+$("c2").value,c=+$("c3").value,p=+$("c4").value;
+ $("c1v").textContent=a;$("c2v").textContent=b;$("c3v").textContent=c;$("c4v").textContent=sp(p);
+ var hrs=Math.round(a*1.1+b*0.75+c*0.4),money=hrs*p;
+ $("ch1").innerHTML=hrs+' <small>часов</small>';$("ch2").textContent="≈ "+sp(money)+" ₽ по стоимости вашего часа";
+ $("ch3").innerHTML=(money>0?'≈ '+f1(59990/money):'—')+' <small>мес</small>'}
+["c1","c2","c3","c4"].forEach(function(i){$(i).oninput=calc});calc();
+</script>
+</body>
+</html>
