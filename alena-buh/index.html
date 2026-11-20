@@ -1,0 +1,366 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Нейросети в бухгалтерии — Алёна</title>
+<meta name="robots" content="noindex">
+<style>
+:root{
+  --bg:#1d2125;--panel:#262b30;--panel2:#22393d;--line:#343a40;--tx:#eef2f4;--tx2:#c3ccd2;--mut:#8d989f;
+  --ac:#34d9e0;--onac:#0e1a1c;
+  --app:#ffffff;--app2:#f4f6f8;--appline:#e3e7eb;--apptx:#17212a;--appmut:#6a7681;
+  --red:#d9363e;--amber:#b46a00;--green:#16884f;--blue:#2f6fe4;
+  --mono:"JetBrains Mono",Consolas,Menlo,monospace;--body:"Segoe UI",-apple-system,Roboto,Arial,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{background:var(--bg);scroll-behavior:smooth}
+html,body{overflow-x:hidden}
+body{background:radial-gradient(800px 520px at 100% 0,rgba(52,217,224,.14),transparent 70%) no-repeat,var(--bg);color:var(--tx);font-family:var(--body);line-height:1.5;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1060px;margin:0 auto;padding:0 16px}
+button{font:inherit;cursor:pointer}
+.top{display:flex;justify-content:space-between;gap:12px;font:12px var(--mono);color:var(--mut);letter-spacing:.08em;padding:22px 0 0}
+.top b{color:var(--ac)}
+.hero{padding:44px 0 28px}
+.eb{font:700 12px var(--mono);letter-spacing:.12em;color:var(--ac);margin-bottom:14px}
+h1{font-size:clamp(28px,4.8vw,46px);line-height:1.12;font-weight:700;margin-bottom:16px}
+h1 em{font-style:normal;color:var(--ac)}
+h2{font-size:clamp(23px,3.2vw,32px);line-height:1.18;margin-bottom:10px}
+.lead{font-size:18px;color:var(--tx2);max-width:760px}
+.note{font-size:13px;color:var(--mut);margin-top:14px}
+.section{padding:44px 0 8px;border-top:1px solid var(--line)}
+.tnum{font:700 12px var(--mono);color:var(--ac);letter-spacing:.1em;margin-bottom:10px}
+
+.desk{display:grid;grid-template-columns:260px 1fr;gap:16px;margin-top:8px}
+.menu{display:flex;flex-direction:column;gap:8px}
+.menu button{text-align:left;background:var(--panel);border:1px solid var(--line);color:var(--tx);border-radius:12px;padding:12px 14px;font-size:15px;line-height:1.3}
+.menu button span{display:block;font:700 11px var(--mono);color:var(--mut);letter-spacing:.08em;margin-bottom:3px}
+.menu button.on{border-color:var(--ac);background:var(--panel2)}
+.menu button.on span{color:var(--ac)}
+.task h3{font-size:22px;line-height:1.25;margin-bottom:6px}
+.task>p{color:var(--tx2);margin-bottom:14px}
+.vs{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.vs div{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px 14px;font-size:14px;color:var(--tx2)}
+.vs b{display:block;font:700 11px var(--mono);letter-spacing:.08em;margin-bottom:4px;color:var(--mut)}
+.vs div:last-child{border-color:#2b6c70}
+.vs div:last-child b{color:var(--ac)}
+.app{background:var(--app);color:var(--apptx);border-radius:14px;overflow:hidden;box-shadow:0 18px 50px rgba(0,0,0,.35)}
+.bar{display:flex;align-items:center;gap:8px;background:var(--app2);border-bottom:1px solid var(--appline);padding:9px 14px;font:12px var(--mono);color:var(--appmut)}
+.bar i{width:10px;height:10px;border-radius:50%;background:#d6dce1;display:inline-block;flex:none}
+.bar span{margin-left:8px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.body{padding:16px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.chips button{border:1px solid var(--appline);background:#fff;border-radius:8px;padding:6px 11px;font-size:13.5px;color:var(--apptx)}
+.chips button.on{background:var(--apptx);color:#fff;border-color:var(--apptx)}
+.hint{font-size:13px;color:var(--appmut);margin:-4px 0 10px}
+.btn{border:0;background:var(--apptx);color:#fff;border-radius:10px;padding:10px 16px;font-weight:600;font-size:14px}
+.btn.alt{background:#fff;color:var(--apptx);border:1px solid var(--appline)}
+.btn:disabled{opacity:.55;cursor:default}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:12px}
+.src{background:var(--app2);border-radius:10px;padding:12px 14px;font-size:14px;color:var(--apptx)}
+.src .k{font:700 11px var(--mono);letter-spacing:.08em;color:var(--appmut);margin-bottom:4px}
+.out{margin-top:12px;background:#effafb;border:1px solid #c8eef0;border-radius:12px;padding:12px 14px;font-size:14px}
+.out .k{font:700 11px var(--mono);letter-spacing:.08em;color:#0b7f86;margin-bottom:4px}
+.out ul{margin:6px 0 0 18px}
+.letter{margin-top:10px;background:#fff;border:1px solid var(--appline);border-radius:10px;padding:12px 14px;font-size:14px;line-height:1.6}
+.tw{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:13.5px;min-width:520px}
+th,td{padding:8px 9px;border-bottom:1px solid var(--appline);text-align:left;white-space:nowrap}
+th{font:600 12px var(--body);color:var(--appmut);background:var(--app2)}
+.r{text-align:right}
+tr.tot td{font-weight:700;border-top:2px solid var(--apptx)}
+.pill{display:inline-block;font-size:12px;font-weight:600;border-radius:20px;padding:2px 9px}
+.p-ok{background:#e6f6ee;color:var(--green)}
+.p-chk{background:#fff2df;color:var(--amber)}
+.p-bad{background:#fde8e9;color:var(--red)}
+.hide{display:none}
+.mark{background:#fff2b8;border-radius:3px;padding:0 2px}
+.hid{background:#e7ecf0;color:#5b6872;border-radius:3px;padding:0 3px;font-family:var(--mono);font-size:12.5px}
+.doc{background:var(--app2);border-radius:10px;padding:14px;font-size:14px;line-height:1.65}
+.doc .k{font:700 11px var(--mono);letter-spacing:.08em;color:var(--appmut);margin-bottom:4px}
+.where{margin-top:14px;font-size:14px;color:var(--mut)}
+.where b{font:700 11px var(--mono);letter-spacing:.08em;margin-right:6px}
+.gain{margin-top:12px;font-size:15px;color:var(--tx2);padding-left:12px;border-left:3px solid var(--ac)}
+.gain a{color:var(--ac)}
+
+.people{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:20px}
+.pp{display:block;text-decoration:none;color:var(--tx);background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px}
+.pp:hover{border-color:var(--ac)}
+.pp .k{font:700 11px var(--mono);letter-spacing:.08em;color:var(--mut)}
+.pp h3{font-size:17px;line-height:1.3;margin:6px 0}
+.pp p{font-size:14px;color:var(--tx2)}
+.pp .go{display:inline-block;margin-top:10px;font:700 12px var(--mono);color:var(--ac)}
+.how{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:20px}
+.how div{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;font-size:14px;color:var(--tx2)}
+.how b{display:block;color:var(--tx);font-size:16px;margin-bottom:4px}
+
+.cards{display:grid;grid-template-columns:1fr 1.15fr 1fr;gap:14px;margin-top:20px;align-items:stretch}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px}
+.card.rec{border-color:var(--ac);box-shadow:0 0 0 1px var(--ac) inset}
+.card .k{font:700 11px var(--mono);letter-spacing:.1em;color:var(--mut)}
+.card.rec .k{color:var(--ac)}
+.card h3{font-size:23px;margin:6px 0 2px}
+.card .pr{font-size:20px;font-weight:700}
+.card .sub{font-size:13px;color:var(--mut);margin-bottom:12px}
+.card p{font-size:14px;color:var(--tx2)}
+.card p b{color:var(--tx)}
+.refund{font-size:13px;color:var(--ac);margin-top:12px}
+.start{margin:24px 0 60px;background:var(--panel2);border:1px solid #2b6c70;border-radius:16px;padding:20px 22px}
+.start b{display:block;font-size:20px;margin-bottom:4px}
+.start p{color:var(--tx2)}
+footer{font-size:12px;color:var(--mut);text-align:center;padding:0 0 30px}
+@media (max-width:820px){
+  .desk{grid-template-columns:1fr}
+  .menu{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .menu button{font-size:14px;padding:10px 12px}
+  .vs,.cards,.people,.how{grid-template-columns:1fr}
+  .top{flex-direction:column;gap:4px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><span>МАСТЕР CFO · <b>AI-НАВЫКИ ФИНАНСИСТА</b></span><span>ЛИЧНАЯ ПОДБОРКА ДЛЯ АЛЁНЫ</span></div>
+
+  <section class="hero">
+    <div class="eb">НЕЙРОСЕТИ В БУХГАЛТЕРИИ</div>
+    <h1>Алёна, вот пять задач бухгалтера, <em>которые после курса делаются в разы быстрее</em></h1>
+    <p class="lead">Вы уже работаете с нейросетями, поэтому здесь собрано то, что в обычном чате получается с трудом: пачки документов, выгрузки из 1С, правила, которые срабатывают каждый месяц сами. Каждую задачу можно понажимать.</p>
+    <p class="note">Все документы, контрагенты и суммы условные.</p>
+  </section>
+
+  <section class="section">
+    <div class="desk">
+      <div class="menu" id="menu">
+        <button class="on" data-t="t1"><span>01</span>Требование из налоговой</button>
+        <button data-t="t2"><span>02</span>Выписка по статьям</button>
+        <button data-t="t3"><span>03</span>ОСВ 62 и просрочка</button>
+        <button data-t="t4"><span>04</span>Акт сверки</button>
+        <button data-t="t5"><span>05</span>Данные без риска</button>
+      </div>
+
+      <div id="tasks">
+        <!-- 1 требование -->
+        <div class="task" id="t1">
+          <h3>Ответ на требование о пояснениях</h3>
+          <p>Требование пришло в Контур.Экстерн. Вы загружаете его и данные декларации, нейросеть готовит черновик пояснения со ссылками на статьи НК и список документов, которые стоит приложить. Вы проверяете и отправляете.</p>
+          <div class="vs"><div><b>В ЧАТЕ СЕЙЧАС</b>Каждый раз объяснять ситуацию заново и перепроверять, не выдумала ли нейросеть статью кодекса</div><div><b>ПОСЛЕ КУРСА</b>Свой помощник по требованиям: знает вашу компанию, проверяет ссылки на нормы и сам говорит, где не уверен</div></div>
+          <div class="app"><div class="bar"><i></i><i></i><i></i><span>Помощник по требованиям ФНС</span></div><div class="body">
+            <div class="chips" id="c1">
+              <button class="on" data-k="nds">Расхождения по НДС</button>
+              <button data-k="ub">Убыток в декларации</button>
+              <button data-k="nag">Снижение налоговой нагрузки</button>
+            </div>
+            <div class="src"><div class="k" id="r1n"></div><span id="r1q"></span></div>
+            <div class="row"><button class="btn" id="b1">Подготовить пояснение</button></div>
+            <div class="out hide" id="r1"></div>
+          </div></div>
+          <div class="where"><b>ГДЕ УЧАТ</b>Модуль «Документы»: письма и нормативные акты · Модуль «База»: как проверять ссылки и не верить выдуманным</div>
+          <p class="gain">Ответ на типовое требование вы проверяете и подписываете, а не пишете с нуля.</p>
+        </div>
+
+        <!-- 2 выписка -->
+        <div class="task hide" id="t2">
+          <h3>Банковская выписка по статьям одной кнопкой</h3>
+          <p>Вы один раз задаёте справочник статей и правила, дальше каждая новая выписка разносится сама. Спорные платежи помечаются, и решаете по ним вы.</p>
+          <div class="vs"><div><b>В ЧАТЕ СЕЙЧАС</b>Каждый месяц вставлять выписку и заново объяснять, куда что относить</div><div><b>ПОСЛЕ КУРСА</b>Правила живут в таблице, кнопка разносит выписку за секунды, новые контрагенты запоминаются</div></div>
+          <div class="app"><div class="bar"><i></i><i></i><i></i><span>Выписка · октябрь</span></div><div class="body">
+            <div class="tw"><table id="tb2"></table></div>
+            <div class="row"><button class="btn" id="b2">Разнести по статьям</button><span id="s2" style="font-size:13px;color:var(--appmut)"></span></div>
+          </div></div>
+          <div class="where"><b>ГДЕ УЧАТ</b>Модуль «Автоматизация в таблицах»: справочник статей и разнесение выписки</div>
+          <p class="gain">Этот урок можно попробовать бесплатно уже сегодня: <a href="https://fin-academy.pro/testdriveai" target="_blank" rel="noopener">тест-драйв по выписке</a>, 20 минут.</p>
+        </div>
+
+        <!-- 3 ОСВ -->
+        <div class="task hide" id="t3">
+          <h3>ОСВ по 62 счёту → кто и сколько просрочил</h3>
+          <p>Выгрузка из 1С с многоуровневой шапкой и пустыми строками превращается в ровную таблицу, а из неё в список должников с просрочкой и готовыми письмами.</p>
+          <div class="vs"><div><b>В ЧАТЕ СЕЙЧАС</b>Нейросеть путается в объединённых ячейках выгрузки, и результат приходится сверять вручную</div><div><b>ПОСЛЕ КУРСА</b>Вы знаете, как подготовить выгрузку, чтобы нейросеть поняла её с первого раза, и проверяете итог за минуту</div></div>
+          <div class="app"><div class="bar"><i></i><i></i><i></i><span>ОСВ 62 · на 31.10</span></div><div class="body">
+            <div class="chips" id="c3"><button class="on" data-v="raw">Как выгружает 1С</button><button data-v="flat">После нейросети</button></div>
+            <p class="hint" id="h3">Нажмите «После нейросети», чтобы увидеть результат</p>
+            <div class="tw"><table id="tb3"></table></div>
+            <div class="out hide" id="r3"><div class="k">НЕЙРОСЕТЬ</div>Просрочка у двух покупателей на 412 000 ₽. Больше всего у ООО «Ромашка», 287 000 ₽, 64 дня. Подготовила для обоих письма-напоминания.
+              <div class="row"><button class="btn alt" id="b3">Показать письмо «Ромашке»</button></div>
+              <div class="letter hide" id="l3">Добрый день! По данным нашего учёта, на 31.10 за ООО «Ромашка» числится задолженность 287 000 ₽ по договору № 12/24 от 10.01, срок оплаты истёк 28.08. Просим погасить её до 10.11 или прислать подписанный акт сверки, если по вашим данным сумма другая. Акт сверки во вложении.</div>
+            </div>
+          </div></div>
+          <div class="where"><b>ГДЕ УЧАТ</b>Модуль «Расчёты и анализ»: нормализация ОСВ · Модуль «База»: письма дебиторам</div>
+          <p class="gain">Вместо ручной чистки выгрузки вы сразу видите, кому звонить.</p>
+        </div>
+
+        <!-- 4 акт сверки -->
+        <div class="task hide" id="t4">
+          <h3>Акт сверки: откуда разница</h3>
+          <p>Поставщик прислал свой акт, и сальдо не сходится. Нейросеть сопоставляет обе стороны по документам и показывает, из чего складывается разница.</p>
+          <div class="vs"><div><b>В ЧАТЕ СЕЙЧАС</b>Построчно сравнивать два акта глазами или формулами</div><div><b>ПОСЛЕ КУРСА</b>Загрузили два файла и сразу видите документы, которые дают разницу</div></div>
+          <div class="app"><div class="bar"><i></i><i></i><i></i><span>Сверка с ООО «ТехСнаб» · III квартал · наш долг</span></div><div class="body">
+            <div class="tw"><table id="tb4"></table></div>
+            <div class="row"><button class="btn" id="b4">Найти расхождения</button></div>
+            <div class="out hide" id="r4"><div class="k">НЕЙРОСЕТЬ</div>Разница 86 400 ₽ складывается из двух документов: УПД № 418 от 29.09 на 54 000 ₽ ещё не отражён у вас, а оплата п/п № 1203 на 32 400 ₽ у поставщика прошла уже в октябре. Ошибок в учёте нет, нужна пометка в акте.</div>
+          </div></div>
+          <div class="where"><b>ГДЕ УЧАТ</b>Модуль «Расчёты и анализ»: формулы и сопоставление · Модуль «Автоматизация в таблицах»</div>
+          <p class="gain">Сверка с поставщиком перестаёт съедать полдня в конце квартала.</p>
+        </div>
+
+        <!-- 5 обезличивание -->
+        <div class="task hide" id="t5">
+          <h3>Работать с реальными документами и не бояться за данные</h3>
+          <p>Перед отправкой в нейросеть ФИО, ИНН, счета и телефоны заменяются метками. Нейросеть работает с текстом, а настоящие данные остаются у вас и возвращаются в готовый ответ.</p>
+          <div class="vs"><div><b>В ЧАТЕ СЕЙЧАС</b>Либо вручную вычищать договор, либо рисковать и отправлять как есть</div><div><b>ПОСЛЕ КУРСА</b>Обезличиватель прячет данные за секунду, а в ответ нейросети настоящие реквизиты подставляются обратно</div></div>
+          <div class="app"><div class="bar"><i></i><i></i><i></i><span>Обезличиватель</span></div><div class="body">
+            <div class="chips" id="c5"><button class="on" disabled>1. Ваш договор</button><button disabled>2. Что видит нейросеть</button><button disabled>3. Ответ с реквизитами</button></div>
+            <div class="doc" id="d5"></div>
+            <div class="row"><button class="btn" id="b5">Обезличить</button><span id="s5" style="font-size:13px;color:var(--appmut)"></span></div>
+          </div></div>
+          <div class="where"><b>ГДЕ УЧАТ</b>Модуль «База»: безопасность данных · Обезличиватель — один из бонусов раннего входа</div>
+          <p class="gain">Можно спокойно отдавать нейросети настоящие договоры и выгрузки компании.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="tnum">НЕ ПРОТОТИПЫ, А ЛЮДИ</div>
+    <h2>Бухгалтеры, которые уже прошли курс</h2>
+    <div class="people">
+      <a class="pp" href="https://cases-ai.fin-academy.pro/#k79db3" target="_blank" rel="noopener"><div class="k">АНДРЕЙ · ГЛАВНЫЙ БУХГАЛТЕР</div><h3>Из Контур.Экстерна в 1С через нейросеть</h3><p>Карточки ОС-1 из Контура нейросеть собрала в Excel под загрузку, и документы создались в 1С без ручного ввода.</p><span class="go">Читать историю →</span></a>
+      <a class="pp" href="https://cases-ai.fin-academy.pro/#k9cfa2" target="_blank" rel="noopener"><div class="k">ОЛЯ С. · БУХГАЛТЕР</div><h3>Первичка, зарплата, банк</h3><p>С нейросетью пишет претензии, готовит с главбухом пояснения к балансу и делает дашборды.</p><span class="go">Читать историю →</span></a>
+      <a class="pp" href="https://cases-ai.fin-academy.pro/#k480ac" target="_blank" rel="noopener"><div class="k">ЕКАТЕРИНА П. · БУХГАЛТЕРСКАЯ КОМПАНИЯ</div><h3>Помощник пишет пояснения для налоговой</h3><p>Свой помощник готовит пояснения к балансу и ответы на требования для 100+ клиентов.</p><span class="go">Читать историю →</span></a>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="tnum">КАК УЧИТЬСЯ ПРИ ВАШЕЙ ЗАГРУЗКЕ</div>
+    <h2>Отчётность не помешает</h2>
+    <div class="how">
+      <div><b>Уроки в записи</b>Смотрите вечером или в выходные, когда удобно. Ведёт Софья Бурцева, финансовый директор, 16 лет в профессии.</div>
+      <div><b>Задания на своих файлах</b>Сдавать можно весь срок доступа, поэтому квартальная сдача не выбьет вас из курса.</div>
+      <div><b>Есть кому задать вопрос</b>Куратор в чате, а нейрокуратор проверяет задания в любое время.</div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="tnum">КАКОЙ ТАРИФ</div>
+    <h2>Все пять задач есть уже на Базе</h2>
+    <p class="lead">Разница между тарифами в том, сколько времени у вас будет на учёбу и куда расти дальше.</p>
+    <div class="cards">
+      <div class="card">
+        <div class="k">БАЗОВЫЕ МОДУЛИ</div>
+        <h3>База</h3>
+        <div class="pr">49 990 ₽</div>
+        <div class="sub">≈ 8 330 ₽/мес · доступ 9 месяцев</div>
+        <p>Все пять задач со страницы плюс договоры, регламенты, дашборды и учёт наличных. Хватит, если хотите разгрузить рутину и учиться без пауз.</p>
+      </div>
+      <div class="card rec">
+        <div class="k">РЕКОМЕНДУЮ ВАМ · БАЗА + FINAILAB, БОЛЬШИЕ ФАЙЛЫ, МАРКЕТИНГ</div>
+        <h3>Профи</h3>
+        <div class="pr">59 990 ₽</div>
+        <div class="sub">≈ 10 000 ₽/мес · доступ 12 месяцев</div>
+        <p><b>Год доступа.</b> Отчётные периоды обязательно выпадут на время учёбы, и с годом в запасе вы спокойно пропускаете квартальную сдачу и возвращаетесь.</p>
+        <p style="margin-top:8px"><b>FinAILab и работа с большими файлами.</b> Из ОСВ и выписок вы готовите руководителю выводы: где деньги, где риски. Так бухгалтер становится тем, к кому идут за решением.</p>
+        <p class="refund">Если в первые 2 недели поймёте, что курс не ваш, вернём деньги полностью.</p>
+      </div>
+      <div class="card">
+        <div class="k">ВСЁ + ПРОДАЖИ</div>
+        <h3>Мастер AI</h3>
+        <div class="pr">79 990 ₽</div>
+        <div class="sub">≈ 13 330 ₽/мес · доступ 24 месяца</div>
+        <p>Сверх Профи — продажи своей экспертизы и КП. Нужен, если вы ведёте клиентов на аутсорсе и хотите их привлекать.</p>
+      </div>
+    </div>
+    <p class="note">Рассрочка без переплаты, первый платёж через месяц. Можно начать с Базы и доплатить до Профи позже.</p>
+    <div class="start"><b>Поток стартует 11 января</b><p>До 30 ноября действует ранний вход: к любому тарифу вы выбираете 3 бонуса из 7, например скидку 5 000 ₽, Обезличиватель или спецкурс по финмоделям.</p></div>
+  </section>
+</div>
+<footer>Онлайн-школа «Мастер CFO» · fin-academy.pro/ai · учебные примеры, данные условные</footer>
+
+<script>
+function $(id){return document.getElementById(id)}
+function money(x){return x.toLocaleString("ru-RU")}
+function think(btn,label,cb){btn.disabled=true;btn.textContent="Готовлю…";setTimeout(function(){btn.disabled=false;btn.textContent=label;cb()},900)}
+
+/* меню */
+document.querySelectorAll("#menu button").forEach(function(b){b.onclick=function(){
+  document.querySelectorAll("#menu button").forEach(function(x){x.classList.remove("on")});b.classList.add("on");
+  ["t1","t2","t3","t4","t5"].forEach(function(t){$(t).classList.toggle("hide",t!=b.dataset.t)});
+  if(window.innerWidth<820)$("tasks").scrollIntoView({behavior:"smooth",block:"start"});
+}});
+
+/* 1. требование */
+var REQ={
+ nds:{n:"ТРЕБОВАНИЕ № 12-07/4415 ОТ 14.11",q:"Пояснить расхождения: НДС к вычету по контрагенту ООО «Вектор» за III квартал не подтверждается декларацией продавца (расхождение 48 200 ₽).",
+  a:"<div class='k'>ЧЕРНОВИК ПОЯСНЕНИЯ</div>В ответ на требование № 12-07/4415 от 14.11 сообщаем: вычет по счёту-фактуре № 311 от 14.08 заявлен правомерно на основании п. 1 ст. 172 НК РФ, товар принят к учёту, оплата произведена. Расхождение возникло из-за того, что продавец отразил счёт-фактуру в IV квартале.<ul><li>Приложить: счёт-фактуру № 311, УПД, платёжное поручение</li><li>Проверить: подал ли ООО «Вектор» уточнённую декларацию</li><li>Не уверена: дату принятия товара к учёту, сверьте с 1С</li></ul>"},
+ ub:{n:"ТРЕБОВАНИЕ № 12-07/4502 ОТ 15.11",q:"Пояснить причины убытка по налогу на прибыль за 9 месяцев (убыток 1,2 млн ₽).",
+  a:"<div class='k'>ЧЕРНОВИК ПОЯСНЕНИЯ</div>В ответ на требование № 12-07/4502 от 15.11 сообщаем: убыток за 9 месяцев связан с сезонностью продаж и разовыми расходами на ремонт склада (ст. 260 НК РФ). Выручка IV квартала по заключённым договорам покрывает убыток, компания ожидает прибыль по итогам года.<ul><li>Приложить: расшифровку расходов на ремонт, перечень договоров на IV квартал</li><li>Проверить: что расходы на ремонт не относятся к модернизации</li></ul>"},
+ nag:{n:"ТРЕБОВАНИЕ № 12-07/4519 ОТ 17.11",q:"Пояснить причины снижения налоговой нагрузки ниже среднеотраслевой.",
+  a:"<div class='k'>ЧЕРНОВИК ПОЯСНЕНИЯ</div>В ответ на требование № 12-07/4519 от 17.11 сообщаем: снижение нагрузки вызвано ростом закупочных цен у поставщиков при фиксированных ценах по долгосрочным договорам с покупателями. Наценка снизилась с 24% до 17%, все расходы документально подтверждены.<ul><li>Приложить: сравнение наценки по кварталам, пример договора с фиксированной ценой</li><li>Проверить: среднеотраслевую нагрузку по вашему ОКВЭД на сайте ФНС</li></ul>"}
+};
+var rk="nds";
+function q1(){$("r1n").textContent=REQ[rk].n;$("r1q").textContent=REQ[rk].q;$("r1").classList.add("hide")}
+document.querySelectorAll("#c1 button").forEach(function(b){b.onclick=function(){document.querySelectorAll("#c1 button").forEach(function(x){x.classList.remove("on")});b.classList.add("on");rk=b.dataset.k;q1()}});
+$("b1").onclick=function(){var b=this;$("r1").classList.add("hide");think(b,"Подготовить пояснение",function(){$("r1").innerHTML=REQ[rk].a;$("r1").classList.remove("hide")})};q1();
+
+/* 2. выписка */
+var B=[["02.10","ООО «ТехСнаб»","Оплата по сч. 418 за материалы",-154000,"Закупка материалов","ok"],
+ ["03.10","ООО «Ромашка»","Оплата по договору 12/24",254000,"Выручка от покупателей","ok"],
+ ["05.10","УФК (ИФНС № 15)","ЕНП",-96400,"Налоги","ok"],
+ ["07.10","ИП Соколов","Аренда за октябрь",-60000,"Аренда","ok"],
+ ["09.10","ООО «Альфа»","Возврат по счёту 77",18500,"Возврат — проверить","chk"],
+ ["10.10","Зарплатный проект","Перечисление зарплаты",-412000,"Оплата труда","ok"],
+ ["12.10","ООО «Новый партнёр»","Оплата по счёту 9",-25300,"Новый контрагент — уточнить","chk"]];
+var done2=false;
+function d2(){var h='<tr><th>Дата</th><th>Контрагент</th><th>Назначение</th><th class="r">Сумма, ₽</th><th>Статья</th></tr>';
+ B.forEach(function(r){h+='<tr><td>'+r[0]+'</td><td>'+r[1]+'</td><td>'+r[2]+'</td><td class="r">'+money(r[3])+'</td><td>'+(done2?'<span class="pill '+(r[5]=="ok"?"p-ok":"p-chk")+'">'+r[4]+'</span>':'<span style="color:#9aa4ad">—</span>')+'</td></tr>'});
+ $("tb2").innerHTML=h}
+$("b2").onclick=function(){var b=this;
+ if(done2){done2=false;d2();b.textContent="Разнести по статьям";$("s2").textContent="";return}
+ think(b,"Сбросить",function(){done2=true;d2();$("s2").textContent="5 из 7 разнесены, 2 спорных — решение за вами"})};d2();
+
+/* 3. ОСВ */
+var RAW='<tr><th colspan="2">Счёт 62</th><th class="r" colspan="2">Сальдо на начало</th><th class="r" colspan="2">Обороты</th><th class="r">Сальдо на конец</th></tr>'+
+ '<tr><th>Контрагенты</th><th>Договоры</th><th class="r">Дт</th><th class="r">Кт</th><th class="r">Дт</th><th class="r">Кт</th><th class="r">Дт</th></tr>'+
+ '<tr><td><b>ООО «Ромашка»</b></td><td></td><td class="r">287 000</td><td></td><td class="r">254 000</td><td class="r">254 000</td><td class="r">287 000</td></tr>'+
+ '<tr><td></td><td>Дог. 12/24 от 10.01</td><td class="r">287 000</td><td></td><td class="r">254 000</td><td class="r">254 000</td><td class="r">287 000</td></tr>'+
+ '<tr><td><b>ООО «Вектор»</b></td><td></td><td class="r">125 000</td><td></td><td></td><td></td><td class="r">125 000</td></tr>'+
+ '<tr><td></td><td>Дог. 5 от 01.03</td><td class="r">125 000</td><td></td><td></td><td></td><td class="r">125 000</td></tr>'+
+ '<tr><td><b>ИП Лебедева</b></td><td></td><td></td><td></td><td class="r">48 000</td><td class="r">48 000</td><td class="r">0</td></tr>'+
+ '<tr><td colspan="7" style="color:#9aa4ad">… объединённые ячейки, промежуточные итоги, пустые строки</td></tr>';
+var FLAT='<tr><th>Покупатель</th><th>Договор</th><th class="r">Долг, ₽</th><th class="r">Дней просрочки</th><th>Статус</th></tr>'+
+ '<tr><td>ООО «Ромашка»</td><td>12/24</td><td class="r">287 000</td><td class="r">64</td><td><span class="pill p-bad">просрочка</span></td></tr>'+
+ '<tr><td>ООО «Вектор»</td><td>5</td><td class="r">125 000</td><td class="r">38</td><td><span class="pill p-bad">просрочка</span></td></tr>'+
+ '<tr><td>ИП Лебедева</td><td>—</td><td class="r">0</td><td class="r">—</td><td><span class="pill p-ok">закрыт</span></td></tr>'+
+ '<tr class="tot"><td>Итого просрочено</td><td></td><td class="r">412 000</td><td></td><td></td></tr>';
+function d3(v){$("tb3").innerHTML=v=="raw"?RAW:FLAT;$("r3").classList.toggle("hide",v=="raw");$("h3").classList.toggle("hide",v!="raw")}
+document.querySelectorAll("#c3 button").forEach(function(b){b.onclick=function(){document.querySelectorAll("#c3 button").forEach(function(x){x.classList.remove("on")});b.classList.add("on");d3(b.dataset.v)}});d3("raw");
+$("b3").onclick=function(){var o=$("l3").classList.toggle("hide");this.textContent=o?"Показать письмо «Ромашке»":"Скрыть письмо"};
+
+/* 4. акт сверки */
+var A=[["Сальдо на 01.07","210 000","210 000",""],["УПД № 371 от 18.07","96 000","96 000",""],["П/п № 1102 от 25.07","−150 000","−150 000",""],["УПД № 418 от 29.09","—","54 000","x"],["П/п № 1203 от 30.09","−32 400","—","x"],["Сальдо на 30.09","123 600","210 000","t"]];
+var f4=false;
+function d4(){var h='<tr><th>Документ</th><th class="r">У вас, ₽</th><th class="r">У «ТехСнаб», ₽</th><th>Статус</th></tr>';
+ A.forEach(function(r){var st=r[3]=="x"&&f4?'<span class="pill p-chk">'+(r[1]=="—"?"нет у вас":"нет у поставщика")+'</span>':r[3]=="t"?'<span class="pill p-bad">разница 86 400</span>':'';
+  h+='<tr'+(r[3]=="t"?' class="tot"':'')+'><td>'+(r[3]=="x"&&f4?'<span class="mark">'+r[0]+'</span>':r[0])+'</td><td class="r">'+r[1]+'</td><td class="r">'+r[2]+'</td><td>'+st+'</td></tr>'});
+ $("tb4").innerHTML=h}
+$("b4").onclick=function(){var b=this;
+ if(f4){f4=false;d4();$("r4").classList.add("hide");b.textContent="Найти расхождения";return}
+ think(b,"Сбросить",function(){f4=true;d4();$("r4").classList.remove("hide")})};d4();
+
+/* 5. обезличивание: 3 шага */
+var DOC=[["Договор поставки № 14 между "],["ООО «Северный ветер»","[КОМПАНИЯ_1]"],[", ИНН "],["7704123456","[ИНН_1]"],[", в лице генерального директора "],["Морозова Сергея Петровича","[ФИО_1]"],[", и покупателем. Оплата на р/с "],["40702810400000012345","[СЧЁТ_1]"],[" в течение 10 рабочих дней. Контакт: "],["+7 916 555-12-34","[ТЕЛЕФОН_1]"],["."]];
+var ANS=[["Риск: в договоре не указан срок поставки, а оплата "],["",""],["привязана к 10 рабочим дням. Предлагаю добавить пункт: «"],["ООО «Северный ветер»","[КОМПАНИЯ_1]"],[" поставляет товар в течение 5 рабочих дней после оплаты на р/с "],["40702810400000012345","[СЧЁТ_1]"],["». Подписант со стороны поставщика — "],["Морозов С. П.","[ФИО_1]"],["."]];
+var st5=0;
+function show(arr,masked){return arr.map(function(p){return p.length==1||p[1]===""?p[0]:(masked?'<span class="hid">'+p[1]+'</span>':'<span class="mark">'+p[0]+'</span>')}).join("")}
+function d5(){
+ var ch=document.querySelectorAll("#c5 button");ch.forEach(function(c,i){c.classList.toggle("on",i==st5)});
+ if(st5==0){$("d5").innerHTML='<div class="k">ВАШ ДОГОВОР</div>'+show(DOC,false);$("b5").textContent="Обезличить";$("s5").textContent=""}
+ if(st5==1){$("d5").innerHTML='<div class="k">УХОДИТ В НЕЙРОСЕТЬ</div>'+show(DOC,true);$("b5").textContent="Получить ответ";$("s5").textContent="5 фрагментов спрятано, нейросеть их не увидит"}
+ if(st5==2){$("d5").innerHTML='<div class="k">ОТВЕТ НЕЙРОСЕТИ · РЕКВИЗИТЫ ВЕРНУЛИСЬ</div>'+show(ANS,false);$("b5").textContent="Начать заново";$("s5").textContent="Метки заменены обратно на ваши данные"}
+}
+$("b5").onclick=function(){var b=this;
+ if(st5==1){think(b,"Получить ответ",function(){st5=2;d5()});return}
+ st5=st5==2?0:1;d5()};d5();
+</script>
+</body>
+</html>
