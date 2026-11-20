@@ -1,0 +1,488 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Аналитика магазина — Александра</title>
+<meta name="robots" content="noindex">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#1d2125;--panel:#262b30;--panel2:#22393d;--line:#343a40;--tx:#eef2f4;--tx2:#c3ccd2;--mut:#8d989f;
+  --ac:#34d9e0;--onac:#0e1a1c;
+  --app:#ffffff;--app2:#f4f6f8;--appline:#e3e7eb;--apptx:#17212a;--appmut:#6a7681;
+  --red:#d9363e;--amber:#b46a00;--green:#16884f;--blue:#2f6fe4;--cy:#1fb3ba;--cy2:#bfeef0;
+  --mono:"JetBrains Mono",Consolas,Menlo,monospace;--body:"Segoe UI",-apple-system,Roboto,Arial,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;background:var(--bg)}
+html,body{overflow-x:hidden}
+body{background:radial-gradient(800px 520px at 100% 0,rgba(52,217,224,.14),transparent 70%) no-repeat,var(--bg);color:var(--tx);font-family:var(--body);line-height:1.5;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1040px;margin:0 auto;padding:0 16px}
+button{font:inherit;cursor:pointer}
+.top{display:flex;justify-content:space-between;gap:12px;font:12px var(--mono);color:var(--mut);letter-spacing:.08em;padding:22px 0 0}
+.top b{color:var(--ac)}
+.hero{padding:44px 0 26px}
+.eb{font:700 12px var(--mono);letter-spacing:.1em;color:var(--ac);margin-bottom:14px;text-transform:uppercase}
+h1{font-size:clamp(29px,5vw,48px);line-height:1.1;font-weight:700;margin-bottom:18px}
+h1 em{font-style:normal;color:var(--ac)}
+h2{font-size:clamp(23px,3.2vw,32px);line-height:1.18;margin-bottom:10px}
+.lead{font-size:18px;color:var(--tx2);max-width:780px}
+.note{font-size:13px;color:var(--mut);margin-top:14px}
+.gets{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:26px}
+.get{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+.get b{display:block;font-size:24px;color:var(--ac);line-height:1.1}
+.get span{font-size:13px;color:var(--tx2)}
+.section{padding:48px 0 8px;border-top:1px solid var(--line)}
+.tnum{font:700 12px var(--mono);color:var(--ac);letter-spacing:.1em;margin-bottom:10px}
+/* меню задач */
+.menu{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:22px 0 18px}
+.menu button{text-align:left;background:var(--panel);border:1px solid var(--line);color:var(--tx);border-radius:12px;padding:12px 14px;font-size:14px;line-height:1.3}
+.menu button span{display:block;font:700 11px var(--mono);color:var(--mut);letter-spacing:.08em;margin-bottom:3px}
+.menu button.on{border-color:var(--ac);background:var(--panel2)}
+.menu button.on span{color:var(--ac)}
+.task{display:none}
+.task.on{display:block}
+.thead{display:grid;grid-template-columns:1.35fr 1fr;gap:24px;margin-bottom:18px}
+.thead h3{font-size:22px;line-height:1.25;margin-bottom:6px}
+.thead p{color:var(--tx2)}
+.mod{background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:14px 16px;font-size:14px;color:var(--tx2)}
+.mod .k{font:700 11px var(--mono);letter-spacing:.1em;color:var(--ac);margin-bottom:6px}
+.mod .row2{display:flex;justify-content:space-between;gap:10px;padding:6px 0;border-top:1px solid var(--line)}
+.mod .row2:first-of-type{border-top:0}
+.mod .row2 b{color:var(--tx);white-space:nowrap}
+/* окно-приложение */
+.app{background:var(--app);color:var(--apptx);border-radius:16px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.4)}
+.bar{display:flex;align-items:center;gap:8px;background:var(--app2);border-bottom:1px solid var(--appline);padding:10px 14px;font:12px var(--mono);color:var(--appmut)}
+.bar i{width:10px;height:10px;border-radius:50%;background:#d9dee3;display:inline-block;flex:none}
+.bar span{margin-left:8px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.body{padding:18px}
+.steps{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.steps span{font-size:13px;border:1px solid var(--appline);border-radius:20px;padding:5px 12px;color:var(--appmut)}
+.steps span.on{background:var(--apptx);color:#fff;border-color:var(--apptx)}
+.steps span.done{background:#e6f8f9;color:#0b8a91;border-color:var(--cy2)}
+.drop{border:2px dashed #cfd6dc;border-radius:12px;padding:22px;text-align:center;color:var(--appmut);font-size:14px}
+.drop b{display:block;color:var(--apptx);font-size:15px;margin-bottom:4px}
+.btn{border:0;background:var(--apptx);color:#fff;border-radius:10px;padding:10px 16px;font-weight:600;font-size:14px}
+.btn.alt{background:#fff;color:var(--apptx);border:1px solid var(--appline)}
+.btn:disabled{opacity:.5;cursor:default}
+.tw{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:14px;min-width:560px}
+th,td{padding:9px 10px;border-bottom:1px solid var(--appline);text-align:left;white-space:nowrap}
+th{font:600 12px var(--body);color:var(--appmut);background:var(--app2)}
+td.r,th.r{text-align:right}
+td.old{color:var(--appmut)}
+.pill{display:inline-block;font-size:12px;font-weight:600;border-radius:20px;padding:2px 9px}
+.p-ok{background:#e6f8f9;color:#0b8a91}
+.p-chk{background:#fff3e0;color:var(--amber)}
+.p-red{background:#fdecec;color:var(--red)}
+.p-no{background:var(--app2);color:var(--appmut)}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:14px 0 0}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}
+.kpi{background:var(--app2);border-radius:10px;padding:10px 12px}
+.kpi .l{font-size:12px;color:var(--appmut)}
+.kpi .v{font-size:19px;font-weight:700}
+.kpi .s{font-size:12px;color:var(--appmut)}
+.kpi .s.up{color:var(--green)}.kpi .s.dn{color:var(--red)}
+.ai-msg{margin-top:14px;background:#ecfbfc;border:1px solid #c4eef0;border-radius:12px;padding:12px 14px;font-size:14px}
+.ai-msg .who{font:700 11px var(--mono);letter-spacing:.08em;color:#0b8a91;margin-bottom:4px}
+.qs{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.qs button{border:1px solid var(--appline);background:#fff;color:var(--apptx);border-radius:20px;padding:6px 12px;font-size:13px}
+.qs button.on{background:var(--apptx);color:#fff;border-color:var(--apptx)}
+.hide{display:none}
+.gain{margin:16px 0 0;font-size:15px;color:var(--tx2);padding-left:14px;border-left:3px solid var(--ac)}
+.gain b{color:var(--ac);font:700 11px var(--mono);letter-spacing:.08em;display:block;margin-bottom:2px}
+/* графики */
+.chart{display:flex;align-items:flex-end;gap:6px;height:170px;padding:8px 4px 0;border-bottom:1px solid var(--appline)}
+.chart .c{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;font-size:11px;color:var(--appmut)}
+.chart .c i{display:block;width:100%;max-width:38px;border-radius:5px 5px 0 0;background:var(--cy2);transition:height .5s}
+.chart .c.hl i{background:var(--cy)}
+.chart .c em{font-style:normal;font-weight:600;color:var(--apptx);margin-bottom:3px}
+.chart .c.now i{background:var(--apptx)}
+.xl{display:flex;gap:6px;padding:4px 4px 0}
+.xl span{flex:1;text-align:center;font-size:11px;color:var(--appmut)}
+.legend{display:flex;flex-wrap:wrap;gap:14px;font-size:12px;color:var(--appmut);margin-top:10px}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+.abc{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.ab{border-radius:12px;padding:14px;border:1px solid var(--appline)}
+.ab .h{display:flex;justify-content:space-between;align-items:baseline}
+.ab .h b{font-size:26px}
+.ab .h span{font-size:12px;color:var(--appmut)}
+.ab .t{font-size:13px;color:var(--appmut);margin-top:6px}
+.duo{margin-top:10px}
+.duo .ln{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--appmut);margin-top:6px}
+.duo .ln u{text-decoration:none;width:84px;flex:none}
+.duo .ln s{text-decoration:none;flex:1;height:8px;border-radius:4px;background:var(--app2);overflow:hidden;display:block}
+.duo .ln s i{display:block;height:100%;border-radius:4px}
+.duo .ln b{width:34px;text-align:right;color:var(--apptx)}
+.ab.a{background:#ecfbfc;border-color:#c4eef0}.ab.a .h b{color:#0b8a91}
+.ab.c{background:#fff6f6;border-color:#f6d6d7}.ab.c .h b{color:var(--red)}
+.hb{margin-top:6px}
+.hb .ln{display:grid;grid-template-columns:130px 1fr 62px;gap:10px;align-items:center;font-size:13px;padding:5px 0}
+.hb .ln s{display:block;text-decoration:none;height:10px;background:var(--app2);border-radius:5px;overflow:hidden}
+.hb .ln s i{display:block;height:100%;background:var(--cy);border-radius:5px}
+.hb .ln b{text-align:right}
+.two{display:grid;grid-template-columns:1.3fr 1fr;gap:16px}
+.box{border:1px solid var(--appline);border-radius:12px;padding:12px 14px}
+.box .bh{font-size:13px;font-weight:600;margin-bottom:8px}
+.post{background:var(--app2);border-radius:12px;padding:14px;font-size:14px;white-space:pre-line}
+.price{display:grid;grid-template-columns:1fr auto auto;gap:4px 14px;font-size:14px;margin-top:8px}
+.price s{color:var(--appmut)}
+.price b{color:var(--red)}
+/* калькулятор */
+.calc{display:grid;grid-template-columns:1fr 1fr;gap:22px;align-items:center}
+.calc label{display:block;font-size:14px;color:var(--appmut);margin-top:10px}
+.calc label b{color:var(--apptx);float:right}
+.calc input[type=range]{width:100%;accent-color:#1fb3ba}
+.big{font-size:34px;font-weight:800;line-height:1.1}
+.big small{font-size:15px;font-weight:600;color:var(--appmut)}
+/* как устроено */
+.how{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:20px}
+.hs{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px}
+.hs .n{font:700 12px var(--mono);color:var(--ac);letter-spacing:.08em}
+.hs h3{font-size:16px;margin:6px 0 6px}
+.hs p{font-size:14px;color:var(--tx2)}
+.safe{margin-top:14px;background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:16px 18px;color:var(--tx2);font-size:15px}
+.safe b{color:var(--tx)}
+/* тарифы */
+.cards{display:grid;grid-template-columns:1fr 1.15fr;gap:14px;align-items:stretch;margin-top:22px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px}
+.card.rec{border-color:var(--ac);box-shadow:0 0 0 1px var(--ac) inset}
+.card .k{font:700 11px var(--mono);letter-spacing:.1em;color:var(--mut)}
+.card.rec .k{color:var(--ac)}
+.card h3{font-size:24px;margin:6px 0 2px}
+.card .pr{font-size:20px;font-weight:700}
+.card .sub{font-size:13px;color:var(--mut);margin-bottom:14px}
+.card .has{list-style:none;margin-top:4px}
+.card .has li{font-size:14px;color:var(--tx2);padding:6px 0 6px 20px;position:relative;border-top:1px solid var(--line)}
+.card .has li:first-child{border-top:0}
+.card .has li:before{content:"✓";position:absolute;left:0;color:var(--ac);font-weight:700}
+.card .has li.new{color:var(--tx);font-weight:600}
+.card .plus{font:700 11px var(--mono);letter-spacing:.08em;color:var(--mut);margin:14px 0 2px}
+.refund{font-size:13px;color:var(--ac);margin-top:14px}
+.end{margin:36px 0 70px;text-align:center;background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:30px 20px}
+.end p{color:var(--tx2);max-width:640px;margin:8px auto 0}
+footer{font-size:12px;color:var(--mut);text-align:center;padding:0 0 30px}
+@media (max-width:860px){.menu{grid-template-columns:repeat(3,1fr)}}
+@media (max-width:760px){
+  .thead,.cards,.calc,.two{grid-template-columns:1fr}
+  .how,.abc{grid-template-columns:1fr}
+  .gets,.kpis{grid-template-columns:1fr 1fr}
+  .menu{grid-template-columns:1fr 1fr}
+  .top{flex-direction:column;gap:4px}
+  .hb .ln{grid-template-columns:100px 1fr 52px}
+  .chart .c em{font-size:9px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><span>МАСТЕР CFO · <b>AI-НАВЫКИ</b></span><span>ЛИЧНАЯ ПОДБОРКА ДЛЯ АЛЕКСАНДРЫ</span></div>
+
+  <section class="hero">
+    <div class="eb">Магазин отделочных и строительных материалов</div>
+    <h1>Александра, переделывать 1С не придётся. <em>Аналитику магазина нейросеть соберёт из обычной выгрузки</em></h1>
+    <p class="lead">Отчёт по продажам и остаткам, который 1С уже умеет выгружать в Excel, нейросеть приводит в порядок в отдельной таблице. Сама база остаётся как есть. А дальше этот отчёт отвечает на вопросы, которые обычно выясняют «глазками» по полдня.</p>
+    <div class="gets">
+      <div class="get"><b>5 минут</b><span>вместо полдня на разбор продаж за месяц</span></div>
+      <div class="get"><b>13%</b><span>товаров обычно дают 80% выручки, видно какие</span></div>
+      <div class="get"><b>≈ 900 тыс.</b><span>₽ в примере лежит на полках без продаж</span></div>
+      <div class="get"><b>до весны</b><span>видно, что закончится в сезон и что заказать</span></div>
+    </div>
+    <p class="note">Товары, суммы и остатки в примерах условные, для магазина с выручкой около 2 млн ₽ в месяц.</p>
+  </section>
+
+  <!-- задачи -->
+  <section class="section" id="tasks">
+    <div class="tnum">ПОТЫКАЙТЕ</div>
+    <h2>Пять задач вашего магазина</h2>
+    <div class="menu" id="menu">
+      <button data-t="0" class="on"><span>01</span>Порядок в товарах</button>
+      <button data-t="1"><span>02</span>Что приносит деньги</button>
+      <button data-t="2"><span>03</span>Закупка к сезону</button>
+      <button data-t="3"><span>04</span>Распродать залежалое</button>
+      <button data-t="4"><span>05</span>Месяц на одном экране</button>
+    </div>
+
+    <!-- 01 -->
+    <div class="task on" id="t0">
+      <div class="thead">
+        <div>
+          <h3>Один товар — одно название, и всё по группам</h3>
+          <p>Один и тот же «Ротбанд» в базе записан тремя способами. Нейросеть узнаёт, что это один товар, и относит его в «Сухие смеси». Где не уверена, не угадывает, а откладывает вам.</p>
+        </div>
+        <div class="mod"><div class="k">СЕЙЧАС → С НЕЙРОСЕТЬЮ</div>
+          <div class="row2"><span>Свести названия вручную</span><b>2–3 дня</b></div>
+          <div class="row2"><span>С нейросетью</span><b>≈ 1 час</b></div>
+          <div class="row2"><span>В самой 1С меняется</span><b>ничего</b></div>
+        </div>
+      </div>
+      <div class="app">
+        <div class="bar"><i></i><i></i><i></i><span>analitika-magazina · группы товаров</span></div>
+        <div class="body">
+          <div class="steps" id="st0"><span class="on">1. Отчёт из 1С</span><span>2. Группы товаров</span></div>
+          <div id="a1">
+            <div class="drop"><b>Продажи_и_остатки_июль-октябрь.xlsx</b>2 316 позиций · обычная выгрузка из 1С</div>
+            <div class="row"><button class="btn" id="b1">Разложить по группам</button></div>
+          </div>
+          <div id="a2" class="hide">
+            <div class="kpis" id="k2"></div>
+            <div class="tw"><table id="tg"></table></div>
+            <div class="ai-msg"><div class="who">ПОМЕТКА</div>63 дубля названий объединены. 175 позиций вроде «Комплект А-12» отложены вам: по названию не понять, что это.</div>
+            <div class="row"><button class="btn alt" id="b2b">Показать только спорные</button><button class="btn alt" id="b2r">Начать заново</button></div>
+          </div>
+        </div>
+      </div>
+      <div class="gain"><b>ЧТО ЭТО ДАЁТ</b>Таблица групп делается один раз и дальше только дополняется. На ней строятся все остальные задачи ниже.</div>
+    </div>
+
+    <!-- 02 ABC -->
+    <div class="task" id="t1">
+      <div class="thead">
+        <div>
+          <h3>Какие товары кормят магазин, а какие только занимают место</h3>
+          <p>Нейросеть делит весь ассортимент на три группы: A приносит основную выручку, C почти ничего не продаётся. Это называется ABC-анализ, руками его делают редко, потому что долго.</p>
+        </div>
+        <div class="mod"><div class="k">ВОПРОС НЕЙРОСЕТИ</div>«Сделай ABC-анализ по выручке за 4 месяца и покажи, сколько денег лежит в группе C»</div>
+      </div>
+      <div class="app">
+        <div class="bar"><i></i><i></i><i></i><span>analitika-magazina · ABC-анализ</span></div>
+        <div class="body">
+          <div class="abc">
+            <div class="ab a"><div class="h"><b>A</b><span>310 товаров</span></div>
+              <div class="duo"><div class="ln"><u>позиций</u><s><i style="width:13%;background:#1fb3ba"></i></s><b>13%</b></div><div class="ln"><u>выручки</u><s><i style="width:80%;background:#1fb3ba"></i></s><b>80%</b></div></div>
+              <div class="t">Смеси, грунты, клей, ходовая краска. Их нельзя допускать до нуля.</div></div>
+            <div class="ab"><div class="h"><b>B</b><span>520 товаров</span></div>
+              <div class="duo"><div class="ln"><u>позиций</u><s><i style="width:22%;background:#8d989f"></i></s><b>22%</b></div><div class="ln"><u>выручки</u><s><i style="width:15%;background:#8d989f"></i></s><b>15%</b></div></div>
+              <div class="t">Инструмент, электрика, крепёж. Держать умеренный запас.</div></div>
+            <div class="ab c"><div class="h"><b>C</b><span>1 486 товаров</span></div>
+              <div class="duo"><div class="ln"><u>позиций</u><s><i style="width:64%;background:#d9363e"></i></s><b>64%</b></div><div class="ln"><u>выручки</u><s><i style="width:5%;background:#d9363e"></i></s><b>5%</b></div></div>
+              <div class="t">Здесь лежит 70% денег без движения: старые обои, редкая сантехника.</div></div>
+          </div>
+          <div class="ai-msg"><div class="who">НЕЙРОСЕТЬ</div>В группе C 1 486 позиций дают 5% выручки, но в них заморожено около 640 тыс. ₽. Предлагаю не дозаказывать 380 из них и распродать остатки, место на полке отдать товарам группы A.</div>
+        </div>
+      </div>
+      <div class="gain"><b>ЧТО ЭТО ДАЁТ</b>Понятно, на что тратить деньги на закупку и что убрать с полок, без ощущения «всё вроде нужно».</div>
+    </div>
+
+    <!-- 03 сезон -->
+    <div class="task" id="t2">
+      <div class="thead">
+        <div>
+          <h3>Сезонность и что закончится раньше, чем придёт поставка</h3>
+          <p>Нейросеть смотрит продажи за год, видит весенний рост и считает, на сколько недель хватит остатков в сезон.</p>
+        </div>
+        <div class="mod"><div class="k">ВОПРОС НЕЙРОСЕТИ</div>«Что из группы A закончится в марте–апреле, если спрос будет как в прошлом году? Сколько заказать?»</div>
+      </div>
+      <div class="app">
+        <div class="bar"><i></i><i></i><i></i><span>analitika-magazina · сезон и закупка</span></div>
+        <div class="body">
+          <div class="chart" id="ch"></div>
+          <div class="xl" id="chx"></div>
+          <div class="legend"><span><i style="background:#1fb3ba"></i>сезон: март–август</span><span><i style="background:#17212a"></i>октябрь, сейчас</span><span>выручка, млн ₽</span></div>
+          <div class="tw" style="margin-top:14px"><table>
+            <tr><th>Товар</th><th class="r">Остаток</th><th class="r">Хватит весной</th><th class="r">Заказать к марту</th><th></th></tr>
+            <tr><td>Ротбанд 30 кг</td><td class="r">64 меш.</td><td class="r">2 нед.</td><td class="r">240 меш.</td><td><span class="pill p-red">срочно</span></td></tr>
+            <tr><td>Грунтовка Ceresit CT17 10 л</td><td class="r">18 шт.</td><td class="r">1,5 нед.</td><td class="r">90 шт.</td><td><span class="pill p-red">срочно</span></td></tr>
+            <tr><td>Клей для плитки Юнис Плюс 25 кг</td><td class="r">120 меш.</td><td class="r">6 нед.</td><td class="r">60 меш.</td><td><span class="pill p-chk">к февралю</span></td></tr>
+            <tr><td>Краска интерьерная Tikkurila 9 л</td><td class="r">22 шт.</td><td class="r">5 нед.</td><td class="r">20 шт.</td><td><span class="pill p-chk">к февралю</span></td></tr>
+            <tr><td>Обои «Палитра», коллекция 2024</td><td class="r">46 рул.</td><td class="r">не продаются</td><td class="r">0</td><td><span class="pill p-no">не заказывать</span></td></tr>
+          </table></div>
+        </div>
+      </div>
+      <div class="gain"><b>ЧТО ЭТО ДАЁТ</b>Весной полки с ходовым товаром не пустеют, а деньги на закупку не уходят в то, что не продаётся.</div>
+    </div>
+
+    <!-- 04 распродажа -->
+    <div class="task" id="t3">
+      <div class="thead">
+        <div>
+          <h3>Залежавшийся товар превращается в деньги</h3>
+          <p>Нейросеть подбирает, что выставить со скидкой и какую скидку можно дать без убытка, если в отчёте есть закупочные цены. И сразу пишет текст для ценников, соцсетей или рассылки.</p>
+        </div>
+        <div class="mod"><div class="k">ВОПРОС НЕЙРОСЕТИ</div>«Собери распродажу из товаров без продаж 90+ дней, скидка не ниже закупки, и напиши пост для группы магазина»</div>
+      </div>
+      <div class="app">
+        <div class="bar"><i></i><i></i><i></i><span>analitika-magazina · распродажа</span></div>
+        <div class="body two">
+          <div class="box"><div class="bh">Список на распродажу · 46 позиций · 380 тыс. ₽ в остатке</div>
+            <div class="price">
+              <span>Обои «Палитра» винил 1,06 м</span><s>1 890 ₽</s><b>1 290 ₽</b>
+              <span>Смеситель для ванны Iddis, старая серия</span><s>6 400 ₽</s><b>4 700 ₽</b>
+              <span>Бордюр керамический «Акварель»</span><s>420 ₽</s><b>250 ₽</b>
+              <span>Плинтус ПВХ «Дуб светлый»</span><s>310 ₽</s><b>220 ₽</b>
+            </div>
+            <p style="font-size:12px;color:var(--appmut);margin-top:10px">Скидка везде выше закупочной цены, магазин остаётся в плюсе.</p>
+          </div>
+          <div class="box"><div class="bh">Пост для группы магазина</div>
+            <div class="post">Распродажа до конца ноября: обои, плитка и сантехника из прошлых коллекций со скидкой до 40%.
+Количество ограничено, что на полке, то и есть. Приходите выбрать для ремонта к Новому году.</div>
+          </div>
+        </div>
+      </div>
+      <div class="gain"><b>ЧТО ЭТО ДАЁТ</b>Деньги с полки возвращаются в оборот, и на это уходит вечер, а не неделя на ценники и тексты.</div>
+    </div>
+
+    <!-- 05 дашборд -->
+    <div class="task" id="t4">
+      <div class="thead">
+        <div>
+          <h3>Месяц магазина на одном экране</h3>
+          <p>Каждый месяц вы кидаете новую выгрузку, и нейросеть собирает один и тот же отчёт: выручка, средний чек, маржа по группам и пара строк выводов. Его можно показать собственнику как есть.</p>
+        </div>
+        <div class="mod"><div class="k">СЕЙЧАС → С НЕЙРОСЕТЬЮ</div>
+          <div class="row2"><span>Собрать отчёт за месяц</span><b>полдня</b></div>
+          <div class="row2"><span>С нейросетью</span><b>≈ 5 минут</b></div>
+        </div>
+      </div>
+      <div class="app">
+        <div class="bar"><i></i><i></i><i></i><span>analitika-magazina · октябрь</span></div>
+        <div class="body">
+          <div class="kpis">
+            <div class="kpi"><div class="l">Выручка</div><div class="v">1,9 млн ₽</div><div class="s dn">−10% к сентябрю, сезон</div></div>
+            <div class="kpi"><div class="l">Чеков</div><div class="v">392</div><div class="s dn">−6%</div></div>
+            <div class="kpi"><div class="l">Средний чек</div><div class="v">4 850 ₽</div><div class="s up">+4%</div></div>
+            <div class="kpi"><div class="l">Валовая маржа</div><div class="v">27%</div><div class="s up">+1 п.п.</div></div>
+          </div>
+          <div class="two">
+            <div class="box"><div class="bh">Маржа по группам</div><div class="hb" id="hb"></div></div>
+            <div class="box"><div class="bh">Что сказать собственнику</div>
+              <div style="font-size:14px">Октябрь ниже сентября на 10%, это сезон: так же было и в прошлом году. Средний чек растёт. Маржа выше всего на инструменте и обоях, но обои почти не продаются, их лучше распродать. На весну заказываем смеси и грунты заранее.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="gain"><b>ЧТО ЭТО ДАЁТ</b>Разговор с собственником по цифрам, а не по ощущениям, и без вечера в Excel перед ним.</div>
+    </div>
+  </section>
+
+  <!-- калькулятор -->
+  <section class="section" id="calc">
+    <div class="tnum">ПОСЧИТАЙТЕ НА СВОИХ ЦИФРАХ</div>
+    <h2>Сколько денег лежит на полках без движения</h2>
+    <div class="app" style="margin-top:20px">
+      <div class="bar"><i></i><i></i><i></i><span>калькулятор</span></div>
+      <div class="body calc">
+        <div>
+          <label>Остаток товара на складе, ₽ <b id="vo">6 000 000</b></label>
+          <input type="range" id="ro" min="1000000" max="20000000" step="500000" value="6000000">
+          <label>Доля товара без продаж 90+ дней <b id="vp">15%</b></label>
+          <input type="range" id="rp" min="5" max="40" step="1" value="15">
+          <p class="note" style="color:var(--appmut)">Если не знаете долю, оставьте 15%. Точную цифру нейросеть посчитает по вашей выгрузке в задаче 02.</p>
+        </div>
+        <div>
+          <div class="kpi"><div class="l">Лежит без движения</div><div class="big" id="vf">900 000 <small>₽</small></div></div>
+          <div class="kpi" style="margin-top:10px"><div class="l">Если вернуть в оборот хотя бы треть</div><div class="big" style="color:#0b8a91" id="vb">300 000 <small>₽</small></div><div class="s">живыми деньгами на закупку того, что продаётся</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- как устроено -->
+  <section class="section" id="how">
+    <div class="tnum">КАК ЭТО УСТРОЕНО</div>
+    <h2>Без программиста и без переделки 1С</h2>
+    <div class="how">
+      <div class="hs"><div class="n">01</div><h3>Выгрузка</h3><p>Отчёт по продажам и остаткам из 1С в Excel, тот, который вы и так умеете сформировать.</p></div>
+      <div class="hs"><div class="n">02</div><h3>Таблица групп</h3><p>Нейросеть раскладывает товары по группам, вы проверяете спорные. Таблица остаётся у вас.</p></div>
+      <div class="hs"><div class="n">03</div><h3>Вопросы словами</h3><p>Дальше вы спрашиваете обычным языком: что не продаётся, что заказать, как прошёл месяц.</p></div>
+    </div>
+    <div class="safe"><b>Честно.</b> Нейросеть не исправит ошибки в самой базе и иногда ошибается в группах, поэтому спорное всегда проверяете вы. Для маржи и скидок нужны закупочные цены в отчёте. Если однажды захотите навести порядок и в 1С, готовая таблица групп сильно облегчит эту работу.</div>
+  </section>
+
+  <!-- тарифы -->
+  <section class="section" id="tarif">
+    <div class="tnum">ГДЕ ЭТОМУ УЧАТ</div>
+    <h2>Курс «AI-навыки финансиста», поток 11 января</h2>
+    <p class="lead">Курс с нуля, без программирования. Каждый урок можно делать на выгрузке своего магазина, так что к концу курса эти пять задач будут работать у вас.</p>
+
+    <div class="cards">
+      <div class="card">
+        <div class="k">БАЗА</div>
+        <h3>База</h3>
+        <div class="pr">49 990 ₽</div>
+        <div class="sub">≈ 8 330 ₽/мес · 5 недель · доступ 9 месяцев</div>
+        <ul class="has">
+          <li class="new">Порядок в товарах, ABC-анализ, сезон и закупка</li>
+          <li class="new">Отчёт за месяц и дашборд</li>
+          <li>Нейрокуратор 24/7 и чат с куратором</li>
+        </ul>
+      </div>
+      <div class="card rec">
+        <div class="k">РЕКОМЕНДУЮ ВАМ</div>
+        <h3>Профи</h3>
+        <div class="pr">59 990 ₽</div>
+        <div class="sub">≈ 10 000 ₽/мес · 6 недель · доступ 12 месяцев</div>
+        <div class="plus">ВСЁ ИЗ БАЗЫ +</div>
+        <ul class="has">
+          <li class="new">Модуль по маркетингу: распродажи, акции, тексты для покупателей (задача 04)</li>
+          <li class="new">CFO-агент: свой помощник, который отвечает по цифрам магазина</li>
+          <li>Доступ на 3 месяца дольше, можно учиться спокойно, без гонки</li>
+        </ul>
+        <p class="refund">Если в первые 2 недели обучения поймёте, что курс не ваш, вернём деньги полностью.</p>
+      </div>
+    </div>
+    <p class="note">Можно начать с Базы и доплатить до Профи позже. Рассрочка до 6 месяцев без переплаты, первый платёж через месяц.</p>
+
+    <div class="end">
+      <h2>Начать можно с одной выгрузки</h2>
+      <p>Первой задачей на курсе может стать ваш отчёт по продажам и остаткам. А какой вопрос по магазину задать следующим, решаете уже вы.</p>
+    </div>
+  </section>
+</div>
+<footer>Онлайн-школа «Мастер CFO» · fin-academy.pro/ai · примеры условные</footer>
+
+<script>
+function sp(n){return String(n).replace(/\B(?=(\d{3})+(?!\d))/g," ")}
+// меню
+document.querySelectorAll("#menu button").forEach(function(b){b.onclick=function(){var t=+b.dataset.t;
+ document.querySelectorAll("#menu button").forEach(function(x,i){x.className=i==t?"on":""});
+ document.querySelectorAll(".task").forEach(function(x,i){x.classList.toggle("on",i==t)});
+ if(t==2)drawChart();}});
+// 01
+var ROWS=[
+ ["Шпатлевка KNAUF Ротбанд 30кг","Ротбанд 30 кг","Сухие смеси","ok"],
+ ["ротбанд кнауф 30 кг (меш)","Ротбанд 30 кг","Сухие смеси","ok"],
+ ["Штукатурка гипс. Rotband 30","Ротбанд 30 кг","Сухие смеси","ok"],
+ ["Грунт Церезит СТ17 10л","Грунтовка Ceresit CT17 10 л","Краски и грунты","ok"],
+ ["грунтовка ct-17 ceresit 10","Грунтовка Ceresit CT17 10 л","Краски и грунты","ok"],
+ ["Клей плит. Юнис плюс 25","Клей для плитки Юнис Плюс 25 кг","Плитка и клей","ok"],
+ ["Саморез 3.5х25 (1000шт)","Саморезы 3,5×25, 1000 шт","Крепёж","ok"],
+ ["Комплект А-12","—","—","chk"]
+];
+var only=false;
+function kp(id,arr){document.getElementById(id).innerHTML=arr.map(function(x){return '<div class="kpi"><div class="l">'+x[0]+'</div><div class="v">'+x[1]+'</div><div class="s">'+x[2]+'</div></div>'}).join("")}
+function draw2(){
+ var h='<tr><th>Как записано в 1С</th><th>Товар</th><th>Группа</th><th>Статус</th></tr>';
+ ROWS.filter(function(r){return !only||r[3]=="chk"}).forEach(function(r){h+='<tr><td class="old">'+r[0]+'</td><td>'+r[1]+'</td><td>'+r[2]+'</td><td>'+(r[3]=="ok"?'<span class="pill p-ok">готово</span>':'<span class="pill p-chk">проверьте</span>')+'</td></tr>'});
+ if(!only)h+='<tr><td colspan="4" style="color:var(--appmut)">… и ещё 2 308 позиций</td></tr>';
+ document.getElementById("tg").innerHTML=h;
+}
+function st0(n){document.getElementById("a1").classList.toggle("hide",n!=1);document.getElementById("a2").classList.toggle("hide",n!=2);
+ document.querySelectorAll("#st0 span").forEach(function(s,i){s.className=i+1<n?"done":i+1==n?"on":""});}
+document.getElementById("b1").onclick=function(){var b=this;b.disabled=true;b.textContent="Раскладываю…";
+ setTimeout(function(){b.disabled=false;b.textContent="Разложить по группам";
+  kp("k2",[["Позиций","2 316","из отчёта"],["Разложено","2 141","по 12 группам"],["Дубли названий","63","объединены"],["Проверьте","175","непонятные названия"]]);
+  only=false;document.getElementById("b2b").textContent="Показать только спорные";draw2();st0(2)},700)};
+document.getElementById("b2b").onclick=function(){only=!only;this.textContent=only?"Показать все":"Показать только спорные";draw2()};
+document.getElementById("b2r").onclick=function(){st0(1)};
+// 03 график
+var M=[["ноя",1.6],["дек",1.1],["янв",0.9],["фев",1.2],["мар",1.9],["апр",2.6],["май",2.9],["июн",2.7],["июл",2.5],["авг",2.4],["сен",2.1],["окт",1.9]];
+var drawn=false;
+function drawChart(){if(drawn)return;drawn=true;
+ var ch=document.getElementById("ch"),x=document.getElementById("chx");
+ ch.innerHTML=M.map(function(m,i){var cls=i==11?"c now":(i>=4&&i<=9)?"c hl":"c";return '<div class="'+cls+'"><em>'+m[1].toFixed(1).replace(".",",")+'</em><i style="height:0"></i></div>'}).join("");
+ x.innerHTML=M.map(function(m){return '<span>'+m[0]+'</span>'}).join("");
+ setTimeout(function(){ch.querySelectorAll("i").forEach(function(el,i){el.style.height=Math.round(M[i][1]/3*130)+"px"})},60);}
+// 05 маржа
+var MG=[["Обои",38],["Инструмент",35],["Краски и грунты",31],["Сантехника",29],["Плитка и клей",26],["Сухие смеси",22]];
+document.getElementById("hb").innerHTML=MG.map(function(g){return '<div class="ln"><span>'+g[0]+'</span><s><i style="width:'+Math.round(g[1]/40*100)+'%"></i></s><b>'+g[1]+'%</b></div>'}).join("");
+// калькулятор
+function calc(){var o=+document.getElementById("ro").value,p=+document.getElementById("rp").value,f=Math.round(o*p/100);
+ document.getElementById("vo").textContent=sp(o);document.getElementById("vp").textContent=p+"%";
+ document.getElementById("vf").innerHTML=sp(f)+' <small>₽</small>';
+ document.getElementById("vb").innerHTML=sp(Math.round(f/3/1000)*1000)+' <small>₽</small>';}
+document.getElementById("ro").oninput=calc;document.getElementById("rp").oninput=calc;calc();
+</script>
+</body>
+</html>
