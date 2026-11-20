@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Счета-фактуры Озон — Ирина</title>
+<meta name="robots" content="noindex">
+<style>
+:root{
+  --bg:#05080B;--panel:#0C1217;--panel2:#0F1A17;--line:#1F2C2A;--tx:#F2F8F5;--tx2:#C9D8D1;--mut:#8EA39B;
+  --ac:#5CF2A6;--onac:#04110B;
+  --app:#FFFFFF;--app2:#F5F7F9;--appline:#E4E8EC;--apptx:#16212B;--appmut:#6A7783;
+  --red:#E5484D;--amber:#B86E00;--green:#1E9E5E;--blue:#3E7BFA;
+  --mono:Consolas,"SFMono-Regular",Menlo,monospace;--body:"Segoe UI",-apple-system,Roboto,Arial,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;background:var(--bg)}
+html,body{overflow-x:hidden}
+body{background:radial-gradient(900px 600px at 0 0,#0f3a2a 0,transparent 70%) no-repeat,var(--bg);color:var(--tx);font-family:var(--body);line-height:1.5;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1040px;margin:0 auto;padding:0 16px}
+button{font:inherit;cursor:pointer}
+.top{display:flex;justify-content:space-between;gap:12px;font:12px var(--mono);color:var(--mut);letter-spacing:.08em;padding:22px 0 0}
+.top b{color:var(--ac)}
+.hero{padding:48px 0 30px}
+.eb{font:700 12px var(--mono);letter-spacing:.1em;color:var(--tx2);margin-bottom:14px;text-transform:uppercase}
+.eb:before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--ac);margin-right:8px;vertical-align:1px}
+h1{font-size:clamp(30px,5.2vw,50px);line-height:1.08;font-weight:700;letter-spacing:-.01em;margin-bottom:18px}
+h1 em{font-style:normal;color:var(--ac)}
+h2{font-size:clamp(24px,3.4vw,34px);line-height:1.15;margin-bottom:10px}
+.lead{font-size:18px;color:var(--tx2);max-width:760px}
+.note{font-size:13px;color:var(--mut);margin-top:16px}
+.section{padding:56px 0 8px;border-top:1px solid var(--line)}
+.tnum{font:700 12px var(--mono);color:var(--ac);letter-spacing:.1em;margin-bottom:10px}
+.thead{display:grid;grid-template-columns:1.35fr 1fr;gap:26px;margin-bottom:22px}
+.thead p{color:var(--tx2)}
+.mod{background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:16px 18px;font-size:15px}
+.mod .k{font:700 11px var(--mono);letter-spacing:.1em;color:var(--mut);margin-bottom:6px}
+.mod b{color:var(--ac)}
+.mod ul{list-style:none;margin-top:8px}
+.mod li{font-size:14px;color:var(--tx2);padding-left:16px;position:relative;margin-top:4px}
+.mod li:before{content:"";position:absolute;left:0;top:9px;width:6px;height:6px;border-radius:2px;background:var(--ac)}
+.app{background:var(--app);color:var(--apptx);border-radius:16px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.45)}
+.bar{display:flex;align-items:center;gap:8px;background:var(--app2);border-bottom:1px solid var(--appline);padding:10px 14px;font:12px var(--mono);color:var(--appmut)}
+.bar i{width:10px;height:10px;border-radius:50%;background:#d9dee3;display:inline-block;flex:none}
+.bar span{margin-left:8px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.body{padding:18px}
+.steps{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.steps span{font-size:13px;border:1px solid var(--appline);border-radius:20px;padding:5px 12px;color:var(--appmut)}
+.steps span.on{background:var(--apptx);color:#fff;border-color:var(--apptx)}
+.steps span.done{background:#e9f7ef;color:var(--green);border-color:#cdeedb}
+.drop{border:2px dashed #cfd6dc;border-radius:12px;padding:22px;text-align:center;color:var(--appmut);font-size:14px}
+.drop b{display:block;color:var(--apptx);font-size:15px;margin-bottom:4px}
+.btn{border:0;background:var(--apptx);color:#fff;border-radius:10px;padding:10px 16px;font-weight:600;font-size:14px}
+.btn.alt{background:#fff;color:var(--apptx);border:1px solid var(--appline)}
+.btn:disabled{opacity:.5;cursor:default}
+.tw{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:14px;min-width:620px}
+th,td{padding:9px 10px;border-bottom:1px solid var(--appline);text-align:left;white-space:nowrap}
+th{font:600 12px var(--body);color:var(--appmut);background:var(--app2)}
+td.r,th.r{text-align:right}
+.pill{display:inline-block;font-size:12px;font-weight:600;border-radius:20px;padding:2px 9px}
+.p-ok{background:#e9f7ef;color:var(--green)}
+.p-new{background:#eaf1ff;color:var(--blue)}
+.p-chk{background:#fff3e0;color:var(--amber)}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:14px 0 0}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}
+.kpi{background:var(--app2);border-radius:10px;padding:10px 12px}
+.kpi .l{font-size:12px;color:var(--appmut)}
+.kpi .v{font-size:19px;font-weight:700}
+.kpi .s{font-size:12px;color:var(--appmut)}
+.ai-msg{margin-top:14px;background:#f0fbf5;border:1px solid #cdeedb;border-radius:12px;padding:12px 14px;font-size:14px}
+.ai-msg .who{font:700 11px var(--mono);letter-spacing:.08em;color:#0d7a46;margin-bottom:4px}
+.lock{margin-top:12px;font-size:14px;color:var(--apptx);background:var(--app2);border-radius:10px;padding:12px 14px}
+.hide{display:none}
+.gain{margin:14px 0 0;font-size:15px;color:var(--tx2);padding-left:14px;border-left:3px solid var(--ac)}
+.gain b{color:var(--ac);font:700 11px var(--mono);letter-spacing:.08em;display:block;margin-bottom:2px}
+.chk{list-style:none}
+.chk li{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid var(--appline);font-size:14px;opacity:.25;transition:.3s}
+.chk li.on{opacity:1}
+.okc{color:var(--green);font-weight:600}
+.warn{color:var(--red);font-weight:600}
+/* как устроено */
+.how{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.hs{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px}
+.hs .n{font:700 12px var(--mono);color:var(--ac);letter-spacing:.08em}
+.hs h3{font-size:16px;margin:6px 0 6px}
+.hs p{font-size:14px;color:var(--tx2)}
+.safe{margin-top:14px;background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:16px 18px;color:var(--tx2);font-size:15px}
+.safe b{color:var(--tx)}
+/* калькулятор */
+.calc{display:grid;grid-template-columns:1fr 1fr;gap:22px;align-items:center}
+.calc label{display:block;font-size:14px;color:var(--appmut);margin-top:10px}
+.calc label b{color:var(--apptx);float:right}
+.calc input[type=range]{width:100%;accent-color:#1E9E5E}
+.big{font-size:36px;font-weight:800;line-height:1.1}
+.big small{font-size:15px;font-weight:600;color:var(--appmut)}
+/* план */
+.plan{list-style:none;margin-top:22px}
+.plan li{display:grid;grid-template-columns:150px 1fr;gap:16px;padding:14px 0;border-top:1px solid var(--line)}
+.plan .d{font:700 13px var(--mono);color:var(--ac);letter-spacing:.04em}
+.plan .t{color:var(--tx2);font-size:15px}
+.plan .t b{color:var(--tx)}
+/* тарифы */
+.cards{display:grid;grid-template-columns:1fr 1.15fr;gap:14px;align-items:stretch;margin-top:22px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px}
+.card.rec{border-color:var(--ac);box-shadow:0 0 0 1px var(--ac) inset}
+.card .k{font:700 11px var(--mono);letter-spacing:.1em;color:var(--mut)}
+.card.rec .k{color:var(--ac)}
+.card h3{font-size:24px;margin:6px 0 2px}
+.card .pr{font-size:20px;font-weight:700}
+.card .sub{font-size:13px;color:var(--mut);margin-bottom:14px}
+.card .has{list-style:none;margin-top:4px}
+.card .has li{font-size:14px;color:var(--tx2);padding:6px 0 6px 20px;position:relative;border-top:1px solid var(--line)}
+.card .has li:first-child{border-top:0}
+.card .has li:before{content:"✓";position:absolute;left:0;color:var(--ac);font-weight:700}
+.card .has li.new{color:var(--tx);font-weight:600}
+.card .plus{font:700 11px var(--mono);letter-spacing:.08em;color:var(--mut);margin:14px 0 2px}
+.refund{font-size:13px;color:var(--ac);margin-top:14px}
+.cta{margin:36px 0 70px;text-align:center;background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:30px 20px}
+.cta p{color:var(--tx2);max-width:640px;margin:8px auto 0}
+a.dl{display:inline-block;margin-top:16px;text-decoration:none;font:700 15px var(--mono);letter-spacing:.06em;background:var(--ac);color:var(--onac);padding:14px 22px;border-radius:10px}
+footer{font-size:12px;color:var(--mut);text-align:center;padding:0 0 30px}
+@media (max-width:760px){
+  .thead,.cards,.calc{grid-template-columns:1fr}
+  .how{grid-template-columns:1fr 1fr}
+  .kpis{grid-template-columns:1fr 1fr}
+  .plan li{grid-template-columns:1fr;gap:4px}
+  .top{flex-direction:column;gap:4px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><span>МАСТЕР CFO · <b>ВАЙБ-КОДИНГ</b></span><span>ЛИЧНАЯ ПОДБОРКА ДЛЯ ИРИНЫ</span></div>
+
+  <section class="hero">
+    <div class="eb">Счета-фактуры Озон в 1С</div>
+    <h1>Ирина, тысячи документов Озон — <em>одной пачкой, а вы проверяете только спорные</em></h1>
+    <p class="lead">Ниже можно потыкать, как это выглядит, посчитать время на своих объёмах и посмотреть, как такой инструмент собирается и проверяется на копии вашей базы.</p>
+    <p class="note">Документы, поставщики и суммы в примерах условные.</p>
+  </section>
+
+  <!-- 1. прототип -->
+  <section class="section" id="razn">
+    <div class="thead">
+      <div>
+        <div class="tnum">ПОПРОБУЙТЕ</div>
+        <h2>Файл из Диадока → поставщики → документы в 1С</h2>
+        <p>Вы загружаете тот же Excel, который уже собираете из Диадока. Инструмент по вашим правилам подбирает поставщика вместо Озон, отмечает, кого нужно завести в справочник, и откладывает спорные документы вам на проверку.</p>
+      </div>
+      <div class="mod">
+        <div class="k">ЧТО ВЫ РЕШАЕТЕ САМИ</div>
+        Правила подбора поставщика, какие документы создавать и что считать спорным
+        <ul><li>Ничего не создаётся в 1С, пока вы не нажали «Создать»</li></ul>
+      </div>
+    </div>
+
+    <div class="app">
+      <div class="bar"><i></i><i></i><i></i><span>ozon-akty · разноска счетов-фактур</span></div>
+      <div class="body">
+        <div class="steps" id="st"><span class="on">1. Файл из Диадока</span><span>2. Поставщики</span><span>3. Документы в 1С</span></div>
+
+        <div id="s1">
+          <div class="drop"><b>Счета-фактуры_Озон_октябрь.xlsx</b>7 412 строк · выгрузка из Диадока по Озон</div>
+          <div class="row"><button class="btn" id="b1">Разобрать документы</button></div>
+        </div>
+
+        <div id="s2" class="hide">
+          <div class="kpis" id="k2"></div>
+          <div class="tw"><table id="t2"></table></div>
+          <div class="ai-msg"><div class="who">ПОМЕТКА</div>14 документов с типом «Прочие услуги по договору»: по правилам не понятно, чей это поставщик. Они отложены вам на проверку, остальные можно передавать дальше.</div>
+          <div class="row"><button class="btn" id="b2">Передать в 1С</button><button class="btn alt" id="b2b">Показать только спорные</button></div>
+        </div>
+
+        <div id="s3" class="hide">
+          <div class="kpis" id="k3"></div>
+          <ul class="chk" id="c3">
+            <li><span>Новые поставщики — к созданию в справочнике</span><span>17</span></li>
+            <li><span>Акты к созданию на основании счетов-фактур</span><span>7 396</span></li>
+            <li><span>Сумма актов = сумма счетов-фактур</span><span class="okc">сходится</span></li>
+            <li><span>Одинаковые номер и дата счёта-фактуры</span><span class="warn">2, отложены</span></li>
+            <li><span>Спорные — у вас на проверке</span><span>14</span></li>
+          </ul>
+          <div class="row"><button class="btn" id="b3">Создать в 1С</button><button class="btn alt" id="b3r">Начать заново</button></div>
+          <div class="lock hide" id="l3">Обработка создала поставщиков и акты с привязкой к счетам-фактурам и сохранила журнал: что, когда и кем создано. Если что-то не так, по журналу видно, какие документы откатить.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. как устроено -->
+  <section class="section" id="how">
+    <div class="tnum">КАК ЭТО УСТРОЕНО</div>
+    <h2>Без чуда и без программиста</h2>
+    <p class="lead" style="margin-bottom:22px">Обычный вопрос главбуха: «а моя 1С это вообще позволит?» Вот как это собирают на курсе.</p>
+    <div class="how">
+      <div class="hs"><div class="n">01</div><h3>Ваши правила</h3><p>Вы описываете нейросети словами то, что уже написали мне: какой тип услуги, где брать поставщика, какой документ создать.</p></div>
+      <div class="hs"><div class="n">02</div><h3>Обработка для 1С</h3><p>По этим правилам в Codex собирается обработка для вашей 1С:Бухгалтерии 8.3. Код пишет нейросеть, вы проверяете результат.</p></div>
+      <div class="hs"><div class="n">03</div><h3>Тест на копии</h3><p>Сначала всё гоняется на копии базы и маленькой пачке документов. Рабочую базу трогаете, только когда цифры сошлись.</p></div>
+      <div class="hs"><div class="n">04</div><h3>Куратор рядом</h3><p>Если на вашей конфигурации что-то не сходится, разбираете с куратором на вашей же базе.</p></div>
+    </div>
+    <div class="safe"><b>Честно.</b> Готовой кнопки «под любую 1С» у нас нет: каждая база немного своя. Поэтому вы собираете инструмент сами и под себя, и по этой же схеме потом можно сделать WB и «Детский мир».</div>
+  </section>
+
+  <!-- 3. время -->
+  <section class="section" id="time">
+    <div class="tnum">ПОСЧИТАЙТЕ НА СВОИХ ЦИФРАХ</div>
+    <h2>Сколько сейчас уходит на ручную правку</h2>
+    <div class="app" style="margin-top:22px">
+      <div class="bar"><i></i><i></i><i></i><span>калькулятор</span></div>
+      <div class="body calc">
+        <div>
+          <label>Документов в месяц <b id="vd">7 000</b></label>
+          <input type="range" id="rd" min="2000" max="10000" step="500" value="7000">
+          <label>Секунд на один документ <b id="vs">30</b></label>
+          <input type="range" id="rs" min="10" max="90" step="5" value="30">
+          <p class="note" style="color:var(--appmut)">Замена поставщика, поиск в справочнике и создание акта вместе.</p>
+        </div>
+        <div>
+          <div class="kpi"><div class="l">Сейчас в месяц</div><div class="big" id="vh">58 <small>часов</small></div><div class="s" id="vw">около 7 рабочих дней</div></div>
+          <div class="kpi" style="margin-top:10px"><div class="l">С инструментом руками — только спорные</div><div class="big" style="color:var(--green)" id="vc">≈ 20 <small>документов</small></div><div class="s">как в примере выше: 14 из 7 412</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. план -->
+  <section class="section" id="plan">
+    <div class="tnum">ЕСЛИ НАЧАТЬ 30 НОЯБРЯ</div>
+    <h2>Что и когда у вас будет</h2>
+    <p class="lead">Модули открываются примерно раз в две недели, жёстких дедлайнов нет. На закрытие года и январскую отчётность можно спокойно сбавить темп и догнать по записям.</p>
+    <ul class="plan">
+      <li><span class="d">ДЕКАБРЬ</span><span class="t"><b>Разбор файла из Диадока.</b> Excel со счетами-фактурами сам раскладывается по поставщикам по вашим правилам, спорные отложены. Уже это убирает поиск поставщика вручную.</span></li>
+      <li><span class="d">ЯНВАРЬ–ФЕВРАЛЬ</span><span class="t"><b>Связка с 1С.</b> Обработка создаёт поставщиков и акты с привязкой, сначала на копии базы.</span></li>
+      <li><span class="d">ДО ЗАЩИТЫ</span><span class="t"><b>Рабочий инструмент на вашей базе</b> своим проектом с куратором, доступ коллегам-бухгалтерам, журнал обработки.</span></li>
+    </ul>
+  </section>
+
+  <!-- тарифы -->
+  <section class="section" id="tarif">
+    <div class="tnum">КАКОЙ ТАРИФ</div>
+    <h2>Вашу задачу закрывают два тарифа</h2>
+    <p class="lead">База учит работать с файлами, а ваша задача про связку с 1С, поэтому её начинают с Практики.</p>
+
+    <div class="cards">
+      <div class="card">
+        <div class="k">ПРАКТИКА</div>
+        <h3>Практика</h3>
+        <div class="pr">69 000 ₽</div>
+        <div class="sub">≈ 11 500 ₽/мес · доступ 1 год</div>
+        <ul class="has">
+          <li class="new">Разбор файла из Диадока по вашим правилам</li>
+          <li class="new">Обмен с 1С и проверки после загрузки</li>
+          <li>Собираете сами по урокам, вопросы в общем чате</li>
+        </ul>
+      </div>
+      <div class="card rec">
+        <div class="k">РЕКОМЕНДУЮ ВАМ</div>
+        <h3>Профи</h3>
+        <div class="pr">99 000 ₽</div>
+        <div class="sub">≈ 16 500 ₽/мес · доступ 2 года · поддержка 2 месяца после курса</div>
+        <div class="plus">ВСЁ ИЗ ПРАКТИКИ +</div>
+        <ul class="has">
+          <li class="new">Инструмент для Озон — ваш проект с куратором, до рабочего состояния на вашей базе</li>
+          <li class="new">Доступ коллегам и журнал обработки</li>
+          <li>Защита проекта и разборы</li>
+        </ul>
+        <p style="font-size:14px;color:var(--tx2);margin-top:10px">Вся задача держится на вашей конкретной базе 1С. Когда рядом куратор, который смотрит именно её, вы не застрянете на месте, где «у всех работает, а у меня нет».</p>
+        <p class="refund">Если в первые 2 недели обучения поймёте, что курс не ваш, вернём деньги полностью.</p>
+      </div>
+    </div>
+    <p class="note">Можно начать с Практики и доплатить до Профи позже. Следующий поток после этого — 25 января.</p>
+
+    <div class="cta">
+      <h2>Инструмент для компании — и оплатить можно от компании</h2>
+      <p>Выставим счёт на ООО или ИП, документы через Диадок. Или рассрочка до 6 месяцев без переплаты, первый платёж через месяц. Поток 30 ноября последний, где кураторы Софья, Натали и Алексей.</p>
+      <a class="dl" href="https://t.me/m/_P3MK8LfYTgy" target="_blank" rel="noopener">Написать Александре</a>
+    </div>
+  </section>
+</div>
+<footer>Онлайн-школа «Мастер CFO» · vibe.fin-academy.pro · примеры условные</footer>
+
+<script>
+function sp(n){return String(n).replace(/\B(?=(\d{3})+(?!\d))/g," ")}
+function rub(x){return x.toFixed(2).replace(".",",")}
+var ROWS=[
+ ["СФ-0001847","01.10","Услуги доставки","ООО «Курьер Плюс»",43.20,"ok"],
+ ["СФ-0001848","01.10","Услуги ПВЗ","ИП Савельева А.Н.",12.50,"ok"],
+ ["СФ-0001849","01.10","Услуги обработки","ООО «Склад Логистик»",8.90,"ok"],
+ ["СФ-0001850","02.10","Услуги доставки","ООО «Быстрая доставка»",61.00,"new"],
+ ["СФ-0001851","02.10","Услуги ПВЗ","ИП Галиева Р.Р.",9.40,"ok"],
+ ["СФ-0001852","02.10","Прочие услуги по договору","—",27.30,"chk"],
+ ["СФ-0001853","03.10","Услуги обработки","ООО «Склад Логистик»",8.90,"ok"],
+ ["СФ-0001854","03.10","Услуги ПВЗ","ИП Новиков Д.С.",11.80,"new"]
+];
+var PL={ok:'<span class="pill p-ok">есть в справочнике</span>',new:'<span class="pill p-new">завести нового</span>',chk:'<span class="pill p-chk">спорный</span>'};
+var only=false;
+function kp(id,arr){document.getElementById(id).innerHTML=arr.map(function(x){return '<div class="kpi"><div class="l">'+x[0]+'</div><div class="v">'+x[1]+'</div><div class="s">'+x[2]+'</div></div>'}).join("")}
+function draw2(){
+ var h='<tr><th>Счёт-фактура</th><th>Дата</th><th>Услуга</th><th>Поставщик вместо Озон</th><th class="r">Сумма, ₽</th><th>Статус</th></tr>';
+ ROWS.filter(function(r){return !only||r[5]=="chk"}).forEach(function(r){h+='<tr><td>'+r[0]+'</td><td>'+r[1]+'</td><td>'+r[2]+'</td><td>'+r[3]+'</td><td class="r">'+rub(r[4])+'</td><td>'+PL[r[5]]+'</td></tr>'});
+ if(!only)h+='<tr><td colspan="6" style="color:var(--appmut)">… и ещё 7 404 документа</td></tr>';
+ document.getElementById("t2").innerHTML=h;
+}
+function step(n){
+ [1,2,3].forEach(function(i){document.getElementById("s"+i).classList.toggle("hide",i!=n)});
+ document.querySelectorAll("#st span").forEach(function(s,i){s.className=i+1<n?"done":i+1==n?"on":""});
+}
+document.getElementById("b1").onclick=function(){var b=this;b.disabled=true;b.textContent="Разбираю…";
+ setTimeout(function(){b.disabled=false;b.textContent="Разобрать документы";
+  kp("k2",[["Документов","7 412","из файла"],["Поставщик найден","7 381","в справочнике"],["Завести новых","17","поставщиков"],["Спорные","14","вам на проверку"]]);
+  only=false;document.getElementById("b2b").textContent="Показать только спорные";draw2();step(2)},700)};
+document.getElementById("b2b").onclick=function(){only=!only;this.textContent=only?"Показать все":"Показать только спорные";draw2()};
+document.getElementById("b2").onclick=function(){
+ kp("k3",[["Актов к созданию","7 396","с привязкой к СФ"],["Новых поставщиков","17","в справочник"],["Отложено","16","14 спорных, 2 повтора"],["Ничего не создано","пока","ждёт вашей кнопки"]]);
+ step(3);document.getElementById("l3").classList.add("hide");document.getElementById("b3").disabled=false;
+ var li=document.querySelectorAll("#c3 li"),i=0;li.forEach(function(x){x.classList.remove("on")});
+ var t=setInterval(function(){if(i<li.length){li[i].classList.add("on");i++}else clearInterval(t)},300)};
+document.getElementById("b3").onclick=function(){document.getElementById("l3").classList.remove("hide");this.disabled=true;
+ kp("k3",[["Актов создано","7 396","с привязкой к СФ"],["Новых поставщиков","17","в справочнике"],["Отложено","16","14 спорных, 2 повтора"],["Журнал","сохранён","что и когда создано"]])};
+document.getElementById("b3r").onclick=function(){step(1)};
+
+function calc(){var d=+document.getElementById("rd").value,s=+document.getElementById("rs").value,h=Math.round(d*s/3600);
+ document.getElementById("vd").textContent=sp(d);document.getElementById("vs").textContent=s;
+ document.getElementById("vh").innerHTML=h+' <small>часов</small>';
+ document.getElementById("vw").textContent="около "+Math.max(1,Math.round(h/8))+" рабочих дней";
+ document.getElementById("vc").innerHTML="≈ "+Math.max(5,Math.round(d*0.0025))+' <small>документов</small>';}
+document.getElementById("rd").oninput=calc;document.getElementById("rs").oninput=calc;calc();
+</script>
+</body>
+</html>
