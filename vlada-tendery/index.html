@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Тендеры и проекты — Влада</title>
+<meta name="robots" content="noindex">
+<style>
+:root{
+  --bg:#05080B;--panel:#0C1217;--panel2:#0F1A17;--line:#1F2C2A;--tx:#F2F8F5;--tx2:#C9D8D1;--mut:#8EA39B;
+  --ac:#5CF2A6;--onac:#04110B;
+  --app:#FFFFFF;--app2:#F5F7F9;--appline:#E4E8EC;--apptx:#16212B;--appmut:#6A7783;
+  --red:#E5484D;--amber:#B86E00;--green:#1E9E5E;--blue:#3E7BFA;
+  --mono:Consolas,"SFMono-Regular",Menlo,monospace;--body:"Segoe UI",-apple-system,Roboto,Arial,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;background:var(--bg)}
+html,body{overflow-x:hidden}
+body{background:radial-gradient(900px 600px at 0 0,#0f3a2a 0,transparent 70%) no-repeat,var(--bg);color:var(--tx);font-family:var(--body);line-height:1.5;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1040px;margin:0 auto;padding:0 16px}
+button,select{font:inherit;cursor:pointer}
+.top{display:flex;justify-content:space-between;gap:12px;font:12px var(--mono);color:var(--mut);letter-spacing:.08em;padding:22px 0 0}
+.top b{color:var(--ac)}
+.hero{padding:46px 0 26px}
+.eb{font:700 12px var(--mono);letter-spacing:.1em;color:var(--tx2);margin-bottom:14px;text-transform:uppercase}
+.eb:before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--ac);margin-right:8px;vertical-align:1px}
+h1{font-size:clamp(29px,5vw,48px);line-height:1.08;font-weight:700;letter-spacing:-.01em;margin-bottom:18px}
+h1 em{font-style:normal;color:var(--ac)}
+h2{font-size:clamp(23px,3.3vw,33px);line-height:1.15;margin-bottom:10px}
+.lead{font-size:18px;color:var(--tx2);max-width:780px}
+.note{font-size:13px;color:var(--mut);margin-top:14px}
+.gets{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:24px}
+.get{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+.get b{display:block;font-size:24px;color:var(--ac);line-height:1.1}
+.get span{font-size:13px;color:var(--tx2)}
+.section{padding:50px 0 8px;border-top:1px solid var(--line)}
+.tnum{font:700 12px var(--mono);color:var(--ac);letter-spacing:.1em;margin-bottom:10px}
+.menu{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:22px 0 18px}
+.menu button{text-align:left;background:var(--panel);border:1px solid var(--line);color:var(--tx);border-radius:12px;padding:12px 14px;font-size:14px;line-height:1.3}
+.menu button span{display:block;font:700 11px var(--mono);color:var(--mut);letter-spacing:.08em;margin-bottom:3px}
+.menu button.on{border-color:var(--ac);background:var(--panel2)}
+.menu button.on span{color:var(--ac)}
+.task{display:none}.task.on{display:block}
+.thead{display:grid;grid-template-columns:1.35fr 1fr;gap:24px;margin-bottom:18px}
+.thead h3{font-size:22px;line-height:1.25;margin-bottom:6px}
+.thead p{color:var(--tx2)}
+.mod{background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:14px 16px;font-size:14px;color:var(--tx2)}
+.mod .k{font:700 11px var(--mono);letter-spacing:.1em;color:var(--mut);margin-bottom:6px}
+.mod .r2{display:flex;justify-content:space-between;gap:10px;padding:6px 0;border-top:1px solid var(--line)}
+.mod .r2:first-of-type{border-top:0}
+.mod .r2 b{color:var(--tx);white-space:nowrap}
+.app{background:var(--app);color:var(--apptx);border-radius:16px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.45)}
+.bar{display:flex;align-items:center;gap:8px;background:var(--app2);border-bottom:1px solid var(--appline);padding:10px 14px;font:12px var(--mono);color:var(--appmut)}
+.bar i{width:10px;height:10px;border-radius:50%;background:#d9dee3;display:inline-block;flex:none}
+.bar span{margin-left:8px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.body{padding:18px}
+.steps{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.steps span{font-size:13px;border:1px solid var(--appline);border-radius:20px;padding:5px 12px;color:var(--appmut)}
+.steps span.on{background:var(--apptx);color:#fff;border-color:var(--apptx)}
+.steps span.done{background:#e9f7ef;color:var(--green);border-color:#cdeedb}
+.drops{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.drop{border:2px dashed #cfd6dc;border-radius:12px;padding:18px;text-align:center;color:var(--appmut);font-size:13px}
+.drop b{display:block;color:var(--apptx);font-size:14px;margin-bottom:4px}
+.btn{border:0;background:var(--apptx);color:#fff;border-radius:10px;padding:10px 16px;font-weight:600;font-size:14px}
+.btn.alt{background:#fff;color:var(--apptx);border:1px solid var(--appline)}
+.btn:disabled{opacity:.5;cursor:default}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:14px 0 0}
+.tw{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:14px;min-width:620px}
+th,td{padding:9px 10px;border-bottom:1px solid var(--appline);text-align:left;white-space:nowrap}
+th{font:600 12px var(--body);color:var(--appmut);background:var(--app2)}
+td.r,th.r{text-align:right}
+td.w{white-space:normal;min-width:200px}
+td.src{font:12px var(--mono);color:var(--appmut);white-space:normal;min-width:140px}
+.pill{display:inline-block;font-size:12px;font-weight:600;border-radius:20px;padding:2px 9px;white-space:nowrap}
+.p-ok{background:#e9f7ef;color:var(--green)}
+.p-chk{background:#fff3e0;color:var(--amber)}
+.p-red{background:#fdecec;color:var(--red)}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}
+.kpi{background:var(--app2);border-radius:10px;padding:10px 12px}
+.kpi .l{font-size:12px;color:var(--appmut)}
+.kpi .v{font-size:19px;font-weight:700}
+.kpi .s{font-size:12px;color:var(--appmut)}
+.kpi.bad .v{color:var(--red)}.kpi.good .v{color:var(--green)}
+.ai-msg{margin-top:14px;background:#f0fbf5;border:1px solid #cdeedb;border-radius:12px;padding:12px 14px;font-size:14px}
+.ai-msg .who{font:700 11px var(--mono);letter-spacing:.08em;color:#0d7a46;margin-bottom:4px}
+.hide{display:none}
+.gain{margin:16px 0 0;font-size:15px;color:var(--tx2);padding-left:14px;border-left:3px solid var(--ac)}
+.gain b{color:var(--ac);font:700 11px var(--mono);letter-spacing:.08em;display:block;margin-bottom:2px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.chips button{border:1px solid var(--appline);background:#fff;color:var(--apptx);border-radius:20px;padding:6px 12px;font-size:13px}
+.chips button.on{background:var(--apptx);color:#fff;border-color:var(--apptx)}
+.sl{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:14px}
+.sl label{display:block;font-size:13px;color:var(--appmut)}
+.sl label b{float:right;color:var(--apptx)}
+.sl input,.sl select{width:100%;accent-color:#1E9E5E}
+.sl select{border:1px solid var(--appline);border-radius:8px;padding:6px 8px;margin-top:4px;background:#fff;color:var(--apptx)}
+/* баллы */
+.score{display:grid;grid-template-columns:200px 1fr;gap:20px;align-items:center}
+.ring{width:180px;height:180px;border-radius:50%;display:grid;place-items:center;margin:0 auto}
+.ring div{width:138px;height:138px;border-radius:50%;background:#fff;display:grid;place-items:center;text-align:center}
+.ring b{font-size:38px;line-height:1}
+.ring span{font-size:12px;color:var(--appmut)}
+.sb .ln{display:grid;grid-template-columns:170px 1fr 70px;gap:10px;align-items:center;font-size:13px;padding:6px 0}
+.sb .tr{height:12px;background:var(--app2);border-radius:6px;overflow:hidden}
+.sb .tr i{display:block;height:100%;border-radius:6px;background:var(--green);transition:width .35s}
+.sb .ln b{text-align:right;white-space:nowrap}
+.formula{font:12px var(--mono);color:var(--appmut);background:var(--app2);border-radius:8px;padding:8px 10px;margin-top:10px}
+/* график */
+.chart{display:flex;gap:8px;height:200px;position:relative}
+.chart .c{flex:1;position:relative}
+.chart .c i{position:absolute;left:14%;right:14%;border-radius:4px;background:var(--green);transition:all .35s}
+.chart .c i.neg{background:var(--red)}
+.chart .zero{position:absolute;left:0;right:0;height:1px;background:#9aa5ae}
+.chart .c em{position:absolute;left:0;right:0;text-align:center;font-style:normal;font-size:10px;font-weight:600}
+.xl{display:flex;gap:8px;margin-top:4px}
+.xl span{flex:1;text-align:center;font-size:11px;color:var(--appmut)}
+/* КП */
+.kp{border:1px solid var(--appline);border-radius:12px;padding:16px;margin-top:14px;animation:fi .35s}
+.kp .h{display:flex;justify-content:space-between;align-items:baseline;border-bottom:2px solid var(--apptx);padding-bottom:8px;margin-bottom:10px}
+.kp .h b{font-size:16px}.kp .h span{font:12px var(--mono);color:var(--appmut)}
+.kp table{min-width:0}
+@keyframes fi{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.tgn{margin-top:12px;background:#e7eef3;border-radius:10px;padding:10px 12px;font-size:13px;animation:fi .35s}
+.how{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:20px}
+.hs{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px}
+.hs .n{font:700 12px var(--mono);color:var(--ac);letter-spacing:.08em}
+.hs h3{font-size:16px;margin:6px 0 6px}
+.hs p{font-size:14px;color:var(--tx2)}
+.safe{margin-top:14px;background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:16px 18px;color:var(--tx2);font-size:15px}
+.safe b{color:var(--tx)}
+.end{margin:36px 0 70px;text-align:center;background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:30px 20px}
+.end p{color:var(--tx2);max-width:660px;margin:8px auto 0}
+footer{font-size:12px;color:var(--mut);text-align:center;padding:0 0 30px}
+@media (max-width:760px){
+  .thead,.drops,.sl,.score{grid-template-columns:1fr}
+  .how,.gets{grid-template-columns:1fr}
+  .kpis{grid-template-columns:1fr 1fr}
+  .menu{grid-template-columns:1fr}
+  .top{flex-direction:column;gap:4px}
+  .sb .ln{grid-template-columns:1fr auto}
+  .sb .tr{grid-column:1/3;grid-row:2}
+  .chart .c em{font-size:8px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><span>МАСТЕР CFO · <b>ПРОТОТИПЫ</b></span><span>ЛИЧНАЯ ПОДБОРКА ДЛЯ ВЛАДЫ</span></div>
+
+  <section class="hero">
+    <div class="eb">Инвестпроекты · агро · инженерия</div>
+    <h1>Влада, три сервиса под ваши задачи. <em>Первый — тот, что вы задумали для тендеров</em></h1>
+    <p class="lead">Анализ тендера с баллами и обоснованием, оценка инвестпроекта для клиента и кабинет, где клиенты сами считают систему и получают КП. Всё можно понажимать.</p>
+    <div class="gets">
+      <div class="get"><b>5 требований</b><span>тендера проверены по документам клиента, со ссылкой на пункт</span></div>
+      <div class="get"><b>баллы</b><span>заранее, с формулами из документации</span></div>
+      <div class="get"><b>КП за минуту</b><span>из калькулятора, который клиент заполняет сам</span></div>
+    </div>
+    <p class="note">Тендер, клиенты, суммы и расчёты в примерах условные.</p>
+  </section>
+
+  <section class="section" id="tasks">
+    <div class="tnum">ПОТЫКАЙТЕ</div>
+    <h2>Три прототипа</h2>
+    <div class="menu" id="menu">
+      <button data-t="0" class="on"><span>01</span>Анализ тендера и баллы</button>
+      <button data-t="1"><span>02</span>Оценка инвестпроекта</button>
+      <button data-t="2"><span>03</span>Кабинет расчётов и КП</button>
+    </div>
+
+    <!-- 01 тендер -->
+    <div class="task on" id="k0">
+      <div class="thead">
+        <div><h3>Подходит ли клиент под тендер и сколько баллов он наберёт</h3>
+          <p>Сервис читает документацию, вытаскивает требования и критерии оценки, сверяет их с документами клиента и считает баллы по формулам заказчика. По каждому выводу видно, из какого пункта он взят.</p></div>
+        <div class="mod"><div class="k">ВРУЧНУЮ → В СЕРВИСЕ</div>
+          <div class="r2"><span>Разобрать документацию</span><b>день → 10 минут</b></div>
+          <div class="r2"><span>Пересчитать баллы при другой цене</span><b>час → сразу</b></div></div>
+      </div>
+      <div class="app">
+        <div class="bar"><i></i><i></i><i></i><span>tendery · проектирование капельного орошения 420 га</span></div>
+        <div class="body">
+          <div class="steps" id="st0"><span class="on">1. Документы</span><span>2. Соответствие</span><span>3. Баллы</span></div>
+          <div id="a1">
+            <div class="drops">
+              <div class="drop"><b>Документация_закупки.pdf</b>64 страницы · НМЦК 18 400 000 ₽</div>
+              <div class="drop"><b>Папка клиента</b>выписка СРО, 6 договоров, штат, бухотчётность</div>
+            </div>
+            <div class="row"><button class="btn" id="b1">Проанализировать</button></div>
+          </div>
+          <div id="a2" class="hide">
+            <div class="kpis">
+              <div class="kpi"><div class="l">Требований</div><div class="v">5</div><div class="s">к участнику</div></div>
+              <div class="kpi good"><div class="l">Выполнено</div><div class="v">3</div></div>
+              <div class="kpi bad"><div class="l">Не хватает</div><div class="v">2</div><div class="s">риск отклонения</div></div>
+              <div class="kpi"><div class="l">Подача до</div><div class="v">04.12</div><div class="s">14 дней</div></div>
+            </div>
+            <div class="tw"><table>
+              <tr><th>Требование</th><th>Что есть у клиента</th><th>Итог</th><th>Источник</th></tr>
+              <tr><td class="w">Членство в СРО проектировщиков</td><td class="w">выписка из реестра от 02.10.2026</td><td><span class="pill p-ok">выполнено</span></td><td class="src">док., п. 9.2 · выписка СРО</td></tr>
+              <tr><td class="w">2 договора на проектирование орошения за 3 года, каждый от 5 млн ₽</td><td class="w">подходит 1: 7,2 млн (2024). Второй на 3,9 млн ниже порога</td><td><span class="pill p-red">не хватает</span></td><td class="src">док., п. 9.4 · договоры № 14, 22</td></tr>
+              <tr><td class="w">2 ГИПа в национальном реестре специалистов</td><td class="w">в реестре 1 специалист</td><td><span class="pill p-red">не хватает</span></td><td class="src">док., п. 9.5 · штатное</td></tr>
+              <tr><td class="w">Выручка за прошлый год от 10 млн ₽</td><td class="w">23,6 млн ₽</td><td><span class="pill p-ok">выполнено</span></td><td class="src">док., п. 9.6 · ОФР 2025</td></tr>
+              <tr><td class="w">Нет в реестре недобросовестных поставщиков</td><td class="w">не найден</td><td><span class="pill p-ok">выполнено</span></td><td class="src">док., п. 9.3 · проверка 20.11</td></tr>
+            </table></div>
+            <div class="ai-msg"><div class="who">СЕРВИС</div>Без второго договора и второго ГИПа заявку, скорее всего, отклонят. Варианты: пойти в консорциуме с партнёром, у которого есть подходящий опыт, или привлечь специалиста из реестра по договору до 04.12.</div>
+            <div class="row"><button class="btn" id="b2">Посчитать баллы, если закрыть пробелы</button></div>
+          </div>
+          <div id="a3" class="hide">
+            <div class="sl">
+              <div><label>Снижение цены от НМЦК <b id="vd">8%</b></label><input type="range" id="rd" min="0" max="25" step="1" value="8"></div>
+              <div><label>Лучшее снижение у конкурента (оценка) <b id="vc">12%</b></label><input type="range" id="rc" min="0" max="25" step="1" value="12"></div>
+            </div>
+            <div class="score">
+              <div class="ring" id="ring"><div><span>итого</span><b id="tot">0</b><span>из 100</span></div></div>
+              <div>
+                <div class="sb" id="sb"></div>
+                <div class="formula">Цена, вес 50%: Цmin / Цi × 100 · Опыт, вес 30%: договоров / 5 × 100 · Квалификация, вес 20%: ГИПов / 2 × 100</div>
+              </div>
+            </div>
+            <div class="ai-msg" id="sm"></div>
+            <div class="row"><button class="btn alt" id="b3r">Начать заново</button></div>
+          </div>
+        </div>
+      </div>
+      <p class="gain"><b>ЧТО ЭТО ДАЁТ</b>Клиент заранее знает, стоит ли идти в тендер, чего не хватает и какую цену предлагать. И видит, на чём построен каждый вывод.</p>
+    </div>
+
+    <!-- 02 инвестпроект -->
+    <div class="task" id="k1">
+      <div class="thead">
+        <div><h3>Оценка инвестпроекта, которую клиент открывает по ссылке</h3>
+          <p>Вы задаёте допущения, сервис считает денежный поток, NPV, IRR и окупаемость по трём сценариям. Клиент сам переключает сценарии и видит, от чего зависит результат.</p></div>
+        <div class="mod"><div class="k">ВРУЧНУЮ → В СЕРВИСЕ</div>
+          <div class="r2"><span>Отчёт для клиента</span><b>Excel + письмо → ссылка</b></div>
+          <div class="r2"><span>«А если урожайность ниже?»</span><b>пересчёт → клик</b></div></div>
+      </div>
+      <div class="app">
+        <div class="bar"><i></i><i></i><i></i><span>invest · орошение 420 га · ООО «Агрокомплекс Юг»</span></div>
+        <div class="body">
+          <div class="chips" id="sc"><button data-s="0">Пессимистичный</button><button data-s="1" class="on">Базовый</button><button data-s="2">Оптимистичный</button></div>
+          <div class="kpis" id="ik"></div>
+          <div class="chart" id="ch"></div>
+          <div class="xl"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span></div>
+          <p style="font-size:12px;color:var(--appmut);margin-top:6px;text-align:center">накопленный денежный поток по годам, млн ₽</p>
+          <div class="ai-msg" id="im"></div>
+        </div>
+      </div>
+      <p class="gain"><b>ЧТО ЭТО ДАЁТ</b>Клиент сам проверяет «а если», а у вас остаётся время на рекомендации.</p>
+    </div>
+
+    <!-- 03 кабинет -->
+    <div class="task" id="k2">
+      <div class="thead">
+        <div><h3>Калькуляторы мужа в одном кабинете: клиент считает сам и получает КП</h3>
+          <p>Расчёты полива, отопления и КП, которые уже есть в виде отдельных HTML-файлов, собираются в один кабинет. Клиент вводит параметры, видит расчёт и скачивает КП, а заявка приходит вам в Telegram.</p></div>
+        <div class="mod"><div class="k">СЕЙЧАС → В КАБИНЕТЕ</div>
+          <div class="r2"><span>Первичный расчёт для клиента</span><b>звонок + час → клиент сам</b></div>
+          <div class="r2"><span>Заявки</span><b>в почте → в Telegram</b></div></div>
+      </div>
+      <div class="app">
+        <div class="bar"><i></i><i></i><i></i><span>kabinet · расчёт капельного полива</span></div>
+        <div class="body">
+          <div class="chips"><button class="on">Полив</button><button disabled style="opacity:.5">Отопление</button><button disabled style="opacity:.5">КП по шаблону</button></div>
+          <div class="sl">
+            <div><label>Площадь, га <b id="va">60</b></label><input type="range" id="ra" min="5" max="500" step="5" value="60"></div>
+            <div><label>Культура<select id="cu"><option value="1">Овощи открытого грунта</option><option value="0.8">Сад, виноградник</option><option value="1.2">Ягоды</option></select></label></div>
+          </div>
+          <div class="kpis" id="pk"></div>
+          <div class="row"><button class="btn" id="bk">Сформировать КП</button></div>
+          <div id="kp"></div>
+        </div>
+      </div>
+      <p class="gain"><b>ЧТО ЭТО ДАЁТ</b>Клиенты приходят уже с расчётом на руках, а вы видите все заявки в одном месте.</p>
+    </div>
+  </section>
+
+  <section class="section" id="how">
+    <div class="tnum">КАК ТАКОЕ СОБИРАЕТСЯ</div>
+    <h2>В Codex, как ваш калькулятор на практикуме</h2>
+    <div class="how">
+      <div class="hs"><div class="n">01</div><h3>Задача словами</h3><p>Вы описываете, что проверить в документации и по каким формулам считать баллы.</p></div>
+      <div class="hs"><div class="n">02</div><h3>Код пишет нейросеть</h3><p>Codex собирает сервис, вы смотрите на результат и уточняете.</p></div>
+      <div class="hs"><div class="n">03</div><h3>Проверка на старом тендере</h3><p>Сначала на закупке, итог которой уже известен. Если баллы совпали, можно доверять.</p></div>
+    </div>
+    <div class="safe"><b>Честно.</b> Калькулятор — это один файл. Сервис для клиентов уже сложнее: нужны вход по паролю, хранение документов и доступ по ссылке. Это тоже собирается в Codex, но шагов больше. Документы клиентов перед работой с нейросетью обезличиваются.</div>
+  </section>
+
+  <section class="section">
+    <div class="end">
+      <h2>С какого из трёх вы бы начали?</h2>
+      <p>Тендерный сервис самый ценный для клиента, а кабинет расчётов быстрее всего соберётся из того, что уже сделал ваш муж.</p>
+    </div>
+  </section>
+</div>
+<footer>Онлайн-школа «Мастер CFO» · примеры условные</footer>
+
+<script>
+function $(i){return document.getElementById(i)}
+function f1(x){return (x<-0.049?"−":"")+Math.abs(x).toFixed(1).replace(".",",")}
+function sp(n){return String(n).replace(/\B(?=(\d{3})+(?!\d))/g," ")}
+document.querySelectorAll("#menu button").forEach(function(b){b.onclick=function(){var t=+b.dataset.t;
+ document.querySelectorAll("#menu button").forEach(function(x,i){x.className=i==t?"on":""});
+ document.querySelectorAll(".task").forEach(function(x,i){x.classList.toggle("on",i==t)});}});
+// 01
+function s0(n){[1,2,3].forEach(function(i){$("a"+i).classList.toggle("hide",i!=n)});document.querySelectorAll("#st0 span").forEach(function(s,i){s.className=i+1<n?"done":i+1==n?"on":""})}
+$("b1").onclick=function(){var b=this;b.disabled=true;b.textContent="Читаю 64 страницы…";setTimeout(function(){b.disabled=false;b.textContent="Проанализировать";s0(2)},1000)};
+$("b2").onclick=function(){s0(3);sc()};$("b3r").onclick=function(){s0(1)};
+function sc(){var d=+$("rd").value,c=+$("rc").value;$("vd").textContent=d+"%";$("vc").textContent=c+"%";
+ var my=1-d/100,best=Math.min(my,1-c/100),price=best/my*100,exp=2/5*100,q=2/2*100;
+ var tot=price*0.5+exp*0.3+q*0.2;
+ $("sb").innerHTML=[["Цена, 50%",price,price*0.5],["Опыт, 30%",exp,exp*0.3],["Квалификация, 20%",q,q*0.2]].map(function(r){return '<div class="ln"><span>'+r[0]+'</span><div class="tr"><i style="width:'+r[1]+'%"></i></div><b>'+f1(r[2])+'</b></div>'}).join("");
+ $("tot").textContent=f1(tot);
+ $("ring").style.background="conic-gradient(#1E9E5E "+(tot*3.6)+"deg,#E4E8EC 0)";
+ var price18=sp(Math.round(18400000*my/1000)*1000);
+ $("sm").innerHTML='<div class="who">ОБОСНОВАНИЕ</div>Расчёт для случая, когда пробелы закрыты: 2 договора и 2 ГИПа. При цене '+price18+' ₽ (−'+d+'%) и снижении у конкурента '+c+'% клиент набирает '+f1(tot)+' балла. '+(d<c?'Цена теряет '+f1(50-price*0.5)+' балла, а опыт даёт только 12 из 30. Без снижения цены до '+c+'% выиграть сложно, при этом надо проверить, остаётся ли проект в плюсе.':'По цене клиент лучший, основной резерв в опыте: каждый дополнительный подходящий договор даёт +6 баллов.')}
+$("rd").oninput=sc;$("rc").oninput=sc;
+// 02
+var S=[{n:"Пессимистичный",npv:6.2,irr:18,pb:"4,8",cf:[-96,-78,-59,-39,-18,4,27,51,76],m:"Урожайность +15% вместо +25%, цена реализации ниже на 10%. Проект окупается, но запас прочности маленький: при ставке выше 18% NPV уходит в минус."},
+ {n:"Базовый",npv:38.4,irr:27,pb:"3,6",cf:[-96,-71,-44,-16,13,43,74,106,139],m:"Урожайность +25% к текущей, цена по среднему за 3 года, ставка дисконтирования 16%. Окупается на 4-й год, дальше около 30 млн ₽ в год."},
+ {n:"Оптимистичный",npv:71.9,irr:36,pb:"2,8",cf:[-96,-64,-29,8,46,85,125,166,208],m:"Урожайность +35% и экспортный контракт с первого года. Самое чувствительное допущение здесь контракт: без него результат ближе к базовому."}];
+function inv(i){var s=S[i];document.querySelectorAll("#sc button").forEach(function(b,j){b.className=j==i?"on":""});
+ $("ik").innerHTML='<div class="kpi"><div class="l">Инвестиции</div><div class="v">96 млн ₽</div></div><div class="kpi good"><div class="l">NPV</div><div class="v">'+f1(s.npv)+' млн ₽</div></div><div class="kpi"><div class="l">IRR</div><div class="v">'+s.irr+'%</div></div><div class="kpi"><div class="l">Окупаемость</div><div class="v">'+s.pb+' года</div></div>';
+ var mx=210,mn=-100,H=180,scl=H/(mx-mn),z=mx*scl+10;
+ $("ch").innerHTML='<div class="zero" style="top:'+z+'px"></div>'+s.cf.map(function(v){var h=Math.max(2,Math.abs(v)*scl),top=v>=0?z-h:z;return '<div class="c"><i class="'+(v<0?'neg':'')+'" style="top:'+top+'px;height:'+h+'px"></i><em style="top:'+(v>=0?top-14:top+h+2)+'px">'+(v<0?'−':'')+Math.abs(v)+'</em></div>'}).join("");
+ $("im").innerHTML='<div class="who">ДОПУЩЕНИЯ</div>'+s.m}
+document.querySelectorAll("#sc button").forEach(function(b){b.onclick=function(){inv(+b.dataset.s)}});inv(1);
+// 03
+function pc(){var a=+$("ra").value,k=+$("cu").value;$("va").textContent=a;
+ var water=Math.round(a*28*k),cost=Math.round(a*228000*k/1000)*1000,days=Math.max(10,Math.round(a/6));
+ $("pk").innerHTML='<div class="kpi"><div class="l">Расход в пик</div><div class="v">'+sp(water)+' м³/сут</div></div><div class="kpi"><div class="l">Насосная станция</div><div class="v">'+(a<=80?'1 × 45 кВт':a<=250?'2 × 55 кВт':'3 × 75 кВт')+'</div></div><div class="kpi"><div class="l">Стоимость системы</div><div class="v">≈ '+f1(cost/1e6)+' млн ₽</div></div><div class="kpi"><div class="l">Монтаж</div><div class="v">'+days+' дней</div></div>';
+ $("kp").innerHTML=""}
+$("ra").oninput=pc;$("cu").onchange=pc;pc();
+$("bk").onclick=function(){var a=+$("ra").value,k=+$("cu").value,cost=Math.round(a*228000*k/1000)*1000;
+ var eq=Math.round(cost*0.62/1000)*1000,pr=Math.round(cost*0.12/1000)*1000,mn=cost-eq-pr;
+ $("kp").innerHTML='<div class="kp"><div class="h"><b>Коммерческое предложение · капельный полив '+a+' га</b><span>№ КП-2026-118</span></div><table><tr><th>Позиция</th><th class="r">Сумма, ₽</th></tr><tr><td>Оборудование и материалы</td><td class="r">'+sp(eq)+'</td></tr><tr><td>Проектирование</td><td class="r">'+sp(pr)+'</td></tr><tr><td>Монтаж и пусконаладка</td><td class="r">'+sp(mn)+'</td></tr><tr><td><b>Итого</b></td><td class="r"><b>'+sp(cost)+'</b></td></tr></table></div><div class="tgn"><b>Telegram:</b> новая заявка из кабинета: капельный полив '+a+' га, КП-2026-118 на '+sp(cost)+' ₽.</div>'};
+</script>
+</body>
+</html>
