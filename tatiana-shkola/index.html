@@ -1,0 +1,432 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Татьяна: финансы онлайн-школы</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@1,500;1,600&display=swap" rel="stylesheet">
+<style>
+:root{--night:#0F1F17;--night2:#15291E;--night3:#1C3427;--cream:#F3F0E7;--ink:#14241B;--lime:#C3EF6B;--leaf:#2E7A4F;--sage:#A6BBA9;--mut:#5E6B62;--red:#E5705F;--amber:#E2B04A;--cl:rgba(243,240,231,.09)}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--night);color:var(--cream);font:16px/1.5 Onest,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+em.ac{font-family:"Cormorant Garamond",Georgia,serif;font-style:italic;font-weight:600;color:var(--lime);font-size:1.12em}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+.hero{padding:28px 0 64px;background:radial-gradient(900px 500px at 85% 10%,#24432F 0,transparent 70%)}
+.top{display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--sage);letter-spacing:.06em}
+.top b{color:var(--cream);letter-spacing:.12em}
+.pill{display:inline-block;background:var(--lime);color:var(--night);font-size:13px;font-weight:600;border-radius:999px;padding:5px 14px;margin:44px 0 14px}
+.hero .sub{font-size:13px;color:var(--sage);margin-bottom:10px}
+h1{font-size:46px;line-height:1.1;font-weight:600;margin:0 0 18px;max-width:820px}
+.lead{font-size:18px;color:#D9D6CC;max-width:700px;margin:0}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;max-width:860px;margin-top:40px}
+.stats b{display:block;font-size:22px;font-weight:600}
+.stats span{font-size:14px;color:var(--sage)}
+.note{font-size:13px;color:var(--sage);margin-top:28px}
+.cream{background:var(--cream);color:var(--ink);border-radius:40px 40px 0 0;padding:64px 0 72px}
+.cream h2{font-size:44px;line-height:1.1;font-weight:600;margin:0 0 12px}
+.cream .intro{color:var(--mut);max-width:720px;margin:0 0 36px}
+.lay{display:grid;grid-template-columns:250px 1fr;gap:20px;align-items:start}
+.lay>*{min-width:0}
+.menu{display:flex;flex-direction:column;gap:10px;position:sticky;top:16px}
+.menu button{all:unset;cursor:pointer;display:flex;gap:12px;align-items:flex-start;background:#fff;border-radius:16px;padding:14px 16px}
+.menu button i{font-style:normal;font-size:12px;color:var(--mut);padding-top:2px}
+.menu button b{display:block;font-weight:600;font-size:15px}
+.menu button small{font-size:12.5px;color:var(--mut)}
+.menu button.on{background:var(--night);color:var(--cream)}
+.menu button.on i{color:var(--lime)}.menu button.on small{color:var(--sage)}
+.proto{display:none}.proto.on{display:block}
+.proto h3{font-size:28px;line-height:1.2;font-weight:600;margin:0 0 10px}
+.proto>p{color:var(--mut);margin:0 0 18px;max-width:780px}
+.hand{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px}
+.hand div{background:#fff;border-radius:14px;padding:12px 16px;font-size:14px}
+.hand small{display:block;font-size:11px;letter-spacing:.08em;color:var(--mut)}
+.hand b{color:var(--leaf)}
+.win{background:var(--night);color:var(--cream);border-radius:24px;overflow:hidden;box-shadow:0 30px 60px -30px rgba(15,30,23,.45)}
+.wbar{display:flex;align-items:center;gap:10px;padding:12px 18px;border-bottom:1px solid var(--cl);font-size:12.5px;color:var(--sage)}
+.wbar .d{display:flex;gap:6px}.wbar .d i{width:9px;height:9px;border-radius:50%;background:#2C4636}
+.wbar .tg{margin-left:auto;background:rgba(195,239,107,.12);color:var(--lime);border-radius:999px;padding:3px 10px;white-space:nowrap}
+.wb{padding:18px}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-bottom:14px}
+.row h4{margin:0;font-size:17px;font-weight:600}
+.row h4 small{display:block;font-size:12.5px;font-weight:400;color:var(--sage)}
+.btn{all:unset;cursor:pointer;background:var(--lime);color:var(--night);font-weight:600;font-size:14px;border-radius:999px;padding:9px 18px;white-space:nowrap}
+.btn:disabled{opacity:.5;cursor:default}
+.seg{display:inline-flex;background:var(--night3);border-radius:999px;padding:3px;flex-wrap:wrap}
+.seg button{all:unset;cursor:pointer;font-size:13px;padding:6px 13px;border-radius:999px;color:var(--sage);white-space:nowrap}
+.seg button.on{background:var(--cream);color:var(--ink);font-weight:600}
+.k{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:12px}
+.k>div{background:var(--night2);border-radius:14px;padding:12px 14px;min-width:0;transition:background .5s}
+.k>div.fl{background:#284A2F}
+.k small{display:block;font-size:12px;color:var(--sage)}
+.k b{display:block;font-size:20px;font-weight:600;margin-top:2px;white-space:nowrap;font-variant-numeric:tabular-nums}
+.k span{display:block;font-size:12px;color:var(--sage);line-height:1.4;margin-top:2px}
+.g{color:var(--lime)!important}.r{color:var(--red)!important}.a{color:var(--amber)!important}.m{color:var(--sage)!important}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.two.w{grid-template-columns:1.15fr 1fr}
+.two>*,.k>*{min-width:0}
+.card{background:var(--night2);border-radius:16px;padding:14px 16px}
+.card h5{margin:0 0 10px;font-size:13px;font-weight:600;color:var(--sage);display:flex;justify-content:space-between;gap:8px}
+.card h5 span{font-weight:400}
+svg text{font-family:Onest,sans-serif}
+.tw{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:13px;font-variant-numeric:tabular-nums}
+th{font-size:11.5px;font-weight:500;color:var(--sage);text-align:right;padding:6px 8px;border-bottom:1px solid var(--cl);white-space:nowrap;vertical-align:bottom}
+td{padding:7px 8px;border-bottom:1px solid var(--cl);text-align:right;white-space:nowrap}
+th:first-child,td:first-child{text-align:left}
+td.l,th.l{text-align:left}
+td small{display:block;color:var(--sage);font-size:11.5px}
+td.l small{white-space:normal;min-width:200px;max-width:260px}
+tr.tot td{font-weight:600;border-bottom:0;border-top:1px solid rgba(243,240,231,.2)}
+tr.cur td{background:rgba(195,239,107,.06)}
+tr.bad td{background:rgba(229,112,95,.08)}
+.st{display:inline-block;font-size:12px;border-radius:999px;padding:2px 9px;white-space:nowrap}
+.st.ok{background:rgba(195,239,107,.14);color:var(--lime)}.st.wt{background:rgba(226,176,74,.15);color:var(--amber)}.st.er{background:rgba(229,112,95,.15);color:var(--red)}.st.no{background:var(--night3);color:var(--sage)}
+.log{background:#08130D;border-radius:12px;padding:10px 12px;font:12px/1.65 ui-monospace,Consolas,monospace;color:#9DE7C2;min-height:40px;margin-bottom:12px}
+.log span{color:#5D7A6D}
+.msg{background:rgba(195,239,107,.08);border:1px solid rgba(195,239,107,.25);border-radius:14px;padding:12px 14px;font-size:14px}
+.msg b{color:var(--lime)}
+.msg ul{margin:6px 0 0;padding-left:18px}
+.src{font-size:12px;color:var(--sage);margin-top:10px}
+.wf div{display:grid;grid-template-columns:230px 1fr 110px 54px;gap:10px;align-items:center;font-size:13px;padding:5px 0}
+.wf .t{height:14px;background:var(--night3);border-radius:4px;position:relative;overflow:hidden}
+.wf .t i{position:absolute;top:0;bottom:0;border-radius:4px}
+.wf b{text-align:right;font-variant-numeric:tabular-nums;font-weight:500}
+.wf em{font-style:normal;text-align:right;color:var(--sage);font-size:12px}
+.wf .tot{border-top:1px solid var(--cl);margin-top:4px;padding-top:9px;font-weight:600}
+.wf .tot b{font-weight:600}
+.ctl{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:12px}
+.ctl label{display:block;background:var(--night2);border-radius:14px;padding:10px 14px;font-size:13px;color:var(--sage)}
+.ctl label b{color:var(--cream);float:right}
+input[type=range]{width:100%;accent-color:#C3EF6B;margin-top:8px}
+.ctl label.sw{display:flex;gap:10px;align-items:center;cursor:pointer}
+.sw input{display:none}.sw i{width:36px;height:20px;border-radius:999px;background:#34463A;position:relative;flex:none}
+.sw i:after{content:"";position:absolute;top:3px;left:3px;width:14px;height:14px;border-radius:50%;background:var(--cream);transition:.2s}
+.sw input:checked+i{background:var(--lime)}.sw input:checked+i:after{left:19px;background:var(--night)}
+.gives{background:#fff;border-radius:16px;padding:16px 18px;margin-top:16px;font-size:15px}
+.gives small{display:block;font-size:11px;letter-spacing:.08em;color:var(--mut);margin-bottom:4px}
+.how{padding:64px 0 40px}
+.how h2{font-size:36px;font-weight:600;margin:0 0 10px}
+.how>.wrap>p{color:#D9D6CC;max-width:760px;margin:0 0 26px}
+.flow{display:flex;flex-wrap:wrap;gap:10px}
+.flow div{background:var(--night2);border:1px solid #2A4133;border-radius:16px;padding:14px 16px;flex:1 1 170px}
+.flow b{display:block;font-size:15px;margin-bottom:4px}
+.flow span{font-size:13px;color:var(--sage)}
+.roles{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+.roles div{border:1px dashed #34463A;border-radius:16px;padding:14px 16px;font-size:13.5px;color:#D9D6CC}
+.roles b{display:block;color:var(--lime);font-size:14px;margin-bottom:4px}
+.foot{padding:24px 0 48px;font-size:13px;color:var(--sage)}
+@media (max-width:980px){
+ h1{font-size:34px}.cream h2{font-size:32px}
+ .lay{grid-template-columns:1fr}
+ .menu{position:static;flex-direction:row;overflow-x:auto;padding-bottom:4px}
+ .menu button{flex:0 0 210px}
+ .two,.two.w{grid-template-columns:1fr}
+ .k{grid-template-columns:1fr 1fr}
+ .ctl,.roles{grid-template-columns:1fr}
+ .wf div{grid-template-columns:150px 1fr 96px 44px}
+}
+@media (max-width:520px){
+ .wrap{padding:0 16px}.wb{padding:12px}
+ h1{font-size:29px}.lead{font-size:16px}
+ .stats{grid-template-columns:1fr;gap:14px}
+ .hand{grid-template-columns:1fr}
+ .proto h3{font-size:23px}
+ .k b{font-size:17px}
+ .wf div{grid-template-columns:1fr 96px 40px}.wf .t{grid-column:1/4;order:4}
+ .wbar .tg{display:none}
+}
+</style>
+</head>
+<body>
+<header class="hero"><div class="wrap">
+ <div class="top"><b>МАСТЕР CFO</b><span>ПРОТОТИПЫ</span></div>
+ <div class="pill">Личная подборка для Татьяны</div>
+ <div class="sub">Финансовый директор · онлайн-школа</div>
+ <h1>Татьяна, четыре сервиса для финансов <em class="ac">онлайн-школы</em></h1>
+ <p class="lead">Отчёт по запуску для собственников, сверка оплат с банками и выпиской, маржинальный доход каждого потока и платёжный календарь до следующего запуска. Всё на одной базе, всё можно понажимать.</p>
+ <div class="stats">
+  <div><b>5 каналов оплаты</b><span>эквайринг, рассрочки Т-Банка, ОТП и Сбера, сплит школы</span></div>
+  <div><b>до заказа и п/п</b><span>каждая оплата сопоставлена с платёжкой в выписке</span></div>
+  <div><b>каждый час</b><span>данные обновляются сами, без выгрузок вручную</span></div>
+ </div>
+ <div class="note">Школа, тарифы, суммы, комиссии банков и номера документов в примерах условные.</div>
+</div></header>
+
+<main class="cream"><div class="wrap">
+ <h2>Потыкайте</h2>
+ <p class="intro">Переключайте сервисы в меню. Пример построен на одном запуске: поток 7, продажи 17–23 ноября, срез на 20 ноября.</p>
+ <div class="lay">
+  <nav class="menu" id="menu">
+   <button class="on" data-p="0"><i>01</i><span><b>Отчёт по запуску</b><small>для собственников</small></span></button>
+   <button data-p="1"><i>02</i><span><b>Сверка оплат</b><small>банки, эквайринг, выписка</small></span></button>
+   <button data-p="2"><i>03</i><span><b>Экономика потока</b><small>маржинальный доход и каналы</small></span></button>
+   <button data-p="3"><i>04</i><span><b>Платёжный календарь</b><small>до следующего запуска</small></span></button>
+  </nav>
+  <div>
+
+<!-- 01 -->
+<section class="proto on" id="p0">
+ <h3>Отчёт по запуску, который собственники открывают сами</h3>
+ <p>Продажи по дням, тарифам и способам оплаты, выполнение плана и прогноз на закрытие продаж по динамике прошлых потоков. Цифры приходят из платёжных систем и банков, отчёт обновляется каждый час.</p>
+ <div class="hand"><div><small>ВРУЧНУЮ → В СЕРВИСЕ</small>Свести отчёт по запуску: <b>2–3 часа каждый вечер → ссылка</b></div><div><small>ВРУЧНУЮ → В СЕРВИСЕ</small>Ответить «сколько соберём?»: <b>на глаз → прогноз с диапазоном</b></div></div>
+ <div class="win"><div class="wbar"><span class="d"><i></i><i></i><i></i></span>report.школа.ru / запуски / поток 7<span class="tg">срез 20.11, 14:30</span></div><div class="wb">
+  <div class="row"><h4>Поток 7 · продажи 17.11–23.11<small>день 4 из 7 · план 12 000 000 ₽</small></h4><div class="seg" id="l-cmp"><span style="font-size:12.5px;color:var(--sage);padding:6px 6px 6px 10px">Сравнить с</span><button class="on" data-v="6">потоком 6</button><button data-v="5">потоком 5</button></div></div>
+  <div class="k">
+   <div id="lk1"><small>Продажи, сумма договоров</small><b></b><span></span></div>
+   <div id="lk2"><small>Выполнение плана</small><b></b><span></span></div>
+   <div id="lk3"><small>Конверсия заявка → оплата</small><b></b><span></span></div>
+   <div id="lk4"><small>Прогноз на 23.11</small><b></b><span></span></div>
+  </div>
+  <div class="two w" style="grid-template-columns:1fr">
+   <div class="card"><h5>Продажи нарастающим итогом, млн ₽</h5><svg id="l-svg" viewBox="0 0 520 230" style="width:100%;height:auto;display:block"></svg>
+    <div style="display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--sage);margin-top:6px"><span><i style="display:inline-block;width:14px;height:3px;background:#C3EF6B;vertical-align:middle"></i> поток 7</span><span><i style="display:inline-block;width:14px;height:3px;background:#6E8A75;vertical-align:middle"></i> <span id="l-lg">поток 6</span></span><span><i style="display:inline-block;width:14px;border-top:2px dashed #E2B04A;vertical-align:middle"></i> план</span><span><i style="display:inline-block;width:14px;border-top:2px dotted #C3EF6B;vertical-align:middle"></i> прогноз</span></div></div>
+   <div class="card"><h5>По дням <span>₽</span></h5><div class="tw"><table id="l-days"></table></div></div>
+  </div>
+  <div class="two">
+   <div class="card"><h5>По тарифам</h5><div class="tw"><table id="l-tar"></table></div></div>
+   <div class="card"><h5>По способам оплаты</h5><div class="tw"><table id="l-pay"></table></div></div>
+  </div>
+  <div class="msg" id="l-msg"></div>
+  <div class="src">Источники: заказы платформы, эквайринг, кабинеты банков-партнёров. Возвраты учитываются в день оформления.</div>
+ </div></div>
+ <div class="gives"><small>ЧТО ЭТО ДАЁТ</small>Собственники смотрят запуск сами в любой момент. А у вас к середине продаж есть оценка, сколько денег будет на выплаты экспертам и рекламу следующего потока.</div>
+</section>
+
+<!-- 02 -->
+<section class="proto" id="p1">
+ <h3>Каждая оплата сопоставлена с платёжкой</h3>
+ <p>Сервис берёт заказы, реестры банков по рассрочкам, отчёт эквайринга и выписку по расчётному счёту и сопоставляет их по номеру заказа, сумме и дате. Комиссия считается по ставкам из договоров с банками, поэтому видно, где удержали больше.</p>
+ <div class="hand"><div><small>ВРУЧНУЮ → В СЕРВИСЕ</small>Сверить 96 оплат по 5 каналам: <b>1–2 дня → минута</b></div><div><small>ВРУЧНУЮ → В СЕРВИСЕ</small>Найти недоплату банка: <b>при сверке за квартал → в день зачисления</b></div></div>
+ <div class="win"><div class="wbar"><span class="d"><i></i><i></i><i></i></span>report.школа.ru / сверка / поток 7<span class="tg">выписка на 20.11</span></div><div class="wb">
+  <div class="row"><h4>Сверка поступлений<small>заказы 17.11–20.11 · выписка р/с за 17.11–20.11</small></h4><button class="btn" id="s-go">Сверить с выпиской</button></div>
+  <div class="log" id="s-log"></div>
+  <div class="k">
+   <div id="sk1"><small>Продажи, сумма договоров</small><b></b><span></span></div>
+   <div id="sk2"><small>Поступило на р/с</small><b></b><span></span></div>
+   <div id="sk3"><small>Ожидается от банков</small><b></b><span></span></div>
+   <div id="sk4"><small>Комиссии банков</small><b></b><span></span></div>
+  </div>
+  <div class="card" style="margin-bottom:12px"><h5>По каналам оплаты <span>₽</span></h5><div class="tw"><table id="s-ch"></table></div></div>
+  <div class="card" style="margin-bottom:12px"><h5>Заказы <span class="seg" id="s-f" style="margin:-4px 0"><button class="on" data-v="all">Все</button><button data-v="er">Расхождения</button><button data-v="wt">Ожидаются</button></span></h5><div class="tw"><table id="s-or"></table></div><div class="src">Показаны 9 заказов из 96 для примера.</div></div>
+  <div class="msg" id="s-msg" style="display:none"></div>
+ </div></div>
+ <div class="gives"><small>ЧТО ЭТО ДАЁТ</small>Выручка в отчёте собственникам совпадает с деньгами на счёте. Недоплаты банков и незакрытые возвраты видны в день, когда они появились.</div>
+</section>
+
+<!-- 03 -->
+<section class="proto" id="p2">
+ <h3>Сколько заработал каждый поток</h3>
+ <p>Из выручки по договорам сервис по шагам вычитает возвраты, комиссии банков, рекламу, роялти экспертов, кураторов, платформу и налог. Получается маржинальный доход потока до постоянных расходов школы. Каналы рекламы считаются по маржинальному доходу, а не по выручке.</p>
+ <div class="hand"><div><small>ВРУЧНУЮ → В СЕРВИСЕ</small>Посчитать маржинальный доход потока: <b>неделя после закрытия → сразу</b></div><div><small>ВРУЧНУЮ → В СЕРВИСЕ</small>Оценить канал рекламы: <b>по заявкам → по деньгам, которые остались</b></div></div>
+ <div class="win"><div class="wbar"><span class="d"><i></i><i></i><i></i></span>report.школа.ru / экономика потоков<span class="tg">потоки 4–6 закрыты</span></div><div class="wb">
+  <div class="row"><h4 id="e-h">Поток 6</h4><div class="seg" id="e-s"><button data-v="0">Поток 4</button><button data-v="1">Поток 5</button><button class="on" data-v="2">Поток 6</button></div></div>
+  <div class="k">
+   <div id="ek1"><small>Выручка по договорам</small><b></b><span></span></div>
+   <div id="ek2"><small>Маржинальный доход</small><b></b><span></span></div>
+   <div id="ek3"><small>ДРР</small><b></b><span></span></div>
+   <div id="ek4"><small>CAC, стоимость оплаты</small><b></b><span></span></div>
+  </div>
+  <div class="card" style="margin-bottom:12px"><h5>От выручки к маржинальному доходу <span>% от выручки</span></h5><div class="wf" id="e-wf"></div></div>
+  <div class="card" style="margin-bottom:12px"><h5>Каналы рекламы <span>₽</span></h5><div class="tw"><table id="e-ch"></table></div><div class="src">ROMI = (маржинальный доход канала до рекламы − расход на рекламу) / расход. Атрибуция по последнему касанию до заявки.</div></div>
+  <div class="msg" id="e-msg"></div>
+ </div></div>
+ <div class="gives"><small>ЧТО ЭТО ДАЁТ</small>Бюджет следующего запуска распределяется по каналам, которые приносят маржинальный доход, а не только заявки.</div>
+</section>
+
+<!-- 04 -->
+<section class="proto" id="p3">
+ <h3>Хватит ли денег до следующего запуска</h3>
+ <p>Календарь собирает поступления от банков по рассрочкам, платежи по сплиту, возвраты, выплаты экспертам, зарплаты, налоги и рекламу потока 8 по неделям. Двигайте настройки и смотрите, где остаток уходит ниже неснижаемого.</p>
+ <div class="hand"><div><small>ВРУЧНУЮ → В СЕРВИСЕ</small>Пересчитать календарь под другой сценарий: <b>час → сразу</b></div><div><small>ВРУЧНУЮ → В СЕРВИСЕ</small>Увидеть кассовый разрыв: <b>за неделю → за 6 недель</b></div></div>
+ <div class="win"><div class="wbar"><span class="d"><i></i><i></i><i></i></span>report.школа.ru / платёжный календарь<span class="tg">неснижаемый остаток 1,5 млн ₽</span></div><div class="wb">
+  <div class="row"><h4>23.11.2026 — 31.01.2027<small>остаток на р/с на 23.11: 6 000 000 ₽</small></h4></div>
+  <div class="ctl">
+   <label>Старт рекламы потока 8<b id="c-sv"></b><input type="range" id="c-s" min="2" max="7" value="4"></label>
+   <label>Бюджет рекламы в неделю<b id="c-bv"></b><input type="range" id="c-b" min="5" max="12" value="9"></label>
+   <label class="sw"><input type="checkbox" id="c-x"><i></i><span>Роялти экспертам двумя частями: 50% 10.12, 50% 15.01</span></label>
+  </div>
+  <div class="k">
+   <div id="ck1"><small>Минимальный остаток</small><b></b><span></span></div>
+   <div id="ck2"><small>Недель ниже неснижаемого</small><b></b><span></span></div>
+   <div id="ck3"><small>Предпродажи потока 8 до 31.01</small><b></b><span></span></div>
+   <div id="ck4"><small>Остаток на 31.01</small><b></b><span></span></div>
+  </div>
+  <div class="card" style="margin-bottom:12px"><h5>Остаток на конец недели <span>млн ₽</span></h5><svg id="c-svg" viewBox="0 0 560 220" style="width:100%;height:auto;display:block"></svg></div>
+  <div class="card" style="margin-bottom:12px"><h5>Движение денег по неделям <span>тыс. ₽</span></h5><div class="tw"><table id="c-t"></table></div></div>
+  <div class="msg" id="c-msg"></div>
+ </div></div>
+ <div class="gives"><small>ЧТО ЭТО ДАЁТ</small>Разрыв виден за полтора месяца, пока ещё можно сдвинуть старт рекламы, график выплат или открыть предпродажи раньше.</div>
+</section>
+
+  </div>
+ </div>
+</div></main>
+
+<section class="how"><div class="wrap">
+ <h2>Как это <em class="ac">устроено</em></h2>
+ <p>Все четыре сервиса работают на одной базе. Google Таблицы остаются рабочим местом, сервер забирает данные сам по расписанию.</p>
+ <div class="flow">
+  <div><b>Источники</b><span>заказы платформы, Google Таблицы, реестры банков по рассрочкам, отчёт эквайринга, выписка по р/с</span></div>
+  <div><b>Сервер и база</b><span>забирает данные каждый час, сопоставляет и хранит историю всех потоков</span></div>
+  <div><b>Расчёты</b><span>прогноз запуска, комиссии по договорам, маржинальный доход, календарь</span></div>
+  <div><b>Отчёты и уведомления</b><span>вход по логину, сводка в Telegram в 21:00 в дни продаж</span></div>
+ </div>
+ <div class="roles">
+  <div><b>Собственники</b>отчёт по запуску и экономика потоков</div>
+  <div><b>Финансовый директор</b>всё, включая сверку и платёжный календарь</div>
+  <div><b>Маркетинг</b>каналы рекламы и CAC без финансовых данных школы</div>
+ </div>
+ <p style="color:var(--sage);font-size:14px;margin-top:18px">Персональные данные учеников хранятся на сервере в России, в соответствии со 152-ФЗ.</p>
+</div></section>
+<div class="foot"><div class="wrap">Подборка собрана для Татьяны. Школа, тарифы, суммы, комиссии банков и номера документов в примерах условные.</div></div>
+
+<script>
+(function(){
+var $=function(s){return document.querySelector(s)},NB=' ';
+function f(n){var s=Math.round(Math.abs(n)).toString().replace(/\B(?=(\d{3})+(?!\d))/g,NB);return (n<0?'−':'')+s}
+function m(n,d){return (n<0?'−':'')+(Math.abs(n)/1e6).toFixed(d==null?2:d).replace('.',',')+NB+'млн'+NB+'₽'}
+function rb(n){return f(n)+NB+'₽'}
+function pc(x,d){return (x*100).toFixed(d==null?1:d).replace('.',',')+'%'}
+function K(id,v,s,cl){var e=$('#'+id);e.querySelector('b').textContent=v;e.querySelector('b').className=cl||'';e.querySelector('span').innerHTML=s||''}
+function fl(id){var e=$('#'+id);e.classList.add('fl');setTimeout(function(){e.classList.remove('fl')},600)}
+function seg(id,cb){$('#'+id).addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;[].forEach.call(this.querySelectorAll('button'),function(x){x.classList.toggle('on',x===b)});cb(b.dataset.v)})}
+$('#menu').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;[].forEach.call(this.children,function(x){x.classList.toggle('on',x===b)});
+ document.querySelectorAll('.proto').forEach(function(p,i){p.classList.toggle('on',i==b.dataset.p)});if(innerWidth<980)$('#p'+b.dataset.p).scrollIntoView({behavior:'smooth',block:'start'})});
+
+/* ===== 01 отчёт по запуску ===== */
+var PLAN=12e6,DATES=['17.11','18.11','19.11','20.11','21.11','22.11','23.11'];
+var DAYS=[[128,25,1420000],[104,27,1530000],[92,20,1170000],[88,24,1390400]];
+var REF={6:{c:[1.10,2.30,3.40,4.60,6.10,8.00,10.60],conv:.21,fin:10.6e6},5:{c:[0.95,2.00,2.90,3.90,5.20,6.80,9.20],conv:.196,fin:9.2e6}};
+var TAR=[['База',39900,22,0],['Стандарт',59900,60,52],['VIP',99900,14,20]],DISC=5000;
+var PAY=[['Карта, полная оплата',30,1597000],['Т-Банк, рассрочка 6 мес',30,1857000],['ОТП Банк, рассрочка 6 мес',13,778600],['Сбер, рассрочка 6 мес',9,559100],['Сплит школы, 3 платежа',14,718700]];
+function lRender(rk){var R=REF[rk],cum=[],s=0;DAYS.forEach(function(d){s+=d[2];cum.push(s)});var d=DAYS.length,z=0,o=0;DAYS.forEach(function(x){z+=x[0];o+=x[1]});
+ var ratio=cum[d-1]/(R.c[d-1]*1e6),base=R.c[6]*1e6*ratio,lo=base*.92,hi=base*1.06;
+ K('lk1',rb(s),o+' оплат · средний чек '+rb(Math.round(s/o/100)*100));
+ K('lk2',pc(s/PLAN),'поток '+rk+' на 4-й день: '+pc(R.c[3]*1e6/PLAN),s/PLAN>=R.c[3]*1e6/PLAN?'g':'a');
+ K('lk3',pc(o/z),z+' заявок · поток '+rk+' на 4-й день: '+pc(R.conv),o/z>=R.conv?'g':'a');
+ K('lk4',m(base,1),'диапазон '+(lo/1e6).toFixed(1).replace('.',',')+'–'+(hi/1e6).toFixed(1).replace('.',',')+' млн · '+pc(base/PLAN,0)+' плана',base>=PLAN?'g':'a');
+ $('#l-lg').textContent='поток '+rk;
+ /* график */
+ var W=520,H=230,L_=40,Rp=30,T=14,B=26,mx=14e6;function X(i){return L_+i*(W-L_-Rp)/6}function Y(v){return T+(1-v/mx)*(H-T-B)}
+ var g='';[0,2,4,6,8,10,12,14].forEach(function(v){g+='<line x1="'+L_+'" x2="'+(W-Rp)+'" y1="'+Y(v*1e6)+'" y2="'+Y(v*1e6)+'" stroke="rgba(243,240,231,.06)"/><text x="'+(L_-8)+'" y="'+(Y(v*1e6)+4)+'" font-size="10.5" fill="#A6BBA9" text-anchor="end">'+v+'</text>'});
+ DATES.forEach(function(t,i){g+='<text x="'+X(i)+'" y="'+(H-7)+'" font-size="10.5" fill="'+(i<d?'#F3F0E7':'#A6BBA9')+'" text-anchor="middle">'+t+'</text>'});
+ g+='<line x1="'+L_+'" x2="'+(W-Rp)+'" y1="'+Y(PLAN)+'" y2="'+Y(PLAN)+'" stroke="#E2B04A" stroke-dasharray="5 5"/><text x="'+(L_+4)+'" y="'+(Y(PLAN)-5)+'" font-size="10.5" fill="#E2B04A">план 12,0</text>';
+ g+='<polyline fill="none" stroke="#6E8A75" stroke-width="2.2" points="'+R.c.map(function(v,i){return X(i)+','+Y(v*1e6)}).join(' ')+'"/>';
+ var fc=[cum[d-1]];for(var i=d;i<7;i++)fc.push(R.c[i]*1e6*ratio);
+ g+='<polygon fill="rgba(195,239,107,.10)" points="'+X(d-1)+','+Y(cum[d-1])+' '+X(6)+','+Y(hi)+' '+X(6)+','+Y(lo)+'"/>';
+ g+='<polyline fill="none" stroke="#C3EF6B" stroke-width="2" stroke-dasharray="2 4" points="'+fc.map(function(v,i){return X(d-1+i)+','+Y(v)}).join(' ')+'"/>';
+ g+='<polyline fill="none" stroke="#C3EF6B" stroke-width="3" points="'+cum.map(function(v,i){return X(i)+','+Y(v)}).join(' ')+'"/>';
+ cum.forEach(function(v,i){g+='<circle cx="'+X(i)+'" cy="'+Y(v)+'" r="3.5" fill="#C3EF6B"/>'});
+ g+='<text x="'+(X(6)+2)+'" y="'+(Y(base)-6)+'" font-size="10.5" fill="#C3EF6B" text-anchor="end">'+(base/1e6).toFixed(1).replace('.',',')+'</text>';$('#l-svg').innerHTML=g;
+ /* по дням */
+ var h='<tr><th>Дата</th><th>Заявки</th><th>Оплаты</th><th>Сумма</th><th>Нарастающим</th><th>Поток '+rk+'</th><th>Откл.</th></tr>';
+ DAYS.forEach(function(x,i){var ref=R.c[i]*1e6,dv=cum[i]/ref-1;h+='<tr'+(i==d-1?' class="cur"':'')+'><td>'+DATES[i]+(i==d-1?'<small>до 14:30</small>':'')+'</td><td>'+x[0]+'</td><td>'+x[1]+'</td><td>'+f(x[2])+'</td><td>'+f(cum[i])+'</td><td class="m">'+f(ref)+'</td><td class="'+(dv>=0?'g':'r')+'">'+(dv>=0?'+':'−')+pc(Math.abs(dv),0)+'</td></tr>'});
+ h+='<tr class="tot"><td>Итого</td><td>'+z+'</td><td>'+o+'</td><td>'+f(s)+'</td><td></td><td></td><td></td></tr>';$('#l-days').innerHTML=h;
+ /* тарифы */
+ var gs=0,dc=0;h='<tr><th>Тариф</th><th>Оплат</th><th>Сумма</th><th>Доля</th></tr>';
+ TAR.forEach(function(t){gs+=t[1]*t[2];dc+=t[3]*DISC});
+ TAR.forEach(function(t){var v=t[1]*t[2];h+='<tr><td>'+t[0]+'<small>'+f(t[1])+' ₽</small></td><td>'+t[2]+'</td><td>'+f(v)+'</td><td>'+pc(v/gs,0)+'</td></tr>'});
+ h+='<tr><td>Скидка раннего входа<small>'+(TAR[1][3]+TAR[2][3])+' оплат × 5 000</small></td><td></td><td class="r">'+f(-dc)+'</td><td></td></tr><tr class="tot"><td>Итого</td><td>'+o+'</td><td>'+f(gs-dc)+'</td><td></td></tr>';$('#l-tar').innerHTML=h;
+ /* оплаты */
+ h='<tr><th>Способ</th><th>Оплат</th><th>Сумма</th><th>Доля</th></tr>';PAY.forEach(function(p){h+='<tr><td>'+p[0]+'</td><td>'+p[1]+'</td><td>'+f(p[2])+'</td><td>'+pc(p[2]/s,0)+'</td></tr>'});
+ h+='<tr class="tot"><td>Итого</td><td>'+o+'</td><td>'+f(s)+'</td><td>100%</td></tr>';$('#l-pay').innerHTML=h;
+ var bank=PAY[1][2]+PAY[2][2]+PAY[3][2];
+ $('#l-msg').innerHTML='<b>Сводка на 20.11, 14:30.</b> Продажи '+m(s)+', это '+pc(s/PLAN,0)+' плана и на '+pc(ratio-1,0)+' выше потока '+rk+' на тот же день. По динамике потока '+rk+' продажи закроются на '+(lo/1e6).toFixed(1).replace('.',',')+'–'+m(hi,1)+'. В рассрочку банков продано '+m(bank)+' ('+pc(bank/s,0)+'), комиссия по ним около '+m(PAY[1][2]*.089+PAY[2][2]*.095+PAY[3][2]*.08)+'. По сплиту '+m(PAY[4][2]*2/3)+' придут 18.12 и 18.01.'}
+seg('l-cmp',function(v){lRender(v)});lRender('6');
+
+/* ===== 02 сверка ===== */
+var CH=[['eq','Эквайринг, карта',30,1597000,.024,.957],['tb','Т-Банк, рассрочка',30,1857000,.089,.71],['otp','ОТП Банк, рассрочка',13,778600,.095,.62],['sb','Сбер, рассрочка',9,559100,.08,.78],['sp','Сплит школы, 1-й платёж',14,718700,0,1]];
+var CHN={eq:'Эквайринг',tb:'Т-Банк',otp:'ОТП',sb:'Сбер',sp:'Сплит школы'},RATE={eq:.024,tb:.089,otp:.095,sb:.08,sp:0};
+/* дата, заказ, канал, сумма договора, поступило, документ, статус, комментарий */
+var OR=[['17.11','З-24698','tb',99900,null,'','wt','реестр банка 19.11, зачисление ожидается до 21.11'],
+ ['17.11','З-24701','tb',59900,54569,'п/п 5498 от 19.11','ok',''],
+ ['18.11','З-24702','tb',59900,54569,'п/п 5512 от 20.11','er','возврат оформлен 19.11, деньги не возвращены банку'],
+ ['18.11','З-24771','sb',59900,55108,'п/п 1203 от 19.11','ok',''],
+ ['18.11','З-24790','eq',99900,null,'','er','по реестру эквайринга оплачен 18.11, в выписке нет'],
+ ['19.11','З-24812','otp',59900,null,'','wt','реестр банка 20.11, зачисление до 26.11'],
+ ['19.11','З-24817','otp',59900,53670,'п/п 88417 от 20.11','er','удержано 10,4% вместо 9,5% по договору'],
+ ['20.11','З-24840','sp',39900,13300,'эквайринг, 20.11','ok','1-й платёж из 3, далее 18.12 и 18.01'],
+ ['20.11','З-24849','eq',99900,null,'','wt','зачисление 21.11, Т+1']];
+var S={done:false,flt:'all'};
+function net(o){return o[2]=='sp'?Math.round(o[3]/3):o[3]*(1-RATE[o[2]])}
+function sRender(){var sold=0,com=0,cred=0,exp=0,fut=0;
+ CH.forEach(function(c){var cm=c[3]*c[4],n=c[0]=='sp'?c[3]/3:c[3]-cm;sold+=c[3];com+=cm;cred+=n*c[5];exp+=n*(1-c[5]);if(c[0]=='sp')fut+=c[3]*2/3});
+ K('sk1',rb(sold),'96 заказов');
+ if(!S.done){K('sk2','—','нажмите «Сверить»');K('sk3','—','');K('sk4','—','')}
+ else{K('sk2',rb(cred),'по выписке за 17.11–20.11','g');K('sk3',rb(exp),'по реестрам банков, до 26.11<br>сплит: ещё '+rb(fut)+' по графику','a');K('sk4',rb(com),pc(com/sold)+' от продаж, по ставкам договоров')}
+ var h='<tr><th>Канал</th><th>Заказов</th><th>Сумма договоров</th><th>Ставка</th><th>Комиссия</th><th>К зачислению</th><th>Поступило</th><th>Ожидается</th></tr>',T=[0,0,0,0,0,0];
+ CH.forEach(function(c){var cm=c[3]*c[4],n=c[0]=='sp'?c[3]/3:c[3]-cm;T[0]+=c[2];T[1]+=c[3];T[2]+=cm;T[3]+=n;T[4]+=n*c[5];T[5]+=n*(1-c[5]);
+  h+='<tr><td>'+c[1]+(c[0]=='sp'?'<small>1/3 суммы договора</small>':'')+'</td><td>'+c[2]+'</td><td>'+f(c[3])+'</td><td>'+(c[4]?pc(c[4]):'—')+'</td><td>'+(c[4]?f(cm):'0')+'</td><td>'+f(n)+'</td><td>'+(S.done?f(n*c[5]):'—')+'</td><td class="'+(S.done&&c[5]<1?'a':'')+'">'+(S.done?f(n*(1-c[5])):'—')+'</td></tr>'});
+ h+='<tr class="tot"><td>Итого</td><td>'+T[0]+'</td><td>'+f(T[1])+'</td><td></td><td>'+f(T[2])+'</td><td>'+f(T[3])+'</td><td>'+(S.done?f(T[4]):'—')+'</td><td>'+(S.done?f(T[5]):'—')+'</td></tr>';$('#s-ch').innerHTML=h;
+ var rows=OR.filter(function(o){return S.flt=='all'||!S.done||o[6]==S.flt});
+ h='<tr><th>Дата</th><th>Заказ</th><th class="l">Канал</th><th>Сумма договора</th><th>К зачислению</th><th>Поступило</th><th>Разница</th><th class="l">Статус</th></tr>';
+ rows.forEach(function(o){var n=net(o),df=o[4]==null?null:o[4]-n,cl={ok:'ok',wt:'wt',er:'er'}[o[6]],tx={ok:'сошлось',wt:'ожидается',er:'расхождение'}[o[6]];
+  h+='<tr class="'+(S.done&&o[6]=='er'?'bad':'')+'"><td>'+o[0]+'</td><td>'+o[1]+'</td><td class="l">'+CHN[o[2]]+'</td><td>'+f(o[3])+'</td><td>'+f(n)+'</td><td>'+(S.done?(o[4]==null?'<span class="m">—</span>':f(o[4])+'<small>'+o[5]+'</small>'):'—')+'</td><td class="'+(S.done&&df&&Math.abs(df)>1?'r':'')+'">'+(S.done&&df!=null?(Math.abs(df)<1?'0':f(df)):'')+'</td><td class="l">'+(S.done?'<span class="st '+cl+'">'+tx+'</span>'+(o[7]?'<small>'+o[7]+'</small>':''):'<span class="st no">не сверено</span>')+'</td></tr>'});
+ $('#s-or').innerHTML=h;
+ if(S.done){$('#s-msg').style.display='';$('#s-msg').innerHTML='<b>3 расхождения требуют действий:</b><ul><li>З-24817, ОТП: удержано 10,4% вместо 9,5%, недополучено 539 ₽. Подготовлено письмо в банк со ссылкой на договор.</li><li>З-24790, эквайринг: оплата 99 900 ₽ есть в реестре, в выписке её нет 2 дня. Нужен запрос в банк-эквайер.</li><li>З-24702, Т-Банк: возврат ученику оформлен, а 54 569 ₽ банку не перечислены, сумма ещё сидит в выручке.</li></ul>'}else $('#s-msg').style.display='none'}
+function sLog0(){$('#s-log').innerHTML='<div><span>14:30</span> загружено: заказы 96, реестры Т-Банка, ОТП, Сбера, реестр эквайринга, выписка р/с (214 операций)</div>'}
+seg('s-f',function(v){S.flt=v;sRender()});
+$('#s-go').addEventListener('click',function(){var b=this;if(S.done){S.done=false;b.textContent='Сверить с выпиской';sLog0();sRender();return}
+ b.disabled=true;var L2=['сопоставлено по номеру заказа и сумме: 81 из 96','реестры банков: 12 оплат ожидают зачисления, сроки по договорам','комиссии пересчитаны по ставкам договоров: 1 отклонение','найдено расхождений: 3, сверка заняла 38 с'],lg=$('#s-log');
+ L2.forEach(function(t,i){setTimeout(function(){lg.innerHTML+='<div><span>14:3'+(i+1)+'</span> '+t+'</div>';if(i==L2.length-1){S.done=true;b.disabled=false;b.textContent='Сбросить';sRender();fl('sk2');fl('sk3');fl('sk4')}},350+i*380)})});
+sLog0();sRender();
+
+/* ===== 03 экономика ===== */
+var ST=[{n:'Поток 4',dt:'продажи 08.06–14.06',rev:7.8e6,ret:.55e6,com:.37e6,exp:1.45e6,cur:.31e6,pf:.27e6,ch:[[1.05e6,2.75e6,52],[.85e6,1.30e6,24],[.55e6,.62e6,11],[.15e6,2.40e6,41],[.30e6,.73e6,13]]},
+ {n:'Поток 5',dt:'продажи 17.08–23.08',rev:9.2e6,ret:.74e6,com:.43e6,exp:1.69e6,cur:.34e6,pf:.29e6,ch:[[1.15e6,3.40e6,61],[.85e6,1.45e6,27],[.60e6,.70e6,12],[.17e6,2.80e6,47],[.28e6,.85e6,15]]},
+ {n:'Поток 6',dt:'продажи 05.10–11.10',rev:10.6e6,ret:.64e6,com:.51e6,exp:1.99e6,cur:.38e6,pf:.31e6,ch:[[1.24e6,4.08e6,74],[.82e6,1.65e6,31],[.64e6,.76e6,14],[.18e6,3.12e6,52],[.30e6,.99e6,17]]}];
+var CHN3=['Telegram-посевы','VK Реклама','Яндекс Директ','База и рассылки','Партнёры, вознаграждение'];
+function eRender(i){var s=ST[i],ads=s.ch.reduce(function(a,c){return a+c[0]},0),n=s.ch.reduce(function(a,c){return a+c[2]},0),tax=(s.rev-s.ret)*.06,
+  md=s.rev-s.ret-s.com-ads-s.exp-s.cur-s.pf-tax,k=1-(s.ret+s.com+s.exp+s.cur+s.pf+tax)/s.rev,pv=i?ST[i-1]:null,pmd=null;
+ if(pv){var pa=pv.ch.reduce(function(a,c){return a+c[0]},0);pmd=pv.rev-pv.ret-pv.com-pa-pv.exp-pv.cur-pv.pf-(pv.rev-pv.ret)*.06}
+ $('#e-h').innerHTML=s.n+'<small>'+s.dt+' · '+n+' оплат</small>';
+ K('ek1',rb(s.rev),'средний чек '+rb(Math.round(s.rev/n/100)*100));
+ K('ek2',rb(md),pc(md/s.rev)+' от выручки'+(pmd!=null?' · '+(md>=pmd?'+':'−')+m(Math.abs(md-pmd))+' к потоку '+(i+3):''),'g');
+ K('ek3',pc(ads/s.rev),'реклама '+rb(ads));K('ek4',rb(Math.round(ads/n/10)*10),'реклама ÷ оплаты');
+ var W=[['Выручка по договорам',s.rev],['Возвраты',-s.ret],['Комиссии банков и эквайринга',-s.com],['Реклама',-ads],['Роялти экспертов, 20%',-s.exp],['Кураторы потока',-s.cur],['Платформа и сервисы',-s.pf],['Налог УСН 6%',-tax]],acc=s.rev,h='';
+ W.forEach(function(w,j){var left,width;if(j==0){left=0;width=100}else{acc+=w[1];left=acc/s.rev*100;width=-w[1]/s.rev*100}
+  h+='<div><span>'+w[0]+'</span><div class="t"><i style="left:'+left+'%;width:'+width+'%;background:'+(j?'#E5705F':'#6E8A75')+'"></i></div><b>'+f(w[1])+'</b><em>'+(j?pc(-w[1]/s.rev,1):'100%')+'</em></div>'});
+ h+='<div class="tot"><span>Маржинальный доход потока</span><div class="t"><i style="left:0;width:'+(md/s.rev*100)+'%;background:#C3EF6B"></i></div><b class="g">'+f(md)+'</b><em class="g">'+pc(md/s.rev)+'</em></div>';$('#e-wf').innerHTML=h;
+ var R=s.ch.map(function(c,j){return {nm:CHN3[j],sp:c[0],rv:c[1],n:c[2],cac:c[0]/c[2],drr:c[0]/c[1],ro:(c[1]*k-c[0])/c[0]}});
+ h='<tr><th>Канал</th><th>Расход</th><th>Оплат</th><th>CAC</th><th>Выручка</th><th>ДРР</th><th>ROMI</th></tr>';
+ R.forEach(function(r){h+='<tr><td>'+r.nm+'</td><td>'+f(r.sp)+'</td><td>'+r.n+'</td><td>'+f(Math.round(r.cac/10)*10)+'</td><td>'+f(r.rv)+'</td><td>'+pc(r.drr,0)+'</td><td class="'+(r.ro<0?'r':r.ro>1?'g':'')+'">'+(r.ro>=0?'+':'−')+pc(Math.abs(r.ro),0)+'</td></tr>'});
+ h+='<tr class="tot"><td>Итого</td><td>'+f(ads)+'</td><td>'+n+'</td><td>'+f(Math.round(ads/n/10)*10)+'</td><td>'+f(s.rev)+'</td><td>'+pc(ads/s.rev,0)+'</td><td>'+(((s.rev*k-ads)/ads)>=0?'+':'−')+pc(Math.abs((s.rev*k-ads)/ads),0)+'</td></tr>';$('#e-ch').innerHTML=h;
+ var w=R.slice().sort(function(a,b){return a.ro-b.ro})[0];
+ $('#e-msg').innerHTML='<b>'+w.nm+'</b>: ДРР '+pc(w.drr,0)+', после возвратов, комиссий, роялти и налога канал '+(w.ro<0?'не окупает рекламу: ROMI −'+pc(-w.ro,0)+', минус '+rb(Math.round((w.sp-w.rv*k)/100)*100)+' за поток':'едва окупается: ROMI +'+pc(w.ro,0))+'. Маржинальный доход до постоянных расходов школы (команда, офис, юрист).'}
+seg('e-s',function(v){eRender(+v)});eRender(2);
+
+/* ===== 04 календарь ===== */
+var WK=['23.11–29.11','30.11–06.12','07.12–13.12','14.12–20.12','21.12–27.12','28.12–03.01','04.01–10.01','11.01–17.01','18.01–24.01','25.01–31.01'];
+function cCalc(){var s=+$('#c-s').value,bud=+$('#c-b').value/10*1e6,x=$('#c-x').checked,bal=6.0e6,out=[],early=0;
+ for(var w=0;w<10;w++){var inn=[],o=[];
+  if(w==0)inn.push(['банки и эквайринг, поток 7',1.52e6]);if(w==1)inn.push(['банки по рассрочкам, остаток',.30e6]);
+  if(w==3)inn.push(['сплит, 2-й платёж 18.12',.52e6]);if(w==8)inn.push(['сплит, 3-й платёж 18.01',.52e6]);
+  var k=Math.max(0,w-s);if(k>0){var e=Math.min(k,5)*.25e6*bud/.9e6;inn.push(['предпродажи потока 8',e]);early+=e}
+  if(w==0)o.push(['возвраты',.35e6]);if(w==1)o.push(['возвраты',.18e6]);
+  if(w==1||w==5)o.push(['платформа и сервисы',.12e6]);
+  if(w==2)o.push(['роялти экспертов'+(x?', 50%':''),x?1.15e6:2.3e6]);if(w==7&&x)o.push(['роялти экспертов, 50%',1.15e6]);
+  if(w==2||w==4||w==6||w==9)o.push(['зарплата команды',.55e6]);if(w==5||w==9)o.push(['налоги и взносы 28-го',.36e6]);
+  if(w>=s)o.push(['реклама потока 8',bud]);
+  var a=inn.reduce(function(q,r){return q+r[1]},0),b=o.reduce(function(q,r){return q+r[1]},0);bal+=a-b;out.push({w:WK[w],inn:inn,o:o,a:a,b:b,bal:bal})}
+ return {out:out,early:early,s:s,bud:bud}}
+function cRender(){var R=cCalc(),T=1.5e6,mn=R.out.reduce(function(q,r){return r.bal<q.bal?r:q}),low=R.out.filter(function(r){return r.bal<T}).length;
+ $('#c-sv').textContent=WK[R.s].split('–')[0];$('#c-bv').textContent=rb(R.bud);
+ K('ck1',m(mn.bal),'неделя '+mn.w,mn.bal<T?(mn.bal<0?'r':'a'):'g');K('ck2',String(low),low?'ниже 1,5 млн ₽':'разрывов нет',low?'r':'g');K('ck3',m(R.early),'от рекламы с '+WK[R.s].split('–')[0]);K('ck4',m(R.out[9].bal),'');
+ var W=560,H=220,L_=40,Rp=8,Tp=12,B=26,mx=8e6,mi=Math.min(0,mn.bal)-.5e6;function Y(v){return Tp+(mx-v)/(mx-mi)*(H-Tp-B)}var bw=(W-L_-Rp)/10,g='';
+ [0,2,4,6,8].forEach(function(v){g+='<line x1="'+L_+'" x2="'+(W-Rp)+'" y1="'+Y(v*1e6)+'" y2="'+Y(v*1e6)+'" stroke="rgba(243,240,231,.07)"/><text x="'+(L_-8)+'" y="'+(Y(v*1e6)+4)+'" font-size="11" fill="#A6BBA9" text-anchor="end">'+v+'</text>'});
+ R.out.forEach(function(r,i){var x=L_+i*bw+bw*.18,y0=Y(0),y=Y(r.bal),c=r.bal<0?'#E5705F':r.bal<T?'#E2B04A':'#C3EF6B';g+='<rect x="'+x+'" y="'+Math.min(y,y0)+'" width="'+bw*.64+'" height="'+Math.max(2,Math.abs(y0-y))+'" rx="4" fill="'+c+'"/><text x="'+(x+bw*.32)+'" y="'+(Math.min(y,y0)-5)+'" font-size="10" fill="#F3F0E7" text-anchor="middle">'+(r.bal/1e6).toFixed(1).replace('.',',')+'</text><text x="'+(x+bw*.32)+'" y="'+(H-8)+'" font-size="10" fill="#A6BBA9" text-anchor="middle">'+r.w.split('–')[1]+'</text>'});
+ g+='<line x1="'+L_+'" x2="'+(W-Rp)+'" y1="'+Y(T)+'" y2="'+Y(T)+'" stroke="#E2B04A" stroke-dasharray="5 5"/>';$('#c-svg').innerHTML=g;
+ function t(v){return f(v/1000)}
+ var h='<tr><th>Неделя</th><th>Поступления</th><th>Выплаты</th><th>Остаток</th></tr>';
+ R.out.forEach(function(r){h+='<tr'+(r===mn?' class="cur"':'')+'><td>'+r.w+'<small>'+r.inn.map(function(x){return '+ '+x[0]}).concat(r.o.map(function(x){return '− '+x[0]})).join(' · ')+'</small></td><td>'+(r.a?f(r.a/1000):'0')+'</td><td>'+(r.b?f(-r.b/1000):'0')+'</td><td class="'+(r.bal<0?'r':r.bal<T?'a':'')+'">'+t(r.bal)+'</td></tr>'});
+ $('#c-t').innerHTML=h;
+ $('#c-msg').innerHTML=low?'<b>Остаток ниже неснижаемого '+low+' нед., минимум '+m(mn.bal)+' на неделе '+mn.w+'.</b> Реклама потока 8 уже идёт, а предпродажи только набирают ход. Попробуйте сдвинуть старт рекламы, снизить бюджет в неделю или разделить роялти экспертов.':'<b>Остаток не опускается ниже 1,5 млн ₽.</b> Минимум '+m(mn.bal)+' на неделе '+mn.w+', предпродажи потока 8 до конца января '+m(R.early)+'.'}
+['c-s','c-b','c-x'].forEach(function(id){$('#'+id).addEventListener('input',cRender)});cRender();
+})();
+</script>
+</body>
+</html>
