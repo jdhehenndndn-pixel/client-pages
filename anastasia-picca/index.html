@@ -1,0 +1,319 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Сеть пиццерий — Анастасия</title>
+<meta name="robots" content="noindex">
+<style>
+:root{
+  --bg:#05080B;--panel:#0C1217;--panel2:#0F1A17;--line:#1F2C2A;--tx:#F2F8F5;--tx2:#C9D8D1;--mut:#8EA39B;
+  --ac:#5CF2A6;--onac:#04110B;
+  --app:#FFFFFF;--app2:#F5F7F9;--appline:#E4E8EC;--apptx:#16212B;--appmut:#6A7783;
+  --red:#E5484D;--amber:#B86E00;--green:#1E9E5E;--blue:#3E7BFA;
+  --mono:Consolas,"SFMono-Regular",Menlo,monospace;--body:"Segoe UI",-apple-system,Roboto,Arial,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;background:var(--bg)}
+html,body{overflow-x:hidden}
+body{background:radial-gradient(900px 600px at 0 0,#0f3a2a 0,transparent 70%) no-repeat,var(--bg);color:var(--tx);font-family:var(--body);line-height:1.5;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1040px;margin:0 auto;padding:0 16px}
+button,select{font:inherit;cursor:pointer}
+.top{display:flex;justify-content:space-between;gap:12px;font:12px var(--mono);color:var(--mut);letter-spacing:.08em;padding:22px 0 0}
+.top b{color:var(--ac)}
+.hero{padding:46px 0 26px}
+.eb{font:700 12px var(--mono);letter-spacing:.1em;color:var(--tx2);margin-bottom:14px;text-transform:uppercase}
+.eb:before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--ac);margin-right:8px;vertical-align:1px}
+h1{font-size:clamp(29px,5vw,48px);line-height:1.08;font-weight:700;letter-spacing:-.01em;margin-bottom:18px}
+h1 em{font-style:normal;color:var(--ac)}
+h2{font-size:clamp(23px,3.3vw,33px);line-height:1.15;margin-bottom:10px}
+.lead{font-size:18px;color:var(--tx2);max-width:800px}
+.note{font-size:13px;color:var(--mut);margin-top:14px}
+.gets{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:24px}
+.get{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+.get b{display:block;font-size:24px;color:var(--ac);line-height:1.1}
+.get span{font-size:13px;color:var(--tx2)}
+.section{padding:50px 0 8px;border-top:1px solid var(--line)}
+.tnum{font:700 12px var(--mono);color:var(--ac);letter-spacing:.1em;margin-bottom:10px}
+.menu{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:22px 0 18px}
+.menu button{text-align:left;background:var(--panel);border:1px solid var(--line);color:var(--tx);border-radius:12px;padding:12px 14px;font-size:14px;line-height:1.3}
+.menu button span{display:block;font:700 11px var(--mono);color:var(--mut);letter-spacing:.08em;margin-bottom:3px}
+.menu button.on{border-color:var(--ac);background:var(--panel2)}
+.menu button.on span{color:var(--ac)}
+.task{display:none}.task.on{display:block}
+.thead{display:grid;grid-template-columns:1.35fr 1fr;gap:24px;margin-bottom:18px}
+.thead h3{font-size:22px;line-height:1.25;margin-bottom:6px}
+.thead p{color:var(--tx2)}
+.hard{background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:14px 16px;font-size:14px;color:var(--tx2)}
+.hard .k{font:700 11px var(--mono);letter-spacing:.1em;color:var(--ac);margin-bottom:6px}
+.hard ul{list-style:none}
+.hard li{padding:5px 0 5px 18px;position:relative;border-top:1px solid var(--line)}
+.hard li:first-child{border-top:0}
+.hard li:before{content:"";position:absolute;left:0;top:12px;width:7px;height:7px;border-radius:2px;background:var(--ac)}
+.app{background:var(--app);color:var(--apptx);border-radius:16px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.45)}
+.bar{display:flex;align-items:center;gap:8px;background:var(--app2);border-bottom:1px solid var(--appline);padding:10px 14px;font:12px var(--mono);color:var(--appmut)}
+.bar i{width:10px;height:10px;border-radius:50%;background:#d9dee3;display:inline-block;flex:none}
+.bar span{margin-left:8px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.body{padding:18px}
+.btn{border:0;background:var(--apptx);color:#fff;border-radius:10px;padding:10px 16px;font-weight:600;font-size:14px}
+.btn.alt{background:#fff;color:var(--apptx);border:1px solid var(--appline)}
+.btn:disabled{opacity:.5;cursor:default}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:14px 0 0}
+.tw{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:14px;min-width:620px}
+th,td{padding:9px 10px;border-bottom:1px solid var(--appline);text-align:left;white-space:nowrap}
+th{font:600 12px var(--body);color:var(--appmut);background:var(--app2)}
+td.r,th.r{text-align:right}
+tr.me td{background:#f0fbf5;font-weight:600}
+td.lock{color:#b8c0c7;letter-spacing:.1em}
+.pill{display:inline-block;font-size:12px;font-weight:600;border-radius:20px;padding:2px 9px;white-space:nowrap}
+.p-ok{background:#e9f7ef;color:var(--green)}
+.p-chk{background:#fff3e0;color:var(--amber)}
+.p-red{background:#fdecec;color:var(--red)}
+.p-new{background:#eaf1ff;color:var(--blue)}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}
+.kpi{background:var(--app2);border-radius:10px;padding:10px 12px}
+.kpi .l{font-size:12px;color:var(--appmut)}
+.kpi .v{font-size:19px;font-weight:700}
+.kpi .s{font-size:12px;color:var(--appmut)}
+.kpi .s.up{color:var(--green)}.kpi .s.dn{color:var(--red)}
+.ai-msg{margin-top:14px;background:#f0fbf5;border:1px solid #cdeedb;border-radius:12px;padding:12px 14px;font-size:14px}
+.ai-msg .who{font:700 11px var(--mono);letter-spacing:.08em;color:#0d7a46;margin-bottom:4px}
+.hide{display:none}
+.gain{margin:16px 0 0;font-size:15px;color:var(--tx2);padding-left:14px;border-left:3px solid var(--ac)}
+.gain b{color:var(--ac);font:700 11px var(--mono);letter-spacing:.08em;display:block;margin-bottom:2px}
+.login{display:flex;flex-wrap:wrap;align-items:center;gap:10px;background:var(--app2);border-radius:12px;padding:10px 12px;margin-bottom:14px;font-size:13px}
+.login b{font-size:14px}
+.login select{border:1px solid var(--appline);border-radius:8px;padding:6px 8px;background:#fff;color:var(--apptx)}
+.role{margin-left:auto;font:700 11px var(--mono);letter-spacing:.06em;border-radius:6px;padding:4px 8px;background:var(--apptx);color:#fff}
+.bench .ln{display:grid;grid-template-columns:150px 1fr 70px;gap:10px;align-items:center;font-size:13px;padding:6px 0}
+.bench .tr{position:relative;height:14px;background:var(--app2);border-radius:5px}
+.bench .tr i{position:absolute;top:0;bottom:0;left:0;border-radius:5px;background:#bfe9d2}
+.bench .tr u{position:absolute;top:-3px;bottom:-3px;width:3px;background:var(--apptx);text-decoration:none;border-radius:2px}
+.bench .ln b{text-align:right}
+.bench .ln b.bad{color:var(--red)}
+.legend{display:flex;flex-wrap:wrap;gap:14px;font-size:12px;color:var(--appmut);margin-top:6px}
+.legend i{display:inline-block;width:12px;height:8px;border-radius:2px;margin-right:6px}
+.tg{background:#e7eef3;border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:8px;min-height:240px}
+.msg{max-width:84%;border-radius:12px;padding:9px 12px;font-size:14px;animation:fi .3s;white-space:pre-line}
+.msg.me{align-self:flex-end;background:#d9f7c6}
+.msg.bot{align-self:flex-start;background:#fff}
+.msg .t{display:block;font-size:11px;color:var(--appmut);margin-top:2px;text-align:right}
+@keyframes fi{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.qs{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.qs button{border:1px solid var(--appline);background:#fff;color:var(--apptx);border-radius:20px;padding:6px 12px;font-size:13px}
+.qs button:disabled{opacity:.5}
+/* одна vs курс */
+.vs{width:100%;border-collapse:collapse;margin-top:20px;min-width:600px}
+.vs th,.vs td{border-bottom:1px solid var(--line);padding:11px 12px;font-size:14px;color:var(--tx2);white-space:normal;text-align:left;background:none}
+.vs th{font:700 11px var(--mono);letter-spacing:.08em;color:var(--mut)}
+.vs td:first-child{color:var(--tx);font-weight:600;width:34%}
+.vs .y{color:var(--ac)}.vs .n{color:#e9a6a8}
+.cards{display:grid;grid-template-columns:1fr 1.15fr;gap:14px;align-items:stretch;margin-top:22px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px}
+.card.rec{border-color:var(--ac);box-shadow:0 0 0 1px var(--ac) inset}
+.card .k{font:700 11px var(--mono);letter-spacing:.1em;color:var(--mut)}
+.card.rec .k{color:var(--ac)}
+.card h3{font-size:24px;margin:6px 0 2px}
+.card .pr{font-size:20px;font-weight:700}
+.card .sub{font-size:13px;color:var(--mut);margin-bottom:14px}
+.card .has{list-style:none;margin-top:4px}
+.card .has li{font-size:14px;color:var(--tx2);padding:6px 0 6px 20px;position:relative;border-top:1px solid var(--line)}
+.card .has li:first-child{border-top:0}
+.card .has li:before{content:"✓";position:absolute;left:0;color:var(--ac);font-weight:700}
+.card .has li.new{color:var(--tx);font-weight:600}
+.card .plus{font:700 11px var(--mono);letter-spacing:.08em;color:var(--mut);margin:14px 0 2px}
+.refund{font-size:13px;color:var(--ac);margin-top:14px}
+.layers{display:flex;flex-direction:column;align-items:stretch;gap:4px;margin-top:20px;max-width:620px}
+.ly{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px 16px;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.ly b{font-size:15px}.ly span{font-size:13px;color:var(--tx2)}
+.ly.hl{border-color:var(--ac);background:var(--panel2)}
+.ar{text-align:center;color:var(--mut);font-size:14px;line-height:1}
+.end{margin:36px 0 70px;text-align:center;background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:30px 20px}
+.end p{color:var(--tx2);max-width:680px;margin:8px auto 0}
+footer{font-size:12px;color:var(--mut);text-align:center;padding:0 0 30px}
+@media (max-width:760px){
+  .thead,.cards{grid-template-columns:1fr}
+  .gets,.menu{grid-template-columns:1fr}
+  .kpis{grid-template-columns:1fr 1fr}
+  .top{flex-direction:column;gap:4px}
+  .bench .ln{grid-template-columns:1fr auto}
+  .bench .tr{grid-column:1/3;grid-row:2}
+  .msg{max-width:94%}
+  .role{margin-left:0}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><span>МАСТЕР CFO · <b>ПРОТОТИПЫ</b></span><span>ЛИЧНАЯ ПОДБОРКА ДЛЯ АНАСТАСИИ</span></div>
+
+  <section class="hero">
+    <div class="eb">Финдир · франчайзинговая сеть пиццерий</div>
+    <h1>Анастасия, три сервиса для вашей сети, <em>которыми каждый день пользуются собственники и все 14 партнёров</em></h1>
+    <p class="lead">Портал для партнёров, роялти без ручного расчёта и вечерняя сводка по сети. Всё можно понажимать.</p>
+    <div class="gets">
+      <div class="get"><b>14 точек</b><span>каждый партнёр видит только свою пиццерию и сеть без названий</span></div>
+      <div class="get"><b>каждую ночь</b><span>выручка и себестоимость подтягиваются из iiko сами</span></div>
+      <div class="get"><b>23:30</b><span>сводка по сети собственнику в Telegram</span></div>
+    </div>
+    <p class="note">Точки, суммы и показатели в примерах условные.</p>
+  </section>
+
+  <section class="section" id="tasks">
+    <div class="tnum">ПОТЫКАЙТЕ</div>
+    <h2>Три прототипа</h2>
+    <div class="menu" id="menu">
+      <button data-t="0" class="on"><span>01</span>Портал франчайзи с ролями</button>
+      <button data-t="1"><span>02</span>Роялти и взаиморасчёты</button>
+      <button data-t="2"><span>03</span>Ночная сводка и бот</button>
+    </div>
+
+    <!-- 01 -->
+    <div class="task on" id="k0">
+      <div class="thead">
+        <div><h3>Один портал на всю сеть: собственник видит всё, партнёр только своё</h3>
+          <p>Каждое утро в портале свежие цифры из iiko. Управляющий партнёр сравнивает свою точку со средним по сети, но названия чужих точек и их выручку не видит. Переключите роль и посмотрите, как меняется экран.</p></div>
+        <div class="hard"><div class="k">ЧТО ВНУТРИ</div><ul>
+          <li>Вход по паролю и две роли: собственник и партнёр</li>
+          <li>Ночная выгрузка из iiko, ключ доступа хранится на сервере</li>
+          <li>Портал работает по ссылке круглосуточно</li></ul></div>
+      </div>
+      <div class="app">
+        <div class="bar"><i></i><i></i><i></i><span>franchise.portal · октябрь 2026 · обновлено 06:00 из iiko</span></div>
+        <div class="body">
+          <div class="login"><b>Вход:</b><select id="who"><option value="own">Собственник сети</option><option value="kzn">Партнёр · Казань, Чистопольская</option></select><span class="role" id="rl">ВСЕ 14 ТОЧЕК</span></div>
+          <div class="kpis" id="pk"></div>
+          <div class="tw"><table id="pt"></table></div>
+          <div style="margin-top:16px;font-size:13px;font-weight:600" id="bh"></div>
+          <div class="bench" id="bn"></div>
+          <div class="legend"><span><i style="background:#bfe9d2"></i>ваша точка</span><span><i style="background:#16212B;width:3px"></i>среднее по сети</span></div>
+          <div class="ai-msg" id="pm"></div>
+        </div>
+      </div>
+      <p class="gain"><b>ЧТО ЭТО ДАЁТ</b>Партнёры перестают просить отчёты в личке и сами видят, где их точка отстаёт от сети.</p>
+    </div>
+
+    <!-- 02 -->
+    <div class="task" id="k1">
+      <div class="thead">
+        <div><h3>Роялти считаются из iiko, счета уходят через Битрикс</h3>
+          <p>1-го числа сервис берёт выручку каждой точки, считает роялти и маркетинговый сбор, выставляет счета через Битрикс и следит за оплатой. Просрочка видна сразу, партнёру уходит напоминание.</p></div>
+        <div class="hard"><div class="k">ЧТО ВНУТРИ</div><ul>
+          <li>Обмен с iiko и Битрикс</li>
+          <li>Запуск по расписанию 1-го числа</li>
+          <li>Сверка с отчётом iiko до выставления счетов</li></ul></div>
+      </div>
+      <div class="app">
+        <div class="bar"><i></i><i></i><i></i><span>royalty · октябрь 2026 · роялти 6% + маркетинг 2%</span></div>
+        <div class="body">
+          <div class="kpis">
+            <div class="kpi"><div class="l">Начислено</div><div class="v">3,9 млн ₽</div><div class="s">14 точек</div></div>
+            <div class="kpi"><div class="l">Оплачено</div><div class="v" id="paid">3,0 млн ₽</div></div>
+            <div class="kpi"><div class="l">Отсрочка</div><div class="v">3 точки</div><div class="s">до 25.11 по договорённости</div></div>
+            <div class="kpi"><div class="l">Просрочка</div><div class="v" style="color:var(--red)" id="od">2 точки</div><div class="s">485 тыс. ₽</div></div>
+          </div>
+          <div class="tw"><table>
+            <tr><th>Точка</th><th class="r">Выручка iiko, ₽</th><th class="r">Роялти 6%</th><th class="r">Маркетинг 2%</th><th>Счёт в Битрикс</th><th>Оплата</th></tr>
+            <tr><td>Казань, Чистопольская</td><td class="r">4 862 340</td><td class="r">291 740</td><td class="r">97 247</td><td>№ 1184</td><td><span class="pill p-ok">оплачено 05.11</span></td></tr>
+            <tr><td>Казань, Баумана</td><td class="r">5 318 900</td><td class="r">319 134</td><td class="r">106 378</td><td>№ 1185</td><td><span class="pill p-ok">оплачено 07.11</span></td></tr>
+            <tr><td>Набережные Челны</td><td class="r">3 104 620</td><td class="r">186 277</td><td class="r">62 092</td><td>№ 1186</td><td><span class="pill p-red" id="r1">просрочка 11 дн.</span></td></tr>
+            <tr><td>Чебоксары, Ленина</td><td class="r">2 957 180</td><td class="r">177 431</td><td class="r">59 144</td><td>№ 1187</td><td><span class="pill p-red" id="r2">просрочка 11 дн.</span></td></tr>
+            <tr><td>Ижевск</td><td class="r">3 486 050</td><td class="r">209 163</td><td class="r">69 721</td><td>№ 1188</td><td><span class="pill p-chk">отсрочка до 25.11</span></td></tr>
+            <tr><td colspan="6" style="color:var(--appmut)">… и ещё 9 точек</td></tr>
+          </table></div>
+          <div class="row"><button class="btn" id="b2">Напомнить двум точкам с просрочкой</button><span id="s2" style="font-size:13px;color:var(--appmut)"></span></div>
+          <div class="ai-msg"><div class="who">ПРОВЕРКА</div>Выручка по всем 14 точкам совпала с отчётом iiko «Выручка по точкам» за октябрь. У Ижевска 3 чека с возвратом на 18 400 ₽ после закрытия месяца, роялти посчитаны до возврата, отмечено вам на решение.</div>
+        </div>
+      </div>
+      <p class="gain"><b>ЧТО ЭТО ДАЁТ</b>Начисление роялти по сети перестаёт быть отдельным днём работы в начале месяца, а должники видны в тот же день.</p>
+    </div>
+
+    <!-- 03 -->
+    <div class="task" id="k2">
+      <div class="thead">
+        <div><h3>Сводка по сети в 23:30 и бот, которого можно спросить</h3>
+          <p>После закрытия смен собственник получает короткую сводку: выручка сети, отклонения от плана и точки, где что-то пошло не так. Дальше можно задать вопрос боту, он ответит по данным iiko.</p></div>
+        <div class="hard"><div class="k">ЧТО ВНУТРИ</div><ul>
+          <li>Бот на сервере, сводка уходит после закрытия смен</li>
+          <li>Каждый получает ответы только по своим точкам</li>
+          <li>Текст сводки пишет нейросеть по данным iiko</li></ul></div>
+      </div>
+      <div class="app">
+        <div class="bar"><i></i><i></i><i></i><span>Telegram · бот сети</span></div>
+        <div class="body">
+          <div class="tg" id="tg"><div class="msg bot">Сводка за 19 ноября, 23:30
+
+Выручка сети 1 386 400 ₽, план 1 420 000 ₽ (−2,4%)
+Средний чек 1 214 ₽, +3% к прошлой неделе
+
+Внимание:
+• Чебоксары: фудкост 36,8% при норме 31%
+• Ижевск: 14 возвратов за смену, обычно 3–4
+• Набережные Челны: выручка −19% к среднему четверга<span class="t">23:30</span></div></div>
+          <div class="qs" id="qs">
+            <button data-q="0">Почему фудкост в Чебоксарах вырос?</button>
+            <button data-q="1">Что с возвратами в Ижевске?</button>
+            <button data-q="2">Как неделя по сети к плану?</button>
+          </div>
+        </div>
+      </div>
+      <p class="gain"><b>ЧТО ЭТО ДАЁТ</b>Собственник узнаёт о проблеме вечером, а не в отчёте за месяц, и не пишет вам ночью «а что там в Ижевске».</p>
+    </div>
+  </section>
+
+  <section class="section" id="how">
+    <div class="tnum">КАК ЭТО УСТРОЕНО</div>
+    <h2>Что лежит под всеми тремя сервисами</h2>
+    <div class="layers">
+      <div class="ly"><b>iiko · Битрикс · Google</b><span>откуда берутся данные</span></div>
+      <div class="ar">↓</div>
+      <div class="ly"><b>Сервер</b><span>ночная выгрузка по API, расписание, хранение ключей</span></div>
+      <div class="ar">↓</div>
+      <div class="ly"><b>База данных</b><span>выручка, себестоимость, роялти по всем 14 точкам</span></div>
+      <div class="ar">↓</div>
+      <div class="ly"><b>Вход и роли</b><span>кто что видит · персональные данные по 152-ФЗ</span></div>
+      <div class="ar">↓</div>
+      <div class="ly hl"><b>Портал · роялти · бот</b><span>то, что видят собственники и партнёры</span></div>
+    </div>
+    <p class="note">Один раз построенная основа служит всем трём сервисам: следующий собирается уже быстрее.</p>
+    <div class="end">
+      <h2>Какой из трёх нужен вашей сети первым?</h2>
+      <p>Портал для партнёров даёт больше всего пользы, а вечерняя сводка быстрее всего начнёт работать.</p>
+    </div>
+  </section>
+</div>
+<footer>Онлайн-школа «Мастер CFO» · примеры условные</footer>
+
+<script>
+function $(i){return document.getElementById(i)}
+document.querySelectorAll("#menu button").forEach(function(b){b.onclick=function(){var t=+b.dataset.t;
+ document.querySelectorAll("#menu button").forEach(function(x,i){x.className=i==t?"on":""});
+ document.querySelectorAll(".task").forEach(function(x,i){x.classList.toggle("on",i==t)});}});
+// 01 портал
+var PTS=[["Казань, Баумана","5,32","1 236","29,4%","23,1%","18,6%"],["Казань, Чистопольская","4,86","1 198","30,9%","24,8%","15,2%"],["Ижевск","3,49","1 142","31,2%","25,6%","12,8%"],["Набережные Челны","3,10","1 087","32,5%","26,3%","10,4%"],["Чебоксары, Ленина","2,96","1 105","35,1%","24,0%","8,9%"]];
+function portal(){var w=$("who").value,own=w=="own",h='<tr><th>Точка</th><th class="r">Выручка, млн ₽</th><th class="r">Средний чек</th><th class="r">Фудкост</th><th class="r">ФОТ</th><th class="r">EBITDA точки</th></tr>';
+ PTS.forEach(function(p,i){var me=p[0]=="Казань, Чистопольская";
+  if(own||me)h+='<tr class="'+(me&&!own?'me':'')+'"><td>'+p[0]+'</td><td class="r">'+p[1]+'</td><td class="r">'+p[2]+' ₽</td><td class="r">'+p[3]+'</td><td class="r">'+p[4]+'</td><td class="r">'+p[5]+'</td></tr>';
+  else h+='<tr><td>Точка '+String.fromCharCode(65+i)+'</td><td class="r lock">•••</td><td class="r lock">•••</td><td class="r">'+p[3]+'</td><td class="r">'+p[4]+'</td><td class="r lock">•••</td></tr>'});
+ h+='<tr><td colspan="6" style="color:var(--appmut)">… и ещё 9 точек</td></tr>';$("pt").innerHTML=h;
+ $("rl").textContent=own?"ВСЕ 14 ТОЧЕК":"ТОЛЬКО СВОЯ ТОЧКА";
+ $("pk").innerHTML=own?'<div class="kpi"><div class="l">Выручка сети</div><div class="v">48,7 млн ₽</div><div class="s up">+6% к сентябрю</div></div><div class="kpi"><div class="l">Средний чек</div><div class="v">1 171 ₽</div></div><div class="kpi"><div class="l">Фудкост сети</div><div class="v">31,4%</div><div class="s dn">норма 31%</div></div><div class="kpi"><div class="l">Точек ниже плана</div><div class="v">4</div></div>'
+  :'<div class="kpi"><div class="l">Ваша выручка</div><div class="v">4,86 млн ₽</div><div class="s up">+4% к сентябрю</div></div><div class="kpi"><div class="l">Средний чек</div><div class="v">1 198 ₽</div><div class="s up">сеть 1 171 ₽</div></div><div class="kpi"><div class="l">Фудкост</div><div class="v">30,9%</div><div class="s">сеть 31,4%</div></div><div class="kpi"><div class="l">Место в сети</div><div class="v">4 из 14</div><div class="s">по EBITDA</div></div>';
+ $("bh").textContent=own?"Чебоксары, Ленина против среднего по сети":"Казань, Чистопольская против среднего по сети";
+ var B=own?[["Фудкост",35.1,31.4,40,1],["ФОТ",24.0,24.6,35,1],["Средний чек, ₽",1105,1171,1400,0],["Доставка, доля",41,36,60,0]]:[["Фудкост",30.9,31.4,40,1],["ФОТ",24.8,24.6,35,1],["Средний чек, ₽",1198,1171,1400,0],["Доставка, доля",33,36,60,0]];
+ $("bn").innerHTML=B.map(function(b){var bad=b[4]?b[1]>b[2]+0.5:b[1]<b[2]*0.97,suf=b[0].indexOf("₽")>0?"":"%";return '<div class="ln"><span>'+b[0]+'</span><div class="tr"><i style="width:'+(b[1]/b[3]*100)+'%"></i><u style="left:'+(b[2]/b[3]*100)+'%"></u></div><b class="'+(bad?'bad':'')+'">'+String(b[1]).replace(".",",")+suf+'</b></div>'}).join("");
+ $("pm").innerHTML='<div class="who">'+(own?'ДЛЯ СОБСТВЕННИКА':'ДЛЯ ПАРТНЁРА')+'</div>'+(own?'Чебоксары третий месяц подряд с фудкостом выше 35%: списания теста и сыра в 2 раза выше сети. Стоит проверить технологические карты и инвентаризацию на этой неделе.':'Ваша точка на 4-м месте из 14 по EBITDA. Средний чек выше сети на 27 ₽, а доля доставки ниже сети на 3 п.п.: здесь основной резерв роста.')}
+$("who").onchange=portal;portal();
+// 02
+$("b2").onclick=function(){this.disabled=true;$("s2").textContent="Напоминания ушли партнёрам в Telegram и на почту, сделки в Битрикс обновлены.";$("r1").textContent="напомнили 21.11";$("r1").className="pill p-new";$("r2").textContent="напомнили 21.11";$("r2").className="pill p-new"};
+// 03
+var QA=[["Почему фудкост в Чебоксарах вырос?","За неделю списания по тесту выросли с 2,1% до 5,8%, а по сыру моцарелла с 1,4% до 3,9%. Расход сыра на пиццу «Пепперони 30 см» в среднем 168 г при норме по техкарте 140 г. Похоже на перерасход при сборке, стоит проверить на смене."],
+ ["Что с возвратами в Ижевске?","14 возвратов за смену, 11 из них в доставке с 19:00 до 21:00, причина в iiko: «опоздание». В это время на смене было 2 курьера вместо 4 по графику."],
+ ["Как неделя по сети к плану?","С понедельника по четверг выручка сети 5,48 млн ₽ при плане 5,62 млн (−2,5%). Ниже плана 4 точки, больше всего Набережные Челны (−11%). Если пятница и выходные пройдут как в прошлую неделю, неделя закроется на −1%."]];
+document.querySelectorAll("#qs button").forEach(function(b){b.onclick=function(){var q=QA[+b.dataset.q],tg=$("tg");
+ tg.insertAdjacentHTML("beforeend",'<div class="msg me">'+q[0]+'<span class="t">23:34</span></div>');
+ setTimeout(function(){tg.insertAdjacentHTML("beforeend",'<div class="msg bot">'+q[1]+'<span class="t">23:34</span></div>')},500);b.disabled=true}});
+</script>
+</body>
+</html>
