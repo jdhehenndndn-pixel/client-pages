@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Отчёты заведений — Анастасия</title>
+<meta name="robots" content="noindex">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#1d2125;--panel:#262b30;--panel2:#22393d;--line:#343a40;--tx:#eef2f4;--tx2:#c3ccd2;--mut:#8d989f;--ac:#34d9e0;--onac:#0e1a1c;
+--app:#fff;--app2:#f4f6f8;--appline:#e3e7eb;--apptx:#17212a;--appmut:#6a7681;--red:#d9363e;--amber:#b46a00;--green:#16884f;--cy:#1fb3ba;--cy2:#e3f7f8;
+--mono:"JetBrains Mono",Consolas,Menlo,monospace;--body:"Segoe UI",-apple-system,Roboto,Arial,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;background:var(--bg)}
+html,body{overflow-x:hidden}
+body{background:radial-gradient(800px 520px at 100% 0,rgba(52,217,224,.14),transparent 70%) no-repeat,var(--bg);color:var(--tx);font-family:var(--body);line-height:1.5;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1040px;margin:0 auto;padding:0 16px}
+button{font:inherit;cursor:pointer}
+.top{display:flex;justify-content:space-between;gap:12px;font:12px var(--mono);color:var(--mut);letter-spacing:.08em;padding:22px 0 0}
+.top b{color:var(--ac)}
+.hero{padding:44px 0 30px}
+.eb{font:700 12px var(--mono);letter-spacing:.1em;color:var(--ac);margin-bottom:14px;text-transform:uppercase}
+h1{font-size:clamp(29px,5vw,46px);line-height:1.12;font-weight:700;margin-bottom:18px}
+h1 em{font-style:normal;color:var(--ac)}
+h2{font-size:clamp(23px,3.2vw,32px);line-height:1.18;margin-bottom:10px}
+.lead{font-size:18px;color:var(--tx2);max-width:800px}
+.note{font-size:13px;color:var(--mut);margin-top:14px}
+.gets{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:26px}
+.get{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+.get b{display:block;font-size:22px;color:var(--ac);line-height:1.15}
+.get span{font-size:13px;color:var(--tx2)}
+.section{padding:44px 0 12px;border-top:1px solid var(--line)}
+.tnum{font:700 12px var(--mono);color:var(--ac);letter-spacing:.1em;margin-bottom:10px}
+.sub{color:var(--tx2);max-width:780px;margin-bottom:6px}
+.menu{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:22px 0 18px}
+.menu button{text-align:left;background:var(--panel);border:1px solid var(--line);color:var(--tx);border-radius:12px;padding:12px 14px;font-size:15px;line-height:1.3}
+.menu button span{display:block;font:700 11px var(--mono);color:var(--mut);letter-spacing:.08em;margin-bottom:3px}
+.menu button small{display:block;color:var(--mut);font-size:12.5px;margin-top:2px}
+.menu button.on{border-color:var(--ac);background:var(--panel2)}
+.menu button.on span{color:var(--ac)}
+.task{display:none}.task.on{display:block}
+.thead{display:grid;grid-template-columns:1.35fr 1fr;gap:22px;margin-bottom:16px}
+.thead h3{font-size:22px;line-height:1.25;margin-bottom:6px}
+.thead p{color:var(--tx2)}
+.how3{background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:12px 16px;font-size:14px;color:var(--tx2)}
+.how3 .k{font:700 11px var(--mono);letter-spacing:.1em;color:var(--ac);margin-bottom:4px}
+.how3 div{display:flex;gap:10px;padding:5px 0;border-top:1px solid var(--line)}
+.how3 div:first-of-type{border-top:0}
+.how3 i{font-style:normal;font:700 12px var(--mono);color:var(--ac);min-width:16px}
+/* окно-приложение: светлое и рабочее */
+.app{background:var(--app);color:var(--apptx);border-radius:16px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.4)}
+.bar{display:flex;align-items:center;gap:8px;background:var(--app2);border-bottom:1px solid var(--appline);padding:10px 14px;font:12px var(--mono);color:var(--appmut)}
+.bar i{width:10px;height:10px;border-radius:50%;background:#d9dee3;flex:none}
+.bar span{margin-left:8px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.body{padding:18px}
+.files{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.file{display:flex;align-items:center;gap:8px;border:1px solid var(--appline);background:var(--app2);border-radius:10px;padding:7px 11px;font-size:13px}
+.file b{font:700 10px var(--mono);color:#fff;background:#1f7a46;border-radius:4px;padding:2px 5px}
+.file b.g{background:#188038}
+.ask{background:var(--cy2);border:1px solid #c3eef0;border-radius:12px;padding:10px 14px;font-size:14px;margin-bottom:12px}
+.ask small{display:block;font:700 10.5px var(--mono);letter-spacing:.08em;color:var(--cy);margin-bottom:2px}
+.go{background:var(--cy);color:#fff;border:0;border-radius:10px;padding:10px 18px;font-weight:600;font-size:14px}
+.go:disabled{opacity:.55;cursor:default}
+.seg{display:inline-flex;flex-wrap:wrap;background:var(--app2);border:1px solid var(--appline);border-radius:10px;padding:3px;gap:2px}
+.seg button{border:0;background:none;padding:6px 12px;border-radius:7px;font-size:13px;color:var(--appmut)}
+.seg button.on{background:#fff;color:var(--apptx);font-weight:600;box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-bottom:12px}
+.row h4{font-size:16px}.row h4 small{display:block;font-size:12.5px;font-weight:400;color:var(--appmut)}
+.tw{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse;font-size:13.5px;font-variant-numeric:tabular-nums}
+th{font-size:12px;font-weight:600;color:var(--appmut);text-align:right;padding:8px 10px;background:var(--app2);border-bottom:1px solid var(--appline);white-space:nowrap}
+td{padding:8px 10px;border-bottom:1px solid #eef1f3;text-align:right;white-space:nowrap}
+th:first-child,td:first-child{text-align:left}
+td small{display:block;font-size:11.5px;color:var(--appmut)}
+tr.tot td{font-weight:700;background:#fafbfc}
+td.c{cursor:pointer;border-bottom:1px dashed transparent}
+td.c:hover{background:#f0fbfb}
+td.c.sel{background:#dff6f7;box-shadow:inset 0 0 0 1.5px var(--cy)}
+.pos{color:var(--green)}.neg{color:var(--red)}.wa{color:var(--amber)}
+.srcbox{margin-top:10px;border:1px solid var(--appline);border-left:3px solid var(--cy);border-radius:8px;padding:9px 12px;font-size:13px;background:#fbfdfd;color:var(--apptx)}
+.srcbox small{display:block;font:700 10.5px var(--mono);color:var(--appmut);letter-spacing:.06em}
+.hint{font-size:12.5px;color:var(--appmut);margin-top:8px}
+.out{display:none}
+.res{margin-top:12px;background:#f3fbf6;border:1px solid #cfe9da;border-radius:12px;padding:12px 14px;font-size:14px}
+.res b{color:var(--green)}
+.badge{display:inline-block;font-size:11.5px;font-weight:600;border-radius:999px;padding:2px 9px;white-space:nowrap}
+.badge.ok{background:#e3f4ea;color:var(--green)}.badge.hi{background:#fde8e8;color:var(--red)}.badge.mid{background:#fff1d6;color:var(--amber)}
+.chk{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--apptx);cursor:pointer;white-space:nowrap}
+.chk input{accent-color:#1fb3ba;width:16px;height:16px}
+.sum{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.sum div{background:var(--app2);border:1px solid var(--appline);border-radius:12px;padding:10px 14px;font-size:13px;color:var(--appmut)}
+.sum b{display:block;font-size:20px;color:var(--apptx)}
+.qs{display:flex;flex-direction:column;gap:8px;margin-bottom:12px}
+.qs button{text-align:left;border:1px solid var(--appline);background:#fff;border-radius:12px;padding:10px 14px;font-size:14px;color:var(--apptx)}
+.qs button:hover{border-color:var(--cy)}
+.qs button.on{border-color:var(--cy);background:var(--cy2)}
+.chat{border:1px solid var(--appline);border-radius:12px;padding:14px;min-height:120px;background:#fbfcfd;font-size:14px;line-height:1.55}
+.chat .me{background:var(--cy2);border-radius:12px 12px 4px 12px;padding:8px 12px;margin:0 0 10px auto;max-width:80%;width:fit-content}
+.chat .ai{background:#fff;border:1px solid var(--appline);border-radius:12px 12px 12px 4px;padding:10px 14px;max-width:92%}
+.chat .ai ul{margin:6px 0 0 18px}
+.chat .ai .s{display:block;font-size:12px;color:var(--appmut);margin-top:8px;border-top:1px dashed var(--appline);padding-top:6px}
+.chat .ph{color:var(--appmut)}
+.where{margin-top:14px;font-size:14px;color:var(--tx2);background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px 16px}
+.where b{color:var(--ac)}
+.fd{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:20px}
+.fd>div{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px}
+.fd>div.me2{border-color:var(--ac)}
+.fd h4{font:700 12px var(--mono);letter-spacing:.08em;color:var(--ac);margin-bottom:10px;text-transform:uppercase}
+.fd ul{list-style:none;font-size:14px;color:var(--tx2)}
+.fd li{padding:6px 0;border-top:1px solid var(--line)}
+.fd li:first-child{border-top:0}
+.next{margin-top:16px;font-size:14.5px;color:var(--tx2);border:1px dashed #3d4a50;border-radius:14px;padding:14px 16px}
+.next b{color:var(--tx)}
+.foot{padding:30px 0 50px;font-size:13px;color:var(--mut)}
+@media (max-width:820px){.thead,.fd{grid-template-columns:1fr}.gets{grid-template-columns:1fr}.menu{grid-template-columns:1fr}.sum{grid-template-columns:1fr}}
+@media (max-width:520px){.body{padding:12px}h1{font-size:28px}.lead{font-size:16px}.chat .me{max-width:95%}}
+</style>
+</head>
+<body>
+<div class="wrap">
+ <div class="top"><b>МАСТЕР CFO</b><span>AI-НАВЫКИ ФИНАНСИСТА</span></div>
+ <section class="hero">
+  <div class="eb">Личная подборка для Анастасии · общепит</div>
+  <h1>Анастасия, все отчёты по заведениям <em>в одной понятной картине</em> и разбор, как от финдира</h1>
+  <p class="lead">Нейросеть сводит выгрузки из iiko и таблицы управляющих, показывает, где уходят деньги, и отвечает на ваши вопросы простыми словами. Ниже три примера, всё можно понажимать.</p>
+  <div class="gets">
+   <div class="get"><b>3 заведения</b><span>в одной таблице вместо пачки отчётов</span></div>
+   <div class="get"><b>10–15 минут</b><span>в неделю: загрузить файлы и задать вопрос</span></div>
+   <div class="get"><b>каждая цифра</b><span>с отметкой, из какого отчёта она взята</span></div>
+  </div>
+  <p class="note">Заведения и суммы в примерах условные: октябрь 2026 в сравнении с сентябрём.</p>
+ </section>
+
+ <section class="section" id="tasks">
+  <div class="tnum">ПОПРОБУЙТЕ</div>
+  <h2>Три задачи, которые уйдут на нейросеть</h2>
+  <div class="menu" id="menu">
+   <button class="on" data-t="0"><span>01</span>Все отчёты в одной картине<small>выручка, расходы, прибыль по заведениям</small></button>
+   <button data-t="1"><span>02</span>Где теряются деньги<small>сравнение с нормами общепита</small></button>
+   <button data-t="2"><span>03</span>Спросите своими словами<small>почему, что сократить, что сказать</small></button>
+  </div>
+
+  <!-- 01 -->
+  <div class="task on" id="t0">
+   <div class="thead">
+    <div><h3>Отчёты из iiko и таблицы управляющих сводятся в одну страницу</h3><p>По каждому заведению: выручка, основные расходы и прибыль, рядом прошлый месяц. Нажмите на любую цифру, и вы увидите, из какого отчёта она взята.</p></div>
+    <div class="how3"><div class="k">КАК ЭТО ДЕЛАЕТСЯ</div><div><i>1</i>Выгружаете из iiko 3 отчёта и берёте таблицу управляющих</div><div><i>2</i>Пишете одну фразу: «сведи по заведениям за октябрь»</div><div><i>3</i>Получаете таблицу и проверяете итоги</div></div>
+   </div>
+   <div class="app"><div class="bar"><i></i><i></i><i></i><span>Чат с нейросетью · сводка за октябрь</span></div><div class="body">
+    <div class="files"><span class="file"><b>XLS</b>iiko · Выручка по точкам, октябрь</span><span class="file"><b>XLS</b>iiko · Себестоимость продаж</span><span class="file"><b>XLS</b>iiko · Акты списания</span><span class="file"><b class="g">G</b>Таблица управляющих: смены, аренда, расходы</span></div>
+    <div class="ask"><small>ВАШ ЗАПРОС</small>Сведи эти отчёты по трём заведениям за октябрь: выручка, продукты, зарплата, аренда, списания, прочее, прибыль. Рядом сентябрь. Покажи, откуда каждая цифра.</div>
+    <button class="go" id="a-go">Получить ответ</button>
+    <div class="out" id="a-out">
+     <div class="row" style="margin-top:14px"><h4>Сводка по заведениям, октябрь<small>тыс. ₽ · нажмите на цифру, чтобы увидеть источник</small></h4></div>
+     <div class="tw"><table id="a-tab"></table></div>
+     <div class="srcbox" id="a-src"><small>ИСТОЧНИК</small>Нажмите на любую цифру в таблице.</div>
+     <div class="res"><b>Коротко:</b> выручка почти не изменилась (+20 тыс. к сентябрю), а прибыль меньше на 83 тыс. Всё падение — «ТЦ Орбита»: в октябре там убыток 54 тыс.</div>
+    </div>
+   </div></div>
+   <div class="where"><b>На курсе</b> вы делаете это на своих выгрузках: учимся загружать отчёты, писать запрос так, чтобы нейросеть не путала цифры, и проверять итоги.</div>
+  </div>
+
+  <!-- 02 -->
+  <div class="task" id="t1">
+   <div class="thead">
+    <div><h3>Нейросеть сравнивает ваши цифры с нормами общепита</h3><p>Продукты, зарплата, аренда и списания в процентах от выручки. Всё, что выше нормы, переведено в рубли в месяц. Отметьте, что готовы поправить, и увидите, сколько это даст.</p></div>
+    <div class="how3"><div class="k">КАК ЭТО ДЕЛАЕТСЯ</div><div><i>1</i>Та же сводка из первой задачи</div><div><i>2</i>Запрос: «сравни с нормами общепита и посчитай в рублях»</div><div><i>3</i>Список, что проверить, по каждому заведению</div></div>
+   </div>
+   <div class="app"><div class="bar"><i></i><i></i><i></i><span>Чат с нейросетью · где теряются деньги</span></div><div class="body">
+    <div class="row"><h4 id="b-h">ТЦ Орбита<small>октябрь · выручка 3 420 тыс. ₽</small></h4><div class="seg" id="b-seg"><button data-p="c">Центр</button><button class="on" data-p="t">ТЦ Орбита</button><button data-p="s">Северный</button></div></div>
+    <div class="tw"><table id="b-tab"></table></div>
+    <div class="hint">Нормы — средние ориентиры для кафе, для точки в ТЦ аренда до 20%. На курсе вы задаёте свои: под формат, город и аренду.</div>
+    <div class="sum"><div>Если довести отмеченное до нормы<b id="b-sum">0 ₽</b>в месяц</div><div>За год<b id="b-year">0 ₽</b>по этому заведению</div></div>
+    <div class="res" id="b-extra"></div>
+   </div></div>
+   <div class="where"><b>На курсе</b> разбираем, как считать долю расходов, задавать нормы и проверять, что нейросеть не ошиблась в процентах.</div>
+  </div>
+
+  <!-- 03 -->
+  <div class="task" id="t2">
+   <div class="thead">
+    <div><h3>Спросите своими словами, как спросили бы финдира</h3><p>Работать с нейросетью — значит просто задавать вопросы по своим отчётам. Выберите вопрос, и нейросеть ответит по цифрам из сводки, с указанием, откуда они.</p></div>
+    <div class="how3"><div class="k">КАК ЭТО ДЕЛАЕТСЯ</div><div><i>1</i>Сводка уже загружена в чат</div><div><i>2</i>Задаёте вопрос, как коллеге</div><div><i>3</i>Получаете ответ и проверяете цифры по источнику</div></div>
+   </div>
+   <div class="app"><div class="bar"><i></i><i></i><i></i><span>Чат с нейросетью · вопросы по октябрю</span></div><div class="body">
+    <div class="qs" id="c-qs">
+     <button data-q="0">Почему в октябре прибыль меньше, хотя выручка та же?</button>
+     <button data-q="1">Что сократить в первую очередь?</button>
+     <button data-q="2">Что написать управляющему ТЦ?</button>
+    </div>
+    <div class="chat" id="c-chat"><span class="ph">Выберите вопрос выше.</span></div>
+   </div></div>
+   <div class="where"><b>На курсе</b> учимся задавать вопросы так, чтобы ответ опирался на ваши цифры, а не на общие слова, и сохранять удачные запросы, чтобы каждую неделю повторять их в одну строку.</div>
+  </div>
+ </section>
+
+ <section class="section">
+  <div class="tnum">ЧЕСТНО</div>
+  <h2>Нужен ли вам финансовый директор</h2>
+  <p class="sub">Нейросеть закрывает большую часть рутинного анализа, но не всё. Вот как это делится.</p>
+  <div class="fd">
+   <div><h4>Делает нейросеть</h4><ul><li>сводит отчёты из iiko и таблиц</li><li>считает доли расходов и сравнивает с прошлым месяцем</li><li>находит, где цифры не сходятся</li><li>готовит черновики писем управляющим</li></ul></div>
+   <div class="me2"><h4>Делаете вы</h4><ul><li>раз в неделю загружаете отчёты: 10–15 минут</li><li>задаёте вопросы и проверяете цифры по источнику</li><li>решаете, что менять в заведениях</li></ul></div>
+   <div><h4>Нужен человек</h4><ul><li>налоги и выбор системы налогообложения</li><li>договоры аренды, кредиты, инвесторы</li><li>стратегия: открывать ли новую точку</li></ul></div>
+  </div>
+  <div class="next"><b>А если хочется, чтобы отчёты из iiko приходили сами, без загрузки файлов,</b> это следующий шаг. Сначала важно понять свои цифры и научиться задавать нейросети правильные вопросы, а потом такую сводку можно автоматизировать.</div>
+  <p class="note" style="margin-top:14px">Перед загрузкой в чат названия юрлиц и ФИО заменяются на условные. Как это делать, разбираем на первом уроке курса.</p>
+ </section>
+ <footer class="foot">Подборка для Анастасии · «Мастер CFO» · AI-навыки финансиста · все цифры условные</footer>
+</div>
+
+<script>
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const f=n=>(n<0?'−':'')+Math.abs(Math.round(n)).toString().replace(/\B(?=(\d{3})+(?!\d))/g,' ');
+$$('#menu button').forEach(b=>b.onclick=()=>{$$('#menu button').forEach(x=>x.classList.toggle('on',x===b));$$('.task').forEach((t,i)=>t.classList.toggle('on',i==b.dataset.t))});
+function think(btn,cb){const t=btn.textContent;btn.disabled=true;btn.textContent='Готовлю…';setTimeout(()=>{btn.textContent=t;cb()},900)}
+
+/* данные, тыс. ₽ */
+const P={c:{n:'Центр',rev:4860,prod:1458,fot:1264,rent:620,wo:68,oth:430,s:{rev:4710,profit:958}},
+ t:{n:'ТЦ Орбита',rev:3420,prod:1129,fot:1163,rent:780,wo:92,oth:310,s:{rev:3610,profit:112}},
+ s:{n:'Северный',rev:2150,prod:667,fot:580,rent:240,wo:21,oth:190,s:{rev:2090,profit:431}}};
+for(const k in P){const p=P[k];p.profit=p.rev-p.prod-p.fot-p.rent-p.wo-p.oth}
+const SRC={rev:'iiko · «Выручка по точкам», октябрь',prod:'iiko · «Себестоимость продаж», октябрь',fot:'Таблица управляющих · лист «Смены», октябрь',rent:'Таблица управляющих · лист «Расходы», аренда',wo:'iiko · «Акты списания», октябрь',oth:'Таблица управляющих · лист «Расходы»: коммуналка, хозтовары, связь',profit:'Расчёт: выручка минус все расходы в строке',srev:'iiko · «Выручка по точкам», сентябрь',sprofit:'Сводка за сентябрь, сделанная тем же запросом'};
+const ROWS=[['rev','Выручка'],['prod','Продукты'],['fot','Зарплата'],['rent','Аренда'],['wo','Списания'],['oth','Прочее'],['profit','Прибыль']];
+function tableA(){let h='<tr><th>Показатель</th>';const ks=['c','t','s'];ks.forEach(k=>h+=`<th>${P[k].n}</th>`);h+='<th>Всего</th></tr>';
+ ROWS.forEach(([k,l])=>{let tot=0;h+=`<tr${k=='profit'?' class="tot"':''}><td>${l}</td>`;ks.forEach(p=>{const v=P[p][k];tot+=v;h+=`<td class="c${k=='profit'&&v<0?' neg':''}" data-s="${k}" data-p="${p}">${f(v)}</td>`});h+=`<td>${f(tot)}</td></tr>`});
+ let tot=0,ts=0;h+='<tr><td>Выручка в сентябре</td>';ks.forEach(p=>{tot+=P[p].s.rev;h+=`<td class="c" data-s="srev" data-p="${p}">${f(P[p].s.rev)}</td>`});h+=`<td>${f(tot)}</td></tr><tr><td>Прибыль в сентябре</td>`;
+ ks.forEach(p=>{ts+=P[p].s.profit;h+=`<td class="c" data-s="sprofit" data-p="${p}">${f(P[p].s.profit)}</td>`});h+=`<td>${f(ts)}</td></tr><tr><td>Прибыль к сентябрю</td>`;
+ let d=0;ks.forEach(p=>{const x=P[p].profit-P[p].s.profit;d+=x;h+=`<td class="${x<0?'neg':'pos'}">${x>0?'+':''}${f(x)}</td>`});h+=`<td class="${d<0?'neg':'pos'}">${d>0?'+':''}${f(d)}</td></tr>`;
+ $('#a-tab').innerHTML=h;
+ $$('#a-tab td.c').forEach(td=>td.onclick=()=>{$$('#a-tab td.c').forEach(x=>x.classList.remove('sel'));td.classList.add('sel');const p=P[td.dataset.p];$('#a-src').innerHTML=`<small>ИСТОЧНИК · ${p.n.toUpperCase()}</small>${td.textContent} тыс. ₽ — ${SRC[td.dataset.s]}`})}
+$('#a-go').onclick=function(){think(this,()=>{tableA();$('#a-out').style.display='block';this.textContent='Ответ получен';this.disabled=true})};
+
+/* 02: нормы */
+const N=[['prod','Продукты',28,32],['fot','Зарплата',25,30],['rent','Аренда',0,15],['wo','Списания',0,1.5]];
+const TIP={prod:'проверить закупочные цены и порции по техкартам',fot:'посмотреть график смен в будни: гостей меньше, а смены те же',rent:'обсудить с арендодателем ставку или процент от оборота',wo:'проверить заготовки на день и сроки хранения'};
+let cur='t';const marked={};
+function tableB(){const p=P[cur];$('#b-h').innerHTML=`${p.n}<small>октябрь · выручка ${f(p.rev)} тыс. ₽</small>`;
+ let h='<tr><th>Расход</th><th>Сумма, тыс. ₽</th><th>Доля</th><th>Норма</th><th>Выше нормы, ₽/мес</th><th>Итог</th><th>Беру в работу</th></tr>';
+ N.forEach(([k,l,lo,hi0])=>{const hi=(k=='rent'&&cur=='t')?20:hi0;const sh=p[k]/p.rev*100;const over=sh>hi?Math.round(p.rev*(sh-hi)/100*1000):0;const st=over?(sh-hi>3?'hi':'mid'):'ok';
+  h+=`<tr><td>${l}<small>${over?TIP[k]:'в норме'}</small></td><td>${f(p[k])}</td><td class="${over?'neg':''}">${sh.toFixed(1).replace('.',',')}%</td><td>${lo?lo+'–':'до '}${String(hi).replace('.',',')}%${k=='rent'&&cur=='t'?'<small>для ТЦ</small>':''}</td><td>${over?f(over):'—'}</td><td><span class="badge ${st}">${over?'выше нормы':'норма'}</span></td><td>${over?`<label class="chk"><input type="checkbox" data-k="${k}" data-v="${over}" ${marked[cur+k]?'checked':''}> да</label>`:''}</td></tr>`});
+ $('#b-tab').innerHTML=h;$$('#b-tab input').forEach(i=>i.onchange=()=>{marked[cur+i.dataset.k]=i.checked;sumB()});
+ $('#b-extra').innerHTML=cur=='t'?'<b>Ещё одна строка:</b> наличная выручка в iiko за октябрь 412 000 ₽, а по таблице управляющего сдано 389 500 ₽. Разница 22 500 ₽, стоит сверить инкассацию за 14 и 27 октября.':'<b>По этому заведению</b> все основные расходы в пределах нормы, касса сходится с iiko.';sumB()}
+function sumB(){let s=0;$$('#b-tab input').forEach(i=>{if(i.checked)s+=+i.dataset.v});$('#b-sum').textContent=f(s)+' ₽';$('#b-year').textContent=f(s*12)+' ₽'}
+$$('#b-seg button').forEach(b=>b.onclick=()=>{$$('#b-seg button').forEach(x=>x.classList.toggle('on',x===b));cur=b.dataset.p;tableB()});tableB();
+
+/* 03: вопросы */
+const A=[
+`Выручка за октябрь 10 430 тыс. ₽, почти как в сентябре (+20 тыс.). А прибыль 1 418 тыс. против 1 501 тыс., то есть на 83 тыс. меньше.<ul><li><b>ТЦ Орбита: −166 тыс.</b> Выручка упала на 190 тыс., а зарплата и аренда остались те же. Списания выросли с 47 до 92 тыс.</li><li>Центр: +62 тыс., выручка выросла на 150 тыс.</li><li>Северный: +21 тыс.</li></ul>Итого: +62 + 21 − 166 = −83 тыс. Всё падение — одна точка.<span class="s">Источник: сводка за октябрь и сентябрь (задача 1), iiko «Выручка по точкам», «Акты списания».</span>`,
+`По рублям в месяц, начиная с самого заметного:<ul><li><b>Зарплата в ТЦ Орбита</b> — 34% выручки при норме 25–30%: до 137 тыс. в месяц. Посмотреть смены в будни.</li><li><b>Аренда в ТЦ</b> — 22,8% при ориентире для торговых центров до 20%: около 96 тыс. Тема для разговора с арендодателем.</li><li><b>Списания в ТЦ</b> выросли вдвое: 41 тыс. сверх нормы.</li><li><b>Продукты в ТЦ</b> — 33% при норме до 32%: 35 тыс., проверить порции и закупочные цены.</li><li><b>Касса в ТЦ</b>: 22,5 тыс. не сходятся с iiko, сверить инкассацию.</li></ul>Центр и Северный в норме, их трогать не нужно.<span class="s">Источник: сравнение с нормами (задача 2). Нормы — средние ориентиры для кафе, их стоит уточнить под ваш формат.</span>`,
+`Черновик сообщения управляющему, можно поправить под себя:<br><br><i>«Добрый день! Посмотрела октябрь по ТЦ: выручка 3,42 млн, на 190 тыс. меньше сентября, в основном за счёт будних дней. При этом смены те же, а списания выросли с 47 до 92 тыс. Давай до пятницы: 1) предложи график на будни, где меньше людей после 15:00; 2) посмотри, какие заготовки чаще всего уходят в списание; 3) сверь инкассацию за 14 и 27 октября — в iiko наличных на 22 500 больше, чем сдано. Обсудим в понедельник».</i><span class="s">Источник: сводка и нормы из задач 1 и 2. Тон и сроки можно задать в запросе.</span>`];
+$$('#c-qs button').forEach(b=>b.onclick=()=>{if(b.disabled)return;$$('#c-qs button').forEach(x=>{x.classList.toggle('on',x===b);x.disabled=true});$('#c-chat').innerHTML=`<div class="me">${b.textContent}</div><div class="ai"><span class="ph">Готовлю ответ…</span></div>`;setTimeout(()=>{$('#c-chat .ai').innerHTML=A[b.dataset.q];$$('#c-qs button').forEach(x=>x.disabled=false)},900)});
+</script>
+</body>
+</html>
