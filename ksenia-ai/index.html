@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex">
+<title>Отчёты площадок и сверки — для Ксении</title>
+<style>
+:root{--ink:#1b1e25;--soft:#59616d;--line:#e2e6ea;--pale:#f3f5f7;--cy:#2fd6d6;--teal:#0b7a78;--mint:#eaf9f9;--red:#c9252d;--redbg:#fdeced;--am:#9a6200;--ambg:#fdf4e1;--gr:#1d7a3f;--grbg:#e9f6ee}
+*{box-sizing:border-box}body{margin:0;font:16px/1.5 "Segoe UI",system-ui,sans-serif;color:var(--ink);background:#fff}
+button{font:inherit;color:inherit;cursor:pointer}button:focus-visible,input:focus-visible{outline:3px solid var(--cy);outline-offset:2px}
+nav{position:sticky;top:0;z-index:5;background:var(--ink);color:#fff;display:flex;gap:4px;align-items:center;padding:8px 20px;overflow-x:auto}
+nav button{background:none;border:0;color:#b7bec8;padding:7px 12px;border-radius:8px;white-space:nowrap;font-size:14px}nav button[aria-current=step]{background:#343a45;color:var(--cy)}
+nav .cnt{margin-left:auto;padding-left:14px;font-size:14px;white-space:nowrap;color:#ff9a9f}
+main{min-height:calc(100vh - 50px)}section{padding:44px 20px 60px}.w{max-width:900px;margin:0 auto}
+.dark{background:radial-gradient(700px 420px at 100% 0,#1c4b50,transparent),var(--ink);color:#fff;min-height:calc(100vh - 50px)}
+h1,h2{line-height:1.2;margin:0 0 18px;text-wrap:balance;outline:0}h1{font-size:clamp(30px,5.2vw,46px)}h2{font-size:clamp(25px,3.8vw,34px)}h1 em{color:var(--cy);font-style:normal}h2 em{color:var(--teal);font-style:normal}h3{margin:0 0 8px;font-size:17px}
+.eb{font-size:14px;color:var(--teal);font-weight:600;margin:0 0 8px}.dark .eb{color:var(--cy)}.lead{max-width:640px;font-size:18px;color:#cfd5dc;margin:0 0 26px}
+.say{border-left:4px solid var(--cy);background:var(--pale);border-radius:0 10px 10px 0;padding:14px 18px;margin:0 0 20px}
+.tb{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#fff;color:var(--ink);margin-bottom:22px}
+.tb>header{background:var(--ink);color:#fff;padding:11px 16px;display:flex;justify-content:space-between;gap:6px 16px;flex-wrap:wrap;font-size:14px}.tb>header b{color:var(--cy)}
+.r{display:grid;grid-template-columns:1.5fr 1fr 2fr;gap:4px 16px;padding:11px 16px;border-top:1px solid var(--line);font-size:15px;transition:background .25s}.r.two{grid-template-columns:1fr auto}
+.r .n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}.r .s{font-weight:600;color:var(--gr)}
+.r.l0{background:var(--redbg)}.r.l0 .s{color:var(--red)}.r.l1{background:var(--ambg)}.r.l1 .s{color:var(--am)}
+.r.tot{background:var(--mint);font-weight:700}.r.bad{color:var(--red);font-weight:600}
+.sk{border:1px solid var(--line);border-left:6px solid #cfd5dc;border-radius:12px;padding:14px 16px;margin-bottom:10px;display:grid;grid-template-columns:1fr auto;gap:8px 18px;align-items:center;transition:background .25s,border-color .25s}
+.sk p{margin:3px 0 0;color:var(--soft);font-size:15px}.sk .les{font-size:14px;color:var(--teal)}
+.sk.l0{border-color:#f0a9ad;border-left-color:var(--red);background:var(--redbg)}.sk.l1{border-left-color:#e0a02d;background:var(--ambg)}.sk.l2{border-left-color:#35a35d;background:var(--grbg)}
+.seg{display:flex;border:1px solid #c6cdd5;border-radius:9px;overflow:hidden;background:#fff}.seg button{border:0;background:none;padding:9px 12px;font-size:14px;border-left:1px solid #dde2e7}.seg button:first-child{border-left:0}
+.seg [aria-pressed=true]{color:#fff;font-weight:600}.seg [data-v="0"][aria-pressed=true]{background:var(--red)}.seg [data-v="1"][aria-pressed=true]{background:var(--am)}.seg [data-v="2"][aria-pressed=true]{background:var(--gr)}
+.note{background:var(--mint);border:1px solid #c9ecec;border-radius:12px;padding:15px 18px;margin:18px 0}.fine{color:var(--soft);font-size:14px}.dark .fine{color:#a5adb8}
+.go{display:inline-block;margin-top:14px;background:var(--cy);border:0;border-radius:10px;padding:13px 24px;font-weight:700;color:#08292b}
+.big{display:flex;align-items:center;gap:22px;margin-bottom:22px}.big b{font-size:84px;line-height:1;color:var(--red);font-variant-numeric:tabular-nums}.big h2{margin:0}
+.dots{display:flex;gap:6px;margin-bottom:24px}.dots i{height:12px;flex:1;border-radius:4px;background:#d5dae0}.dots .l0{background:var(--red)}.dots .l1{background:#e0a02d}.dots .l2{background:#35a35d}
+.m{display:grid;grid-template-columns:1.2fr 1.2fr 1.2fr;gap:6px 18px;border:1px solid var(--line);border-left:6px solid #cfd5dc;border-radius:10px;padding:12px 16px;margin-bottom:8px;font-size:15px}.m.l0{border-left-color:var(--red);background:var(--redbg)}.m.l1{border-left-color:#e0a02d}.m.l2{border-left-color:#35a35d}
+.m small{display:block;color:var(--soft);font-size:13px}.m.l0 b{color:var(--red)}
+.calc{display:flex;flex-wrap:wrap;gap:14px 22px;align-items:end;margin-bottom:4px}.calc label{font-size:15px}.calc input{display:block;width:110px;font:inherit;padding:8px 10px;border:1px solid #bfc7cf;border-radius:8px;margin-top:4px}.calc output{font-size:21px;font-weight:700;color:var(--teal)}
+.t3{display:grid;grid-template-columns:1fr 1.15fr 1fr;gap:12px;margin:20px 0}.t3>div,.t2>div{border:1px solid var(--line);border-radius:12px;padding:18px}.t3 .on{background:var(--ink);color:#fff}.t3 .on h3{color:var(--cy)}.t3 .on b{font-size:28px;display:block}.t3 p,.t2 p{margin:6px 0 0;font-size:15px}.t2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+ul{padding-left:20px;margin:0}li{margin:5px 0}li::marker{color:var(--teal)}
+@media(max-width:700px){.r{grid-template-columns:1fr auto}.r .s{grid-column:1/-1}.sk,.m,.t3,.t2{grid-template-columns:1fr}.seg button{flex:1}.big b{font-size:60px}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style></head><body><nav id="nav" aria-label="Страницы"></nav><main id="app"></main>
+<script>
+/* k навык, d что это на её данных, t задача, l уроки, r что останется, g почему приёма из гайда мало */
+const SK=[
+{id:'a',p:1,k:'Собрать отчёт так, чтобы не потерялась ни одна строка',d:'4 812 строк, свои названия статей, артикулы площадки и 1С не совпадают',t:'Отчёты площадок',l:'4-2, 2-8',r:'Порядок подготовки, который подходит к следующему отчёту',g:'В гайде файл уже удобный. У вас меняются колонки и артикулы, и нужно понять, на каком шаге пропали строки.'},
+{id:'b',p:1,k:'Найти причину разницы по документам',d:'Отчёт, детализация удержаний и выписка сопоставлены, у каждой суммы есть строка',t:'Выплата меньше отчёта',l:'4-1, 2-9',r:'Таблица, где видно, за что удержали',g:'Готовый приём рассчитан на один источник. У вас их несколько, и связать их нужно по вашим признакам.'},
+{id:'c',p:1,k:'Повторить разбор у другого клиента',d:'Тот же порядок, другой ИП и другой отчёт',t:'Отчёты всех клиентов',l:'1-9, 3-6',r:'Записанный порядок вместо работы с нуля',g:'Разовый ответ в чате к следующему клиенту не переносится. Нужна последовательность шагов с проверкой.'},
+{id:'d',p:1,k:'Поймать уверенный, но неверный ответ',d:'Нейросеть взяла в доход выплату вместо продаж',t:'Всё, что идёт в учёт',l:'1-5, 2-7',r:'Порядок проверки до занесения в 1С',g:'На чужом примере ответ известен заранее. На ваших данных ошибку надо распознать самой, и показать её некому.'},
+{id:'e',p:2,k:'Отличить расхождение от разной записи',d:'205 и 0000205 это один документ, а 24 000 и 21 000 ошибка',t:'Сверка с контрагентом',l:'4-1, 4-2',r:'Список документов, которые действительно разошлись',g:'Совет «сравни две таблицы» даёт десятки ложных отличий. Правила совпадения зависят от ваших баз.'},
+{id:'f',p:2,k:'Превратить свой опыт в правила проверки',d:'Повторы, незачтённые авансы, минус на складе',t:'Контроль базы до сдачи',l:'1-9, 3-6',r:'Контрольный список по каждой базе',g:'Чужой чек-лист не знает, какие ошибки повторяются у ваших клиентов. Записать их можете только вы.'},
+{id:'g',p:2,k:'Убрать данные клиентов до загрузки',d:'Названия, ИНН, договоры и счета чужие, отвечаете за них вы',t:'Работа с базами клиентов',l:'1-4',r:'Понимание, что и в каком виде можно загружать',g:'Общее «не загружайте лишнее» не отвечает, что оставить в файле, чтобы сверка всё ещё получилась.'},
+{id:'h',p:2,k:'Подготовить запрос по найденному',d:'Каких документов не хватает, от кого и на какую сумму',t:'Запросы клиентам',l:'3-4, 3-2',r:'Шаблоны запросов и пояснений',g:'Шаблон письма найти легко. Сложнее собрать его из результата сверки, чтобы суммы и документы совпали.'}];
+const ROWS={1:[
+['Артикул 48-117, 12 строк','18 600,00','в 1С пары нет, вопрос клиенту','a','строки выпадут из итога незаметно'],
+['Продвижение','2 100,00','есть в детализации, нет в отчёте','b','останется догадка про комиссию банка'],
+['Логистика','1 400,00','корректировка прошлого отчёта','b','искать в старых отчётах вручную'],
+['Доход ИП на УСН','314 300,00','продажи минус возвраты, а не выплата','d','в учёт может попасть выплата 211 150,00'],
+['Отчёт другого клиента','3 264 строки','порядок тот же, к разбору 6 строк','c','снова с первой строки']],
+2:[
+['Накладная 205 и 0000205','80 000,00','совпало, разная запись номера','e','ложное расхождение, проверять глазами'],
+['Накладная 209','3 000,00','в акте 24 000, в 1С 21 000','e','номера совпали, сумму можно пропустить'],
+['П/п 640, второе списание','5 000,00','повтор внутри 1С','f','повтор посчитается совпавшим'],
+['Накладная 214','35 640,00','нет в 1С, запрос оригинала готов','h','письмо и суммы собирать вручную'],
+['Данные клиента','ИНН, договоры','заменены на условные до загрузки','g','загружать файл рискованно']]};
+const SH=['Начало','Отчёты площадок','Расхождения в 1С','Чего не хватает','Почему не гайды','Что советую'],$=s=>document.querySelector(s);
+const KEY='ksenia-ai-1';let A={},cur=0,calc=['',''];try{A=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){}
+const by=v=>SK.filter(s=>A[s.id]===v),lv=id=>A[id]==null?'':'l'+A[id],pl=(n,a,b,c)=>n%10==1&&n%100!=11?a:n%10>1&&n%10<5&&(n%100<10||n%100>20)?b:c;
+function nav(){const n=by(0).length;$('#nav').innerHTML=SH.map((t,i)=>`<button type="button" data-go="${i}" ${i===cur?'aria-current="step"':''}>${t}</button>`).join('')+(n?`<span class="cnt">не хватает: ${n}</span>`:'');$('#nav').querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>go(+b.dataset.go))}
+function go(i){cur=i;draw();scrollTo(0,0);const h=$('#app h1,#app h2');if(h){h.tabIndex=-1;h.focus({preventScroll:true})}const c=$('#nav [aria-current]');if(c&&c.scrollIntoView)c.scrollIntoView({inline:'center',block:'nearest'})}
+const next=t=>`<button type="button" class="go" data-next>${t}</button>`;
+function table(p){const rs=ROWS[p],hand=rs.filter(r=>A[r[3]]===0).length,ch=rs.filter(r=>A[r[3]]===1).length,any=rs.some(r=>A[r[3]]!=null);
+ return `<header><span>${p===1?'ИП Соколова А. В., отчёт площадки, 4 812 строк':'ООО «Север» и ООО «Вектор», разница 43 640,00'}</span><b>${any?`останется вручную ${hand} из 5${ch?', перепроверять '+ch:''}`:'готовый результат'}</b></header>`+rs.map(r=>{const v=A[r[3]];return `<div class="r ${lv(r[3])}"><span>${r[0]}</span><span class="n">${r[1]}</span><span class="s">${v===0?r[4]:v===1?r[2]+', перепроверить':r[2]}</span></div>`}).join('')}
+function task(p){const T=p===1?['Отчёты площадок','Объяснить выплату <em>и не потерять строки</em>','Клиент спрашивает, почему пришло меньше. Ответ лежит в другом отчёте или в детализации удержаний, а следующий клиент уже прислал свой файл.']:['Расхождения в 1С','Найти, <em>на каком документе разошлись</em>','Номера записаны по-разному, платёж задвоен, накладной нет. Причин несколько, и часть из них прячется за совпавшими номерами.'];
+ return `<section><div class="w"><p class="eb">Задача ${p} из 2</p><h2>${T[1]}</h2><p class="say">${T[2]}</p><div class="tb" id="tb" aria-live="polite">${table(p)}</div>
+ <h3>Что вы уже делаете с нейросетью сами?</h3><p class="fine">Отвечайте как есть. Таблица выше изменится и покажет, что пока останется на вас.</p><div id="sks">${SK.filter(s=>s.p===p).map(s=>`<div class="sk ${lv(s.id)}" data-s="${s.id}"><div><b>${s.k}</b><p>${s.d}</p></div><div class="seg" role="group" aria-label="${s.k}">${['Пока нет','Пробовала','Уже делаю'].map((t,v)=>`<button type="button" data-v="${v}" aria-pressed="${A[s.id]===v}">${t}</button>`).join('')}</div></div>`).join('')}</div>${next(p===1?'К расхождениям в 1С':'Посмотреть, чего не хватает')}<p class="fine">Организации и суммы условные. Решение всегда остаётся за вами.</p></div></section>`}
+function draw(){nav();const n=by(0).length,m=by(1).length,done=SK.filter(s=>A[s.id]!=null).length,need=[...by(0),...by(1)],sorted=[...need,...SK.filter(s=>A[s.id]==null),...by(2)];let h='';
+ if(cur===0)h=`<section class="dark"><div class="w"><p class="eb">AI-навыки финансиста, для Ксении</p><h1>Площадка перевела меньше, <em>а объяснять вам</em></h1><p class="lead">Ксения, вы назвали две задачи, которые отнимают больше всего времени: отчёты маркетплейсов и расхождения в базе 1С. Посмотрим на цифрах, что можно отдать нейросети и каких навыков для этого пока не хватает.</p>
+ <div class="tb"><header><span>ИП Соколова А. В., отчёт и выплата</span><b>причина найдена</b></header>${[['По отчёту площадки','214 650,00'],['Пришло на счёт','211 150,00'],['Не хватает','3 500,00','bad'],['Продвижение, по детализации удержаний','2 100,00'],['Логистика, корректировка прошлого отчёта','1 400,00'],['Объяснено документами','3 500,00','tot']].map(r=>`<div class="r two ${r[2]||''}"><span>${r[0]}</span><span class="n">${r[1]}</span></div>`).join('')}</div>${next('Разобрать на моих задачах')}<p class="fine">Организации и суммы условные. Подготовила Александра, «Мастер CFO»</p></div></section>`;
+ if(cur===1||cur===2)h=task(cur);
+ if(cur===3)h=`<section><div class="w"><p class="eb">Ваша карта навыков</p>${n?`<div class="big"><b>${n}</b><h2>${pl(n,'навыка','навыков','навыков')} из ${SK.length} пока не хватает${m?`, ещё ${m} <em>без уверенности</em>`:''}</h2></div>`:done<SK.length?`<h2>Отметьте навыки на <em>двух задачах</em></h2>`:m?`<h2>${m} из ${SK.length} навыков пока <em>без уверенности</em></h2>`:`<h2>Эти задачи у вас <em>уже налажены</em></h2>`}
+ <div class="dots" aria-hidden="true">${sorted.map(s=>`<i class="${lv(s.id)}"></i>`).join('')}</div>${done<SK.length?`<p class="fine">Без ответа: ${SK.length-done}.</p>`:''}
+ ${sorted.map(s=>`<div class="m ${lv(s.id)}"><div><b>${s.k}</b></div><div><small>${s.t}</small>Уроки ${s.l}</div><div><small>Что останется у вас</small>${s.r}</div></div>`).join('')}
+ <div class="note"><h3>Сколько это стоит вам сейчас</h3><div class="calc"><label>Отчётов и сверок в месяц<input id="c0" type="number" min="0" max="500" inputmode="numeric" value="${calc[0]}"></label><label>Минут на одну<input id="c1" type="number" min="0" max="600" inputmode="numeric" value="${calc[1]}"></label><output id="co" aria-live="polite"></output></div></div>
+ ${next('Хватит ли бесплатных материалов')}</div></section>`;
+ if(cur===4)h=`<section><div class="w"><p class="eb">Гайды, эфиры, бесплатные нейросети</p><h2>Они знакомят с приёмом. <em>Дальше начинаются ваши данные</em></h2><p class="say">Вы уже обрабатываете данные из 1С и внешних источников в бесплатных нейросетях. И всё же отчёты и расхождения по-прежнему занимают больше всего времени. Обычно останавливает следующее:</p>
+ ${need.length?need.map(s=>`<div class="sk ${lv(s.id)}" style="grid-template-columns:1fr"><div><b>${s.k}</b><p>${s.g}</p></div></div>`).join(''):`<p>${done<SK.length?'Отметьте навыки на страницах задач, и здесь появится только то, что относится к вам.':'По этим задачам пробелов вы не отметили.'}</p>`}
+ ${need.length>1?`<div class="note"><b>Эти навыки работают вместе.</b> Если отчёт собран с потерей строк, точный поиск причины уже не поможет. Если нет проверки, неверная сумма уйдёт в учёт. На обучении вы собираете всю цепочку на своей задаче, а куратор помогает там, где не сходится.</div>`:''}${next('Что советую')}</div></section>`;
+ if(cur===5)h=`<section><div class="w"><p class="eb">Итог</p><h2>Что вы получите и <em>какой тариф советую</em></h2><div class="tb"><div style="padding:16px"><ul>${(need.length?need:SK).map(s=>`<li>${s.r} <span class="fine">(${s.l})</span></li>`).join('')}</ul></div></div>
+ <div class="t3"><div><h3>Разбираться самой</h3><p>Можно собирать приёмы по гайдам. Связать их в одну работу и найти, где не сошлось, придётся без куратора.</p></div><div class="on"><h3>Советую «Базу»</h3><b>49 990 ₽</b><p>В рассрочку на 6 месяцев около 8 330 ₽ в месяц, без переплаты.</p><p>Все нужные вам уроки из модулей 1–7, чат с куратором, доступ 9 месяцев.</p></div><div><h3>«Профи» и «Мастер AI»</h3><p>FinAILab, Claude, CFO-агент, маркетинг, в «Мастере» ещё продажи. Для ваших двух задач хватает «Базы», доплатить можно позже.</p></div></div>
+ <div class="t2"><div><h3>Старт 11 января</h3><p>Домашние задания можно сдавать весь срок доступа, поэтому отчётность учёбу не сорвёт.</p></div><div><h3>Если не подойдёт</h3><p>Полный возврат в течение 2 недель обучения.</p></div></div>
+ <div class="note"><b>Мой совет, Ксения.</b> ${need.length?`Начните с навыка «${need[0].k.toLowerCase()}». `:''}Отчёты и сверки повторяются у каждого клиента каждый месяц, поэтому один раз освоенный порядок пригодится во всех базах.</div><p class="fine">1С остаётся как есть: вы работаете с выгрузками, доступа к базе нейросеть не получает.</p></div></section>`;
+ $('#app').innerHTML=h;
+ const b=$('[data-next]');if(b)b.onclick=()=>go(cur+1);
+ $('#app').querySelectorAll('[data-s]').forEach(e=>e.querySelectorAll('[data-v]').forEach(q=>q.onclick=()=>{A[e.dataset.s]=+q.dataset.v;try{localStorage.setItem(KEY,JSON.stringify(A))}catch(x){}e.className='sk '+lv(e.dataset.s);e.querySelectorAll('[data-v]').forEach(o=>o.setAttribute('aria-pressed',o===q));$('#tb').innerHTML=table(cur);nav()}));
+ if($('#c0')){const f=()=>{calc=[$('#c0').value,$('#c1').value];const t=calc[0]*calc[1]/60;$('#co').textContent=t>0?(Math.round(t*10)/10).toLocaleString('ru-RU')+' ч в месяц, '+Math.round(t*12)+' ч в год':'подставьте свои цифры'};$('#c0').oninput=$('#c1').oninput=f;f()}
+}
+draw();
+</script></body></html>
