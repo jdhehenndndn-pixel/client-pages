@@ -49,7 +49,7 @@ function result(move){
  $('stage').innerHTML=`<div class="big">${n?`<div class="num">${n}</div>`:''}<h2 tabindex="-1">${head}</h2></div>
  <ul class="wall">${[...red,...mid,...ok,...no].map(x=>`<li class="v${ans[x.id]}"><button type="button" data-e="${x.id}" title="Исправить ответ">${esc(x.work)}<small>${esc(said(x))}</small></button></li>`).join('')}</ul>
  <p class="leg"><span><i class="v0"></i>вручную: ${n}</span><span><i class="v1"></i>частично: ${mid.length}</span><span><i class="v2"></i>налажено: ${ok.length}</span>${no.length?`<span><i class="v3"></i>не ваши: ${no.length}</span>`:''}</p><p class="fine">Чтобы исправить ответ, нажмите на задачу. <button type="button" class="again" id="again">Начать заново</button></p>
- ${miss.length?`<div class="first"><h2>За какую задачу <span class="ser">взялись бы первой?</span></h2><div class="pick dk" role="group" aria-label="Задача">${miss.map(x=>`<button type="button" data-p="${x.id}" aria-pressed="${x.id===focus}">${esc(x.work)}</button>`).join('')}</div><div id="mini"></div></div>`:`<p class="cost">${K?'Учиться ради этих задач незачем.':'Значит, и начинать нужно с других.'} Давайте поговорим о том, что сейчас сложнее.</p>`}`;
+ ${miss.length?`<div class="first"><h2>За какую задачу <span class="ser">взялись бы первой?</span></h2><div class="pick dk" role="group" aria-label="Задача">${miss.map(x=>`<button type="button" data-p="${x.id}" aria-pressed="${x.id===focus}">${esc(x.work)}</button>`).join('')}</div><div id="mini"></div></div>`:`<p class="cost">${K?'Здесь у вас порядок.':'Возьмём другие.'} Расскажите, какая работа сейчас сложнее, и посмотрим её на примере.</p>`}`;
  $('again').onclick=()=>{if(confirm('Стереть ответы и начать заново?')){ans={};focus=null;m={};save();ask(0,true)}};
  $('stage').querySelectorAll('[data-e]').forEach(b=>b.onclick=()=>{edit=b.dataset.e;ask(S.findIndex(x=>x.id===edit),true)});
  $('stage').querySelectorAll('[data-p]').forEach(b=>b.onclick=()=>{if(b.dataset.p!==focus)pick(b.dataset.p);save();$('stage').querySelectorAll('[data-p]').forEach(o=>o.setAttribute('aria-pressed',o===b));mini(miss)});
@@ -64,20 +64,21 @@ function mini(miss){
  el.querySelectorAll('button').forEach(b=>b.onclick=()=>{const k=b.dataset.k;m[k]=b.dataset.v;if(k==='risk'&&m.risk!=='time')delete m.hrs;save();mini(miss);
   const e=el.querySelector(`[data-k="${k}"][data-v="${m[k]}"]`);if(e)e.focus({preventScroll:true});
   if(L.length&&steps().every(p=>m[p])){if(k===steps().slice(-1)[0])$('proto').scrollIntoView()}else{const z=el.lastElementChild;if(z)z.scrollIntoView({block:'nearest'})}});
- const ready=L.every(p=>m[p]);$('after').hidden=!ready;if(ready){proto(miss,x);mods(x,miss)}
+ const ready=L.every(p=>m[p]);$('after').hidden=!ready;if(ready){proto(miss,x);mods(x,miss);$('mods').hidden=!!(PATH[x.id]&&!(miss.length===1&&ans[x.id]===1))&&!m.go}
 }
 function proto(miss,x){
  const rest=miss.filter(q=>q!==x&&ans[q.id]===0),pr=(W||WANT.time).pr;
  const x2=rest.filter(q=>q.task&&q.task===x.task).sort((a,b)=>pr.indexOf(a.t)-pr.indexOf(b.t))[0],id=C.course==='a'?'ca':'cv',cs=x.task?TASKS[x.task][id]:'',f=FEAR[C.fear];
  const url=(C.course==='a'?'https://cases-ai.fin-academy.pro/#pick=':'https://cases.fin-academy.pro/?pick=')+cs;
  const hd=C.res?'Вы хотели: '+esc(C.res):W?'Цель: '+esc(low(W.n)):'';
- document.querySelector('#proto .w').innerHTML=`<h2>Как это может <span class="ser">выглядеть</span></h2>
- <div class="duo"><div class="nowc"><small>Сейчас</small><p>${esc(x.ask)}</p><p class="an">${esc(said(x))}.</p><p class="yr">${m.risk==='none'?'Серьёзных последствий вы не видите.':'Чем грозит: '+RISK[m.risk][1]+'.'}${m.hrs&&HRS[m.hrs][1]?' Это '+HRS[m.hrs][1]+'.':''}</p></div>
- <div class="app"><div class="appbar"><div>${hd?`<small>${hd}</small>`:''}<b>${x.task?TASKS[x.task].h:'Работа с нейросетью'}</b></div></div>
- ${run?`<div class="rev">${one(x)}${x2?one(x2):''}</div>`:`<div class="wait"><p>${esc(x.work)}</p><button class="btn" type="button" id="run">${x.task?TASKS[x.task].act:'Показать'}</button></div>`}</div></div>
- <p class="fine">Пример на условных данных.</p>
- ${run&&(f||cs)?`<div class="two">${cs?`<div><h3>Похожая работа выпускника</h3><p>${CASES[cs]}</p><a href="${url}" target="_blank" rel="noopener">Посмотреть</a></div>`:''}${f?`<div><h3>${f[0]}</h3><p>${f[1]}</p></div>`:''}</div>`:''}`;
- if($('run'))$('run').onclick=()=>{run=true;proto(miss,x);const r=document.querySelector('.rev');r.tabIndex=-1;r.focus({preventScroll:true})};
+const A=APPS[x.task],cases=(f||cs)?`<div class="two">${cs?`<div><h3>Похожая работа выпускника</h3><p>${CASES[cs]}</p><a href="${url}" target="_blank" rel="noopener">Посмотреть</a></div>`:''}${f?`<div><h3>${f[0]}</h3><p>${f[1]}</p></div>`:''}</div>`:'';
+ const was=`<p class="was"><b>Сейчас.</b> ${esc(x.work)}: ${esc(low(said(x)))}.${m.risk==='none'?'':' Чем грозит: '+RISK[m.risk][1]+'.'}${m.hrs&&HRS[m.hrs][1]?' Это '+HRS[m.hrs][1]+'.':''}</p>`;
+ if(A&&PATH[x.id]){
+  document.querySelector('#proto .w').innerHTML=`<h2>Как это бывает <span class="ser">на самом деле</span></h2>${was}<div id="wp"></div><p class="fine">Организации и суммы условные.</p>${cases}`;
+  pathView($('wp'),A,x.id,{n:0,max:0,end:()=>{$('mods').hidden=false;$('mods').scrollIntoView()}});return}
+ document.querySelector('#proto .w').innerHTML=`<h2>Как это может <span class="ser">выглядеть</span></h2>${was}
+ <div class="app"><div class="appbar"><div>${hd?`<small>${hd}</small>`:''}<b>${x.task?TASKS[x.task].h:'Работа с нейросетью'}</b></div></div><div class="rev">${one(x)}${x2?one(x2):''}</div></div>
+ <p class="fine">Пример на условных данных.</p>${cases}`;
  wire(miss);
 }
 function one(x){return `<div class="bl" data-b="${x.id}"><h4>${fill(x.h)}</h4>${block(x)}<p class="sk">Чему для этого учиться: ${esc(low(x.learn))}</p></div>`}
@@ -93,7 +94,7 @@ function wire(miss){document.querySelectorAll('[data-b]').forEach(e=>{const x=mi
  e.querySelectorAll('[data-c]').forEach(b=>b.onclick=()=>{st[x.id]=+b.dataset.c;re()});
  const r=[...e.querySelectorAll('input')];r.forEach(i=>i.oninput=()=>{i.parentNode.querySelector('b').textContent=i.value.replace('-','−')+i.dataset.u;e.querySelector('.out b').textContent=x.d.f(...r.map(z=>+z.value))})})}
 function mods(x,miss){
- if(miss.length===1&&ans[x.id]===1){document.querySelector('#mods .w').innerHTML=`<h2>Нужен ли здесь <span class="ser">курс</span></h2><div class="fin"><p>${esc(x.say)}</p><p>Задача у вас одна, и часть пути вы уже прошли. Отдельный курс ради неё не нужен. Другое дело, если впереди задачи сложнее: тогда расскажите о них.</p></div>`;return}
+ if(miss.length===1&&ans[x.id]===1){document.querySelector('#mods .w').innerHTML=`<h2>Что <span class="ser">дальше</span></h2><div class="fin"><p>${esc(x.say)}</p><p>Основа у вас уже есть, эту задачу осталось довести до уверенности. Расскажите, какая работа ждёт вас дальше: посмотрим её так же, на примере.</p></div>`;return}
  const v=C.course==='v',out=outOf(),red=S.filter(q=>q!==x&&ans[q.id]===0),need=[x,...red],rAll=tariff(C.course,C.freq,need,out),r1=tariff(C.course,C.freq,[x],out),above=need.filter(s=>M.tar[r1.t]<topM(s)),r=above.length>1?rAll:r1;
  /* Путь для выбранной задачи, по порядку курса; первый модуль нужен тем, кто ещё не работает в этих инструментах */
  const path={};const put=k=>path[k]=path[k]||[];
@@ -101,37 +102,39 @@ function mods(x,miss){
  const ks=Object.keys(path).map(Number).sort((a,b)=>a-b);
  const more=[...new Set(red.flatMap(q=>q.les.map(modOf)))].filter(k=>!path[k]).sort((a,b)=>a-b);
  const why={cover:!red.length?'Его уроков хватает на выбранную задачу.':above.length===1?`Его уроков хватает на выбранную задачу${need.length>2?' и почти на все остальные, которые вы делаете вручную':''}.`:'Его уроков хватает и на выбранную задачу, и на остальные, которые вы делаете вручную.',auto:'Данные должны обновляться сами, а для этого нужны сервер и связь с источником. Это модуль 5.',svc:'Инструментом будут пользоваться другие люди: нужны роли, проверка безопасности и запуск. Это модуль 7, он есть только в «Профи».',agent:'Вам нужен готовый помощник, а CFO-агент начинается с «Профи».'}[r.why];
- const less=r1.i<r.i?` Если пока ограничиться выбранной задачей, достаточно тарифа «${r1.t}».`:rAll.i>r.i?` Следующий шаг, «${rAll.t}»: там задача «${esc(low(above[0].work))}». Доплатить можно, когда до неё дойдёт.`:'';
- const over=r.i<r.TL.length-1&&rAll.i<=r.i&&!(v&&out==='svc')?` Тариф «${r.TL[r.i+1]}» для этого не нужен.`:'';
- const note=!v&&out==='svc'?'<p class="sub"><b>Важно:</b> инструмент для других людей этот курс целиком не собирает. Это стоит обсудить отдельно.</p>':'';
- document.querySelector('#mods .w').innerHTML=`<h2>Где этому <span class="ser">учат</span></h2><p class="sub">Путь к задаче «${esc(low(x.work))}» на курсе «${M.t}».</p>
- <div class="ml">${ks.map(k=>`<div class="mod"><b>Модуль ${k}</b><div><h3>${M.mods[k]}</h3><p>${path[k].length?path[k].map(l=>`Урок «${l[0]}»: <span>${l[1]}.</span>`).join('<br>'):k===1?(v?'Настроить рабочее место, с этого начинают все.':'Постановка задач и работа с данными, с этого начинают все.'):'Собрать и запустить свой инструмент.'}</p></div></div>`).join('')}</div>
- ${more.length?`<p class="fine">Для остальных задач, которые сейчас вручную, ${more.length===1?'пригодится ещё модуль':'пригодятся ещё модули'} ${more.join(', ')}.</p>`:''}
- <div class="tg">${r.TL.map(t=>`<div class="${t===r.t?'on':''}"><b>${t}</b><p class="cv">${rAll.count(t)} из ${need.length}</p><small>${need.length>1?'нужных задач закрывает':'закрывает выбранную задачу'}</small><p>${M.txt[t]}</p></div>`).join('')}</div>
- <p class="sub"><b>Рекомендую тариф «${r.t}».</b> ${why}${less}${over}</p>${note}<p class="fine">${startText(C.course)} Числа показывают, входят ли нужные уроки в тариф.</p>
- <div class="fin">${final(x,red.length,out).map(t=>`<p>${t}</p>`).join('')}</div>`;
+ const note=!v&&out==='svc'?'<p class="sub"><b>Важно:</b> начните с версии для себя, а инструмент для других людей обсудим отдельно.</p>':'';
+ const d0=new Date(START[C.course]+'T23:59:59'),go1=d0>new Date()?'Начинаю '+d0.getDate()+' '+MG[d0.getMonth()]:'Начинаю в ближайшем потоке';
+ const P=PATH[x.id],lm=s=>[...new Set(s.split(' ').map(modOf))],mw=s=>{const k=lm(s);return (k.length>1?'модули ':'модуль ')+k.join(' и ')};
+ const need1=P?P.learn.flatMap(l=>l[v?1:2].split(' ')):x.les,t0=r.TL.find(t=>M.tar[t]>=Math.max(...need1.map(modOf)));
+ const tk=r.why==='cover'?(P?t0:r1.t):r.t;
+ document.querySelector('#mods .w').innerHTML=`<h2>${P?'Чему учиться, чтобы <span class="ser">дойти до рабочей версии</span>':'Где этому <span class="ser">учат</span>'}</h2><p class="sub">Курс «${M.t}».</p>
+ <div class="ml">${P?(C.lvl<(v?4:2)?`<div class="mod"><b>Модуль 1</b><div><h3>${v?'Подготовить рабочее место':'Разобраться с основой'}</h3></div></div>`:'')+P.learn.map(l=>`<div class="mod"><b>${mw(l[v?1:2]).replace(/^м/,'М')}</b><div><h3>${l[0]}</h3><p>${l[v?1:2].split(' ').map(k=>'«'+M.les[k]+'»').join(', ')}</p></div></div>`).join(''):ks.map(k=>`<div class="mod"><b>Модуль ${k}</b><div><h3>${M.mods[k]}</h3><p>${path[k].length?path[k].map(l=>`Урок «${l[0]}»: <span>${l[1]}.</span>`).join('<br>'):k===1?'С этого начинают все.':'Собрать и запустить свой инструмент.'}</p></div></div>`).join('')}</div>
+ <p class="sub">Свою задачу вы собираете сами, а кураторы помогают довести её до результата: ${v?'вопросы и домашние задания разбирают в чате, раз в две недели живые встречи.':'вопросы в чате с куратором, домашние задания проверяет нейрокуратор.'}</p>
+ <p class="sub"><b>Вам подойдёт тариф «${tk}».</b> ${r.why==='cover'?`В нём есть всё для задачи «${esc(low(x.work))}».`:why}${r.why==='cover'&&above.length?` Когда возьмётесь за «${esc(low(above[0].work))}», можно доплатить до тарифа «${rAll.t}».`:''}</p>
+ <div class="fin" id="fin">${final(x,red.length,out).map(t=>`<p>${t}</p>`).join('')}
+ <h3>С чего начнёте</h3><ol class="pln"><li>Подготовите ${P?P.take:'пример по задаче «'+esc(low(x.work))+'»'}, без реквизитов.</li><li>Пройдёте ${P?[...new Set(P.learn.flatMap(l=>lm(l[v?1:2])).concat(C.lvl<(v?4:2)?[1]:[]))].sort((a,b)=>a-b).reduce((s,k,i,q)=>s+(i?(i===q.length-1?' и ':', '):'')+k,'модули '):ks.reduce((s,k,i,q)=>s+(i?(i===q.length-1?' и ':', '):'')+k,ks.length>1?'модули ':'модуль ')} и соберёте первую версию.</li><li>${P?'Сверите её с закрытым периодом, где правильный ответ известен.':'Проверите её на примере, где правильный ответ вам известен.'}</li></ol>
+ <h3>Что делаем дальше?</h3><div class="pick nxt" role="group" aria-label="Следующий шаг">${[['go',go1],['q','Остался вопрос']].map(k=>`<button type="button" data-g="${k[0]}" aria-pressed="${m.go===k[0]}">${k[1]}</button>`).join('')}</div><div id="nx" aria-live="polite"></div></div>`;
+ const show=()=>{$('nx').innerHTML={go:`<ol class="pln"><li>Напишите мне в нашу переписку: «Начинаю».</li><li>Выберем, как удобнее оплатить: сразу, в рассрочку или по счёту на компанию.</li><li>После оплаты придёт письмо о курсе, и вас добавят в чат потока.</li></ol><p>Если в первые 14 дней со старта потока поймёте, что курс вам не подходит, вернём всю сумму.</p>`,q:`<p>Напишите его в нашу переписку, и я отвечу. Чаще всего спрашивают про время на учёбу, данные, оплату и свою конфигурацию 1С.</p>`}[m.go]||'';};
+ document.querySelectorAll('[data-g]').forEach(b=>b.onclick=()=>{m.go=b.dataset.g;save();document.querySelectorAll('[data-g]').forEach(o=>o.setAttribute('aria-pressed',o===b));show()});show();
 }
-/* Вывод: мысль о самой задаче + честная оценка по ответам клиента + совет */
+/* Вывод: мысль о задаче + почему стоит взяться + как снять то, что мешало */
 function final(x,others,out){
- const more=others?` Другое дело, если заодно снять и остальное, что вы делаете вручную.`:'';
  const stake={
-  time:{a:`До часа в неделю. Скажу честно: ради одной этой задачи учиться я бы не стала.${more}`,
-   b:'Один-три часа в неделю кажутся мелочью, а за месяц это до полутора рабочих дней. Уже есть за что бороться.',
-   c:'Три-пять часов в неделю, то есть около двух рабочих дней каждый месяц. Такое я бы откладывать не стала.',
-   d:'Больше пяти часов в неделю, это минимум два с половиной рабочих дня в месяц. Начинать точно стоит отсюда.',
-   x:'Сколько уходит времени, вы не считали. Засеките один раз: если выйдет полчаса, спокойно оставьте как есть.'}[m.hrs],
+  time:{a:'До часа в неделю. С такой задачи удобно начинать: она небольшая, и результат виден быстро.',
+   b:'Один-три часа в неделю кажутся мелочью, а за месяц это до полутора рабочих дней.',
+   c:'Три-пять часов в неделю, то есть около двух рабочих дней каждый месяц.',
+   d:'Больше пяти часов в неделю, это минимум два с половиной рабочих дня в месяц.',
+   x:'Засеките один раз, сколько уходит времени: будет с чем сравнить, когда появится свой инструмент.'}[m.hrs],
   err:'Если ошибка вскрывается позже, приходится поднимать прошлый период и исправлять всё, что на неё опиралось. Проверку стоит сдвинуть раньше.',
-  money:'Вы сказали, что здесь можно потерять деньги. Для меня это важнее любых сэкономленных часов, поэтому я бы начала отсюда.',
-  me:'Вы сказали, что всё держится на вас. Тогда сначала порядок действий нужно записать: пока он только в голове, его не отдать ни человеку, ни нейросети.',
-  none:`Но вы сами отметили, что ничем серьёзным это не грозит. Я бы тогда с этой задачи не начинала.${others?' Посмотрите на остальные красные, возможно, там важнее.':''}`}[m.risk];
+  money:'Вы отметили, что здесь можно потерять деньги, поэтому начать стоит именно отсюда.',
+  me:'Вы отметили, что всё держится на вас. Когда порядок действий записан, его можно передать и нейросети, и коллеге.',
+  none:`Сейчас это ничем не грозит, и на такой задаче спокойно учиться: ошибка никого не подведёт.${others?' Потом тем же способом возьмётесь за остальные.':''}`}[m.risk];
  const bar={
-  how:'«Не знаю как» решается быстрее всего, если один раз проделать это на похожем на настоящий файле. Реквизиты из него уберите, а если данные клиента или компании, сначала спросите разрешение.',
-  acc:'Доступ к данным учёба вам не откроет, обещать этого не буду. Сначала согласуйте с руководителем, какую выгрузку и какой сервис можно использовать. Если откажут, лучше взять другую задачу.',
-  time:'Времени учёба сама не добавит, в первые недели его уйдёт даже больше. Если впереди отчётность, честнее выбрать другой срок, чем купить и не открыть.',
-  data:'За данные вы опасаетесь правильно. Сначала узнайте у руководителя, какие сервисы разрешены и что им можно отдавать. Потом учитесь готовить данные, автоматизация подождёт.'}[m.bar];
- const tip={own:'',tool:['svc','meet','kp','bot','docs','tax','cons',''].includes(x.task)?'':'И ещё совет: первый раз прогоните инструмент на закрытом периоде, где правильный ответ уже известен.',svc:'И не спешите отдавать это людям. Сначала пользуйтесь сами, пока не перестанете перепроверять.'}[out];
- if(m.risk==='none')return[esc(x.say)+' '+stake];
- return [esc(x.say)+' '+stake,bar+(tip&&m.bar!=='acc'&&m.risk!=='none'?' '+tip:'')];
+  how:'На обучении вы пройдёте это по шагам на своём примере, а где застрянете, спросите куратора.',
+  acc:'Пока согласуете доступ, начать можно на обезличенном примере. Когда разрешат выгрузку, приём у вас уже будет.',
+  time:'Достаточно взять одну эту задачу, остальные подождут. Уроки остаются в доступе, к ним можно возвращаться.',
+  data:'Начать можно на примере без реквизитов. Как подготовить данные, разберёте до того, как подключать настоящие.'}[m.bar];
+ return [esc(x.say)+' '+stake,bar];
 }
 next0();
 function next0(){const i=S.findIndex(x=>ans[x.id]==null);i<0?result():ask(i)}

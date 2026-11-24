@@ -2,8 +2,9 @@ const esc=s=>String(s??'').replace(/[&<>"']/g,c=>'&#'+c.charCodeAt(0)+';');
 const plur=(n,a,b,c)=>n%10==1&&n%100!=11?a:n%10>1&&n%10<5&&(n%100<10||n%100>20)?b:c;
 const MN=['январь','февраль','март','апрель','май','июнь','июль','август','сентябрь','октябрь','ноябрь','декабрь'],MG=['января','февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря'],MS=['янв','фев','мар','апр','мая','июн','июл','авг','сен','окт','ноя','дек'];
 const day=n=>{const d=new Date();d.setDate(d.getDate()+n);return d};
-const dates=s=>s.replace(/\{(mg|m|M|d-?\d+|w\d)\}/g,(x,k)=>{const n=new Date().getMonth();
+const dates=s=>s.replace(/\{(mg|m|M|[ds]-?\d+|w\d)\}/g,(x,k)=>{const n=new Date().getMonth();
   if(k==='m')return MN[n];if(k==='M')return MN[n][0].toUpperCase()+MN[n].slice(1);if(k==='mg')return MG[n];
+  if(k[0]==='s'){const d=day(+k.slice(1));return String(d.getDate()).padStart(2,'0')+'.'+String(d.getMonth()+1).padStart(2,'0')}
   if(k[0]==='d'){const d=day(+k.slice(1));return d.getDate()+' '+MG[d.getMonth()]}
   const a=day(-((new Date().getDay()+6)%7)+7*k.slice(1)),b=new Date(a);b.setDate(b.getDate()+6);
   return a.getDate()+(a.getMonth()!==b.getMonth()?' '+MS[a.getMonth()]:'')+'–'+b.getDate()+' '+MS[b.getMonth()]});
