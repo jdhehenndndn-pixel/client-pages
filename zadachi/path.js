@@ -20,15 +20,15 @@ uch4:{take:'список документов за закрытый месяц',
 };
 /* Рисует путь. s: этап 0..3, w: состояние рабочего места */
 function pathView(el,A,id,s){
-  const P=PATH[id],N=['Первый ответ','Проверка','Рабочая версия','Следующий месяц'],ks=r=>`<div class="ks">${r.map(k=>`<div class="${k[2]||''}"><span>${k[0]}</span><b>${k[1]}</b></div>`).join('')}</div>`;
+  const P=PATH[id],N=['Первый ответ','Проверка','Рабочая версия',P.step||'Следующий месяц'],ks=r=>`<div class="ks">${r.map(k=>`<div class="${k[2]||''}"><span>${k[0]}</span><b>${k[1]}</b></div>`).join('')}</div>`;
   const go=n=>{s.n=n;s.max=Math.max(s.max,n);pathView(el,A,id,s);const h=el.querySelector('[data-focus]');if(h)h.focus({preventScroll:true});if(el.getBoundingClientRect().top<0)el.scrollIntoView()};
   el.innerHTML=`<ol class="stp4">${N.map((t,i)=>`<li class="${i===s.n?'on':i<=s.max?'was1':''}"><button type="button" data-n="${i}" ${i>s.max?'disabled':''}>${t}</button></li>`).join('')}</ol><div id="pv"></div>`;
   const v=el.querySelector('#pv');
   if(s.n===0)v.innerHTML=`<div class="chat1"><p class="me">${P.task}</p><div class="ai">${P.ans.map(t=>`<p>${t}</p>`).join('')}</div></div><div class="ask1"><h3 tabindex="-1" data-focus>${P.ask}</h3><div><button type="button" data-y="1">Да</button><button type="button" data-y="0">Сначала проверю</button></div></div>`;
-  if(s.n===1)v.innerHTML=`<div class="chk"><h3 tabindex="-1" data-focus>${s.y?'Выглядит убедительно. Но вот проверка':'Вот что покажет проверка'}</h3>${ks(P.chk)}<p>${P.fix}</p><button type="button" class="nx1">Открыть рабочую версию</button></div>`;
-  if(s.n===2){v.innerHTML='<div id="wp2"></div><button type="button" class="nx1">А в следующем месяце?</button>';
+  if(s.n===1)v.innerHTML=`<div class="chk"><h3 tabindex="-1" data-focus>${s.y?'Выглядит убедительно. Но вот проверка':'Вот что покажет проверка'}</h3>${ks(P.chk)}<p>${P.fix}</p>${P.upd?`<h3>Что исправили</h3><ol class="pln">${P.upd.map(t=>`<li>${t}</li>`).join('')}</ol>`:''}<button type="button" class="nx1">Открыть рабочую версию</button></div>`;
+  if(s.n===2){v.innerHTML='<div id="wp2"></div><button type="button" class="nx1">'+(P.nextq||'А в следующем месяце?')+'</button>';
     s.w=s.w||{tab:id,all:0,open:A.tabs[id].rows.find(r=>r.id).id,set:{},doc:0};workplace(v.querySelector('#wp2'),A,[id],s.w)}
-  if(s.n===3)v.innerHTML=`<div class="chk"><h3 tabindex="-1" data-focus>Следующий месяц</h3><p class="fl">${P.next.files.map(f=>`<span>${f}</span>`).join('')}</p>${ks(P.next.res)}<p>${P.next.say}</p><button type="button" class="nx1" data-end>Как дойти до этого на своей задаче</button></div>`;
+  if(s.n===3)v.innerHTML=`<div class="chk"><h3 tabindex="-1" data-focus>${N[3]}</h3><p class="fl">${P.next.files.map(f=>`<span>${f}</span>`).join('')}</p>${ks(P.next.res)}<p>${P.next.say}</p><button type="button" class="nx1" data-end>${s.fin||'Как дойти до этого на своей задаче'}</button></div>`;
   el.querySelectorAll('[data-n]').forEach(b=>b.onclick=()=>go(+b.dataset.n));
   el.querySelectorAll('[data-y]').forEach(b=>b.onclick=()=>{s.y=+b.dataset.y;go(1)});
   const n=el.querySelector('.nx1');if(n)n.onclick=()=>n.hasAttribute('data-end')?s.end():go(s.n+1);

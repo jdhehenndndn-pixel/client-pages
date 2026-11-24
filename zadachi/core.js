@@ -20,7 +20,7 @@ const un=h=>{const[c,t,n,sa,re]=h.split('-'),p=c.split('.'),tasks=(t||'').split(
   return{course:p[0],sph:SPH[p[1]]?p[1]:'other',want:WANT[p[2]]?p[2]:'',lvl:+p[3]||0,goal:p[4]||'',freq:p[5]||'',who:p[6]||'',fear:FEAR[p[7]]?p[7]:'',tasks,name:unpack(n||''),said:sa?unpack(sa):autoSaid(tasks),res:unpack(re||'')}};
 /* Пять вопросов. Зависят только от курса и задач, больше ни от чего */
 function skills(c){
-  const k=c.course,n=c.tasks.length,q=n===1?[4]:n===2?[3,2]:[2,2,1],out=[];
+  const k=c.course,n=c.tasks.length,q=n===1?[5]:n===2?[3,2]:[2,2,1],out=[];
   const add=(b,task)=>out.push({...b,task,les:b[k].split(' ')});
   c.tasks.forEach((t,j)=>TASKS[t].bl.filter(b=>b[k]).slice(0,q[j]).forEach(b=>add(b,t)));
   EXT.filter(e=>e[k]&&!(e.id==='safe'&&c.tasks.includes('tax'))&&!(e.id==='role'&&c.tasks.some(t=>['svc','bot','salary'].includes(t)))&&!(e.id==='srv'&&c.tasks.some(t=>['svc','bot'].includes(t)))).slice(0,5-out.length).forEach(e=>add(e,''));
