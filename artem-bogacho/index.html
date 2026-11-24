@@ -1,0 +1,373 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Артём: управление BOGACHO</title>
+<meta name="robots" content="noindex">
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@1,500;1,600&display=swap" rel="stylesheet">
+<style>
+:root{--night:#0F1F17;--night2:#15291E;--night3:#1C3427;--cream:#F3F0E7;--ink:#14241B;--lime:#C3EF6B;--leaf:#2E7A4F;--sage:#A6BBA9;--mut:#5E6B62;--red:#E5705F;--amber:#E2B04A;--cl:rgba(243,240,231,.09)}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--night);color:var(--cream);font:16px/1.5 Onest,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+em.ac{font-family:"Cormorant Garamond",Georgia,serif;font-style:italic;font-weight:600;color:var(--lime);font-size:1.12em}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+.hero{padding:28px 0 64px;background:radial-gradient(900px 500px at 85% 10%,#24432F 0,transparent 70%)}
+.top{display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--sage);letter-spacing:.06em}
+.top b{color:var(--cream);letter-spacing:.12em}
+.pill{display:inline-block;background:var(--lime);color:var(--night);font-size:13px;font-weight:600;border-radius:999px;padding:5px 14px;margin:44px 0 14px}
+.hero .sub{font-size:13px;color:var(--sage);margin-bottom:10px}
+h1{font-size:46px;line-height:1.1;font-weight:600;margin:0 0 18px;max-width:820px}
+.lead{font-size:18px;color:#D9D6CC;max-width:700px;margin:0}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;max-width:860px;margin-top:40px}
+.stats b{display:block;font-size:22px;font-weight:600}
+.stats span{font-size:14px;color:var(--sage)}
+.note{font-size:13px;color:var(--sage);margin-top:28px}
+.cream{background:var(--cream);color:var(--ink);border-radius:40px 40px 0 0;padding:64px 0 72px}
+.cream h2{font-size:44px;line-height:1.1;font-weight:600;margin:0 0 12px}
+.cream .intro{color:var(--mut);max-width:720px;margin:0 0 36px}
+.lay{display:grid;grid-template-columns:250px 1fr;gap:20px;align-items:start}
+.lay>*{min-width:0}
+.menu{display:flex;flex-direction:column;gap:10px;position:sticky;top:16px}
+.menu button{all:unset;cursor:pointer;display:flex;gap:12px;align-items:flex-start;background:#fff;border-radius:16px;padding:14px 16px}
+.menu button i{font-style:normal;font-size:12px;color:var(--mut);padding-top:2px}
+.menu button b{display:block;font-weight:600;font-size:15px}
+.menu button small{font-size:12.5px;color:var(--mut)}
+.menu button.on{background:var(--night);color:var(--cream)}
+.menu button.on i{color:var(--lime)}.menu button.on small{color:var(--sage)}
+.proto{display:none}.proto.on{display:block}
+.proto h3{font-size:28px;line-height:1.2;font-weight:600;margin:0 0 10px}
+.proto>p{color:var(--mut);margin:0 0 18px;max-width:780px}
+.hand{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px}
+.hand div{background:#fff;border-radius:14px;padding:12px 16px;font-size:14px}
+.hand small{display:block;font-size:11px;letter-spacing:.08em;color:var(--mut)}
+.hand b{color:var(--leaf)}
+.win{background:var(--night);color:var(--cream);border-radius:24px;overflow:hidden;box-shadow:0 30px 60px -30px rgba(15,30,23,.45)}
+.wbar{display:flex;align-items:center;gap:10px;padding:12px 18px;border-bottom:1px solid var(--cl);font-size:12.5px;color:var(--sage)}
+.wbar .d{display:flex;gap:6px}.wbar .d i{width:9px;height:9px;border-radius:50%;background:#2C4636}
+.wbar .tg{margin-left:auto;background:rgba(195,239,107,.12);color:var(--lime);border-radius:999px;padding:3px 10px;white-space:nowrap}
+.wb{padding:18px}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-bottom:14px}
+.row h4{margin:0;font-size:17px;font-weight:600}
+.row h4 small{display:block;font-size:12.5px;font-weight:400;color:var(--sage)}
+.btn{all:unset;cursor:pointer;background:var(--lime);color:var(--night);font-weight:600;font-size:14px;border-radius:999px;padding:9px 18px;white-space:nowrap}
+.btn:disabled{opacity:.5;cursor:default}
+.seg{display:inline-flex;background:var(--night3);border-radius:999px;padding:3px;flex-wrap:wrap}
+.seg button{all:unset;cursor:pointer;font-size:13px;padding:6px 13px;border-radius:999px;color:var(--sage);white-space:nowrap}
+.seg button.on{background:var(--cream);color:var(--ink);font-weight:600}
+.k{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:12px}
+.k>div{background:var(--night2);border-radius:14px;padding:12px 14px;min-width:0;transition:background .5s}
+.k>div.fl{background:#284A2F}
+.k small{display:block;font-size:12px;color:var(--sage)}
+.k b{display:block;font-size:20px;font-weight:600;margin-top:2px;white-space:nowrap;font-variant-numeric:tabular-nums}
+.k span{display:block;font-size:12px;color:var(--sage);line-height:1.4;margin-top:2px}
+.g{color:var(--lime)!important}.r{color:var(--red)!important}.a{color:var(--amber)!important}.m{color:var(--sage)!important}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.two.w{grid-template-columns:1.15fr 1fr}
+.two>*,.k>*{min-width:0}
+.card{background:var(--night2);border-radius:16px;padding:14px 16px}
+.card h5{margin:0 0 10px;font-size:13px;font-weight:600;color:var(--sage);display:flex;justify-content:space-between;gap:8px}
+.card h5 span{font-weight:400}
+svg text{font-family:Onest,sans-serif}
+.tw{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:13px;font-variant-numeric:tabular-nums}
+th{font-size:11.5px;font-weight:500;color:var(--sage);text-align:right;padding:6px 8px;border-bottom:1px solid var(--cl);white-space:nowrap;vertical-align:bottom}
+td{padding:7px 8px;border-bottom:1px solid var(--cl);text-align:right;white-space:nowrap}
+th:first-child,td:first-child{text-align:left}
+td.l,th.l{text-align:left}
+td small{display:block;color:var(--sage);font-size:11.5px}
+td.l small{white-space:normal;min-width:200px;max-width:260px}
+tr.tot td{font-weight:600;border-bottom:0;border-top:1px solid rgba(243,240,231,.2)}
+tr.cur td{background:rgba(195,239,107,.06)}
+tr.bad td{background:rgba(229,112,95,.08)}
+.st{display:inline-block;font-size:12px;border-radius:999px;padding:2px 9px;white-space:nowrap}
+.st.ok{background:rgba(195,239,107,.14);color:var(--lime)}.st.wt{background:rgba(226,176,74,.15);color:var(--amber)}.st.er{background:rgba(229,112,95,.15);color:var(--red)}.st.no{background:var(--night3);color:var(--sage)}
+.log{background:#08130D;border-radius:12px;padding:10px 12px;font:12px/1.65 ui-monospace,Consolas,monospace;color:#9DE7C2;min-height:40px;margin-bottom:12px}
+.log span{color:#5D7A6D}
+.msg{background:rgba(195,239,107,.08);border:1px solid rgba(195,239,107,.25);border-radius:14px;padding:12px 14px;font-size:14px}
+.msg b{color:var(--lime)}
+.msg ul{margin:6px 0 0;padding-left:18px}
+.src{font-size:12px;color:var(--sage);margin-top:10px}
+.wf div{display:grid;grid-template-columns:230px 1fr 110px 54px;gap:10px;align-items:center;font-size:13px;padding:5px 0}
+.wf .t{height:14px;background:var(--night3);border-radius:4px;position:relative;overflow:hidden}
+.wf .t i{position:absolute;top:0;bottom:0;border-radius:4px}
+.wf b{text-align:right;font-variant-numeric:tabular-nums;font-weight:500}
+.wf em{font-style:normal;text-align:right;color:var(--sage);font-size:12px}
+.wf .tot{border-top:1px solid var(--cl);margin-top:4px;padding-top:9px;font-weight:600}
+.wf .tot b{font-weight:600}
+.ctl{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:12px}
+.ctl label{display:block;background:var(--night2);border-radius:14px;padding:10px 14px;font-size:13px;color:var(--sage)}
+.ctl label b{color:var(--cream);float:right}
+input[type=range]{width:100%;accent-color:#C3EF6B;margin-top:8px}
+.ctl label.sw{display:flex;gap:10px;align-items:center;cursor:pointer}
+.sw input{display:none}.sw i{width:36px;height:20px;border-radius:999px;background:#34463A;position:relative;flex:none}
+.sw i:after{content:"";position:absolute;top:3px;left:3px;width:14px;height:14px;border-radius:50%;background:var(--cream);transition:.2s}
+.sw input:checked+i{background:var(--lime)}.sw input:checked+i:after{left:19px;background:var(--night)}
+.gives{background:#fff;border-radius:16px;padding:16px 18px;margin-top:16px;font-size:15px}
+.gives small{display:block;font-size:11px;letter-spacing:.08em;color:var(--mut);margin-bottom:4px}
+.how{padding:64px 0 40px}
+.how h2{font-size:36px;font-weight:600;margin:0 0 10px}
+.how>.wrap>p{color:#D9D6CC;max-width:760px;margin:0 0 26px}
+.flow{display:flex;flex-wrap:wrap;gap:10px}
+.flow div{background:var(--night2);border:1px solid #2A4133;border-radius:16px;padding:14px 16px;flex:1 1 170px}
+.flow b{display:block;font-size:15px;margin-bottom:4px}
+.flow span{font-size:13px;color:var(--sage)}
+.roles{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+.roles div{border:1px dashed #34463A;border-radius:16px;padding:14px 16px;font-size:13.5px;color:#D9D6CC}
+.roles b{display:block;color:var(--lime);font-size:14px;margin-bottom:4px}
+.foot{padding:24px 0 48px;font-size:13px;color:var(--sage)}
+.tar{background:var(--cream);color:var(--ink);padding:8px 0 72px}
+.tar h2{font-size:40px;line-height:1.1;font-weight:600;margin:0 0 12px}
+.tar .intro{color:var(--mut);max-width:720px;margin:0 0 24px}
+.tbx{background:#fff;border-radius:20px;padding:8px 14px;margin-bottom:20px}
+.tm{font-size:14px;font-variant-numeric:normal}
+.tm th{font-size:14px;font-weight:600;color:var(--ink);text-align:left;padding:12px 10px;border-color:#ECE7DA}
+.tm td{white-space:normal;text-align:left;vertical-align:top;padding:12px 10px;border-color:#ECE7DA;min-width:150px;color:#34413A}
+.tm td:first-child{font-weight:600;color:var(--ink);min-width:190px}
+.tm td small{color:var(--mut);font-weight:400}
+.tm .rec{background:#F1FADF}
+.tm th.rec{border-radius:12px 12px 0 0}
+.pr{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.pr>div{background:#fff;border-radius:20px;padding:20px;position:relative}
+.pr>div.rec{background:var(--night);color:var(--cream)}
+.pr i{position:absolute;top:-11px;left:20px;background:var(--lime);color:var(--night);font-style:normal;font-size:12px;font-weight:600;border-radius:999px;padding:3px 12px}
+.pr h4{margin:0 0 6px;font-size:20px;font-weight:600}
+.pz b{font-size:30px;font-weight:600}.pz s{margin-left:10px;color:var(--mut);font-size:15px}
+.pr .rec .pz s,.pr .rec .rs{color:var(--sage)}
+.rs{display:block;font-size:13px;color:var(--mut);margin-bottom:12px}
+.pr ul{margin:0;padding-left:18px;font-size:14px;line-height:1.7}
+.pn{font-size:13px;color:var(--mut);margin:12px 0 20px}
+.why{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+.why div,.gf{background:#fff;border-radius:16px;padding:16px 18px;font-size:14.5px;color:#34413A}
+.why b{display:block;color:var(--ink);font-size:16px;margin-bottom:6px}
+.gf{margin-bottom:10px}.gf b{color:var(--ink)}
+@media (max-width:700px){.tm tr:first-child{display:none}.tm,.tm tbody,.tm tr,.tm td{display:block;width:100%}.tm tr{border-bottom:1px solid #ECE7DA;padding:10px 0}.tm tr:last-child{border:0}.tm td{border:0;padding:3px 4px;min-width:0}.tm td:first-child{padding-bottom:6px}.tm td.rec{border-radius:8px;padding:4px 8px}.tm td:nth-child(2)::before{content:"База: ";font-weight:600;color:var(--ink)}.tm td:nth-child(3)::before{content:"Практика: ";font-weight:600;color:var(--ink)}.tm td:nth-child(4)::before{content:"Профи: ";font-weight:600;color:var(--ink)}}
+@media (max-width:980px){.pr,.why{grid-template-columns:1fr}.tar h2{font-size:30px}.pr>div.rec{margin-top:6px}}
+@media (max-width:980px){
+ h1{font-size:34px}.cream h2{font-size:32px}
+ .lay{grid-template-columns:1fr}
+ .menu{position:static;flex-direction:row;overflow-x:auto;padding-bottom:4px}
+ .menu button{flex:0 0 210px}
+ .two,.two.w{grid-template-columns:1fr}
+ .k{grid-template-columns:1fr 1fr}
+ .ctl,.roles{grid-template-columns:1fr}
+ .wf div{grid-template-columns:150px 1fr 96px 44px}
+}
+@media (max-width:520px){
+ .wrap{padding:0 16px}.wb{padding:12px}
+ h1{font-size:29px}.lead{font-size:16px}
+ .stats{grid-template-columns:1fr;gap:14px}
+ .hand{grid-template-columns:1fr}
+ .proto h3{font-size:23px}
+ .k b{font-size:17px}
+ .wf div{grid-template-columns:1fr 96px 40px}.wf .t{grid-column:1/4;order:4}
+ .wbar .tg{display:none}
+}
+
+button:focus-visible,input:focus-visible{outline:2px solid var(--lime)!important;outline-offset:2px}
+.menu button:focus-visible{outline-color:var(--leaf)!important}
+.src a,.gf a{color:var(--leaf);font-weight:600}
+tr.pk{cursor:pointer}tr.pk:hover td{background:rgba(195,239,107,.04)}tr.pk.cur td{background:rgba(195,239,107,.1)}
+tr.pk button{all:unset;cursor:pointer}
+.mini{all:unset;cursor:pointer;font-size:12px;border:1px solid #3A5645;border-radius:999px;padding:4px 11px;color:var(--cream);white-space:nowrap}.mini:hover{border-color:var(--lime)}
+td.w{white-space:normal;text-align:left;min-width:190px}
+.num{width:76px;font:inherit;background:var(--night3);color:var(--cream);border:1px solid #3A5645;border-radius:8px;padding:5px 8px;text-align:right}
+.task{background:#FFFDF8;color:var(--ink);border-radius:14px;padding:18px 20px;margin-top:12px;font-size:14px}.task h5{margin:0 0 8px;font-size:17px;font-weight:600}.task li{padding:3px 0}
+.kpg{display:grid;grid-template-columns:270px 1fr;gap:12px;align-items:start}.kpg>*{min-width:0}
+.ld{all:unset;box-sizing:border-box;cursor:pointer;display:block;width:100%;background:var(--night2);border:1px solid transparent;border-radius:14px;padding:12px 14px;margin-bottom:8px}.ld.on{border-color:var(--lime)}.ld b{display:block;font-weight:600}.ld small{display:block;font-size:12.5px;color:var(--sage)}.ld small+small{color:var(--lime);margin-top:3px}
+.doc{background:#FFFDF8;color:var(--ink);border-radius:14px;padding:30px 32px;min-height:430px}.doc .dh{display:flex;justify-content:space-between;gap:14px;border-bottom:1px solid var(--ink);padding-bottom:11px;font-size:13px}.doc .dh b{letter-spacing:.2em}.doc h3{font-family:"Cormorant Garamond",Georgia,serif;font-style:italic;font-size:34px;line-height:1.1;margin:22px 0 10px}.doc p{margin:0 0 12px;color:#34413A}
+.it{display:grid;grid-template-columns:66px 1fr auto 104px;gap:14px;align-items:center;border-bottom:1px solid #E4DECF;padding:10px 0;font-size:14px;font-variant-numeric:tabular-nums}.it svg{width:66px;height:66px;background:#EFEADD;padding:8px;fill:none;stroke:var(--ink);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}.it small{display:block;color:var(--mut)}.it strong{text-align:right;font-weight:600}.it.tt{display:flex;justify-content:space-between;border:0;font-size:18px;padding:14px 0 6px}.doc .pre{white-space:pre-line}
+.tm td small{white-space:normal}
+@media(max-width:980px){.kpg{grid-template-columns:1fr}}
+@media(max-width:700px){.doc{padding:20px 16px}.doc h3{font-size:28px}.it{grid-template-columns:50px 1fr auto}.it svg{width:50px;height:50px}.it>span{grid-column:2;color:var(--mut)}.it>strong{grid-column:3;grid-row:1}.it.tt>span{color:inherit}.wf div{grid-template-columns:1fr 84px 46px}.wf .t{grid-column:1/4;order:4}}
+</style>
+</head>
+<body>
+<header class="hero"><div class="wrap">
+ <div class="top"><b>МАСТЕР CFO</b><span>ПРОТОТИПЫ</span></div>
+ <div class="pill">Личная подборка для Артёма</div>
+ <div class="sub">Исполнительный директор · BOGACHO</div>
+ <h1>Артём, четыре сервиса для управления <em class="ac">производством и продажами</em></h1>
+ <p class="lead">Пульт с отклонениями и KPI, прибыль по партнёрам, план производства и предложения для новых клиентов. Всё на одной базе: 1С, Битрикс24, таблицы и сайт. Всё можно понажимать.</p>
+ <div class="stats">
+  <div><b>5 источников</b><span>1С, Битрикс24, Excel, Google Таблицы, сайт на 1С-Битрикс</span></div>
+  <div><b>до сделки и документа</b><span>у отклонения видно причину, сумму и ответственного</span></div>
+  <div><b>без новых людей в штате</b><span>сводит сервис, команда принимает решения</span></div>
+ </div>
+ <div class="note">Партнёры, сотрудники, товары и суммы в примерах условные.</div>
+</div></header>
+
+<main class="cream"><div class="wrap">
+ <h2>Потыкайте</h2>
+ <p class="intro">Переключайте сервисы в меню. Везде один и тот же месяц: ноябрь, срез на 24 число.</p>
+ <div class="lay">
+  <nav class="menu" id="menu" aria-label="Сервисы">
+   <button class="on" data-p="0"><i>01</i><span><b>Пульт компании</b><small>план, отклонения, KPI</small></span></button>
+   <button data-p="1"><i>02</i><span><b>Прибыль партнёров</b><small>скидки, доставка, бой</small></span></button>
+   <button data-p="2"><i>03</i><span><b>План производства</b><small>склад, брони, спрос</small></span></button>
+   <button data-p="3"><i>04</i><span><b>Новые клиенты</b><small>КП, письмо, пост</small></span></button>
+  </nav>
+  <div>
+
+<section class="proto on" id="p0">
+ <h3>Утром видно, где компания теряет план и кто этим занимается</h3>
+ <p>Продажи по каналам, прогноз на конец месяца, отклонения с причиной и работа менеджеров. По любому отклонению можно сразу поставить задачу.</p>
+ <div class="hand"><div><small>ВРУЧНУЮ → В СЕРВИСЕ</small>Отчёт собственнику: <b>свести пять источников → открыть ссылку</b></div><div><small>ВРУЧНУЮ → В СЕРВИСЕ</small>Узнать про отклонение: <b>после закрытия месяца → в тот же день</b></div></div>
+ <div class="win"><div class="wbar"><span class="d"><i></i><i></i><i></i></span>bogacho / пульт / ноябрь<span class="tg">срез 24.11, 08:05</span></div><div class="wb">
+  <div class="row"><h4>Ноябрь, все каналы<small>24 дня из 30 · план 13 400 000 ₽</small></h4><div class="seg" id="a-cmp"><button class="on" data-v="oct">К октябрю</button><button data-v="ly">К прошлому ноябрю</button></div></div>
+  <div class="k"><div id="ak1"><small>Выручка</small><b></b><span></span></div><div id="ak2"><small>Выполнение плана</small><b></b><span></span></div><div id="ak3"><small>Прогноз на 30.11</small><b></b><span></span></div><div id="ak4"><small>Отклонения без задачи</small><b></b><span></span></div></div>
+  <div class="card" style="margin-bottom:12px"><h5>Выручка нарастающим итогом, млн ₽</h5><svg id="a-svg" viewBox="0 0 560 220" role="img" aria-label="Выручка нарастающим итогом и прогноз" style="width:100%;height:auto;display:block"></svg><div class="src">Сплошная линия: ноябрь. Пунктир: прогноз. Серая: период сравнения.</div></div>
+  <div class="card" style="margin-bottom:12px"><h5>По каналам <span>тыс. ₽, план на 24.11</span></h5><div class="tw"><table id="a-ch"></table></div></div>
+  <div class="card" style="margin-bottom:12px"><h5>Что требует решения</h5><div class="tw"><table id="a-dv"></table></div></div>
+  <div class="card" style="margin-bottom:12px"><h5>Менеджеры, опт <span>тыс. ₽, план на 24.11</span></h5><div class="tw"><table id="a-mg"></table></div></div>
+  <div class="msg" id="a-msg" aria-live="polite"></div>
+ </div></div>
+ <div class="gives"><small>ЧТО ЭТО ДАЁТ</small>С собственником вы обсуждаете решения, а не то, откуда взялась цифра. До конца месяца ещё есть шесть дней, чтобы вернуть сделки.</div>
+</section>
+
+<section class="proto" id="p1">
+ <h3>Сколько остаётся от каждого оптового партнёра</h3>
+ <p>Выручка и себестоимость приходят из 1С, расходы на доставку и акты боя из других документов. Нажмите на партнёра и проверьте условия перед переговорами.</p>
+ <div class="hand"><div><small>ВРУЧНУЮ → В СЕРВИСЕ</small>Оценить партнёра: <b>по выручке → по деньгам, которые остались</b></div><div><small>ВРУЧНУЮ → В СЕРВИСЕ</small>Решить про скидку: <b>по старому расчёту → по сегодняшней себестоимости</b></div></div>
+ <div class="win"><div class="wbar"><span class="d"><i></i><i></i><i></i></span>bogacho / партнёры<span class="tg">1–24 ноября</span></div><div class="wb">
+  <div class="k"><div id="bk1"><small>Выручка опта</small><b></b><span></span></div><div id="bk2"><small>Осталось после всего</small><b></b><span></span></div><div id="bk3"><small>Доставка и бой</small><b></b><span></span></div><div id="bk4"><small>Эффект ваших условий</small><b></b><span></span></div></div>
+  <div class="card" style="margin-bottom:12px"><h5>Партнёры <span>тыс. ₽</span></h5><div class="tw"><table id="b-t"></table></div></div>
+  <div class="card" style="margin-bottom:12px"><h5><span id="b-n"></span><span>% от прайса</span></h5><div class="wf" id="b-wf"></div></div>
+  <div class="ctl" style="grid-template-columns:1fr 1fr"><label>Скидка<b id="b-dv"></b><input type="range" id="b-d" min="0" max="30" step="0.5"></label><label>Если закажет меньше на<b id="b-vv"></b><input type="range" id="b-v" min="0" max="50" step="5"></label><label class="sw"><input type="checkbox" id="b-l"><i></i><span>Доставку оплачивает партнёр</span></label><label class="sw"><input type="checkbox" id="b-s"><i></i><span>Бой в пути за счёт перевозчика</span></label></div>
+  <div class="msg" id="b-msg" aria-live="polite"></div>
+ </div></div>
+ <div class="gives"><small>ЧТО ЭТО ДАЁТ</small>Вы заранее знаете, на какие условия можно согласиться и сколько заказов готовы потерять, чтобы партнёр начал зарабатывать.</div>
+</section>
+
+<section class="proto" id="p2">
+ <h3>Что запускать в производство до Нового года</h3>
+ <p>Сервис видит склад в 1С, обещанное в сделках и продажи сайта. Выберите план или поставьте своё количество.</p>
+ <div class="hand"><div><small>ВРУЧНУЮ → В СЕРВИСЕ</small>Собрать заявку цеху: <b>по остаткам → по броням и спросу</b></div><div><small>ВРУЧНУЮ → В СЕРВИСЕ</small>Увидеть лишний выпуск: <b>на складе в январе → до запуска</b></div></div>
+ <div class="win"><div class="wbar"><span class="d"><i></i><i></i><i></i></span>bogacho / производство / декабрь<span class="tg">лимит 1 200 000 ₽</span></div><div class="wb">
+  <div class="row"><h4>План выпуска<small>спрос 24.11–31.12 по текущим продажам и броням</small></h4><div class="seg" id="c-m"><button class="on" data-v="0">Заявка цеха</button><button data-v="1">По спросу</button></div></div>
+  <div class="k"><div id="ck1"><small>Себестоимость выпуска</small><b></b><span></span></div><div id="ck2"><small>Валовая прибыль декабря</small><b></b><span></span></div><div id="ck3"><small>Осядет на складе</small><b></b><span></span></div><div id="ck4"><small>Не хватит обещанного</small><b></b><span></span></div></div>
+  <div class="card" style="margin-bottom:12px"><h5>Изделия <span>шт.</span></h5><div class="tw"><table id="c-t"></table></div></div>
+  <div class="msg" id="c-msg" aria-live="polite"></div>
+  <div style="margin-top:12px"><button class="btn" id="c-go">Сформировать задание цеху</button></div><div id="c-doc"></div>
+ </div></div>
+ <div class="gives"><small>ЧТО ЭТО ДАЁТ</small>Деньги идут в то, что уже ждут партнёры и покупатели. Цех получает готовое задание с количеством и датой.</div>
+</section>
+
+<section class="proto" id="p3">
+ <h3>Предложение под клиента, а не общий прайс</h3>
+ <p>Сервис берёт повод из сделки, цены и остатки из 1С. Менеджер получает КП, письмо и пост, а вы видите маржу до отправки.</p>
+ <div class="hand"><div><small>ВРУЧНУЮ → В СЕРВИСЕ</small>Подготовить КП: <b>прайс, остатки и письмо по отдельности → готовый комплект</b></div><div><small>ВРУЧНУЮ → В СЕРВИСЕ</small>Согласовать скидку: <b>в чате → порог виден сразу</b></div></div>
+ <div class="win"><div class="wbar"><span class="d"><i></i><i></i><i></i></span>bogacho / новые клиенты<span class="tg">3 клиента сегодня</span></div><div class="wb"><div class="kpg">
+  <div><div id="d-l"></div><div class="ctl" style="grid-template-columns:1fr;margin:0"><label>Скидка<b id="d-dv"></b><input type="range" id="d-d" min="0" max="25" step="5"></label></div><div class="msg" id="d-m" style="margin-top:10px" aria-live="polite"></div></div>
+  <div><div class="row"><div class="seg" id="d-s"><button class="on" data-v="kp">КП</button><button data-v="ml">Письмо</button><button data-v="ps">Пост</button></div></div><div class="doc" id="d-doc"></div></div>
+ </div></div></div>
+ <div class="gives"><small>ЧТО ЭТО ДАЁТ</small>Менеджер тратит время на разговор с партнёром. Вы подключаетесь только к сделкам, где скидка опускает маржу ниже порога.</div>
+</section>
+  </div>
+ </div>
+</div></main>
+
+<section class="tar"><div class="wrap">
+ <h2>Что из этого вы соберёте <em class="ac" style="color:var(--leaf)">на курсе</em></h2>
+ <p class="intro">Курс «Нейросети: профи-уровень. Вайб-кодинг», старт 30 ноября. Код пишет нейросеть, вы ставите задачу и проверяете. Ниже видно, до какого шага можно дойти на каждом тарифе.</p>
+ <div class="tw tbx"><table class="tm">
+  <tr><th></th><th>База</th><th>Практика</th><th class="rec">Профи</th></tr>
+  <tr><td>Пульт компании<small>план, отклонения, KPI</small></td><td>страница по выгрузкам, обновляете сами</td><td>данные из 1С и CRM подтягиваются сами, сводка в Telegram</td><td class="rec">свой экран у собственника, руководителей и менеджеров</td></tr>
+  <tr><td>Прибыль партнёров<small>скидки, доставка, бой</small></td><td>расчёт и сценарии по выгрузке</td><td>продажи обновляются из 1С</td><td class="rec">себестоимость видят только те, кому можно</td></tr>
+  <tr><td>План производства<small>склад, брони, спрос</small></td><td>калькулятор плана</td><td>остатки и сделки подтягиваются сами</td><td class="rec">задания цеху и история решений</td></tr>
+  <tr><td>Новые клиенты<small>КП, письмо, пост</small></td><td>интерактивное КП по ссылке</td><td>данные сделки, напоминания в Telegram</td><td class="rec">рабочее место для всех менеджеров</td></tr>
+  <tr><td>Вход по логину, роли, проверка безопасности</td><td>—</td><td>—</td><td class="rec">да, в своём проекте</td></tr>
+ </table></div>
+ <div class="pr">
+  <div><h4>База</h4><div class="pz"><b>49 000 ₽</b></div><span class="rs">в рассрочку ≈ 8 170 ₽ в месяц</span><ul><li>4 модуля и 4 живых эфира</li><li>страницы и дашборды на выгрузках</li><li>доступ 6 месяцев</li><li>поддержка до 25.01.2027</li></ul></div>
+  <div><h4>Практика</h4><div class="pz"><b>69 000 ₽</b></div><span class="rs">в рассрочку ≈ 11 500 ₽ в месяц</span><ul><li>6 модулей и 6 живых эфиров</li><li>+ свой сервер, интеграции, Telegram-боты</li><li>доступ 12 месяцев</li><li>поддержка до 24.02.2027</li></ul></div>
+  <div class="rec"><i>рекомендуем вам</i><h4>Профи</h4><div class="pz"><b>99 000 ₽</b></div><span class="rs">в рассрочку 16 500 ₽ в месяц</span><ul><li>7 модулей и 9 живых эфиров</li><li>+ свой проект, роли, безопасность, запуск</li><li>2 дополнительных разбора кейсов</li><li>доступ 24 месяца, поддержка до 23.04.2027</li></ul></div>
+ </div>
+ <p class="pn">Рассрочка на 6 месяцев без переплаты. Можно оплатить по счёту от компании. Подписки на нейросети и сервер оплачиваются отдельно.</p>
+ <div class="why"><div><b>Почему Профи</b>Вы хотите единую систему, а результаты смотрят собственник, генеральный, руководители и сотрудники. У каждого должен быть свой доступ, этому учит седьмой модуль. Первый сервис доводите до рабочего запуска, остальные добавляете на ту же основу.</div><div><b>Когда хватит Практики</b>Если пульт нужен только вам или всем можно видеть одни и те же данные. Они будут обновляться сами, но разделить доступ между ролями на Практике не получится.</div></div>
+ <div class="gf"><b>Похожее уже собрали.</b> Ювелирная компания начала с бота с остатками, а потом связала 1С и Google в производственном пульте с экранами для собственника, магазинов и склада. <a href="https://cases.fin-academy.pro/?pick=1-ea9d519f" target="_blank" rel="noopener">Посмотреть кейс</a></div>
+ <div class="gf"><b>Поток 30 ноября последний, который лично ведут Натали, Софья и Алексей.</b> Первый модуль откроется 26 ноября, защита проектов 27 февраля. Если в первые 2 недели поймёте, что курс не ваш, вернём всю сумму.</div>
+</div></section>
+
+<section class="how"><div class="wrap">
+ <h2>Как это <em class="ac">устроено</em></h2>
+ <p>1С, Битрикс24 и таблицы остаются рабочими местами команды. Сервис забирает из них данные, доступ на чтение в 1С открывает ваш специалист.</p>
+ <div class="flow"><div><b>Источники</b><span>1С, Битрикс24, Google Таблицы, Excel, сайт</span></div><div><b>Одна база</b><span>товар, партнёр и сделка связаны между системами</span></div><div><b>Расчёты</b><span>прибыль, прогноз, план выпуска, порог скидки</span></div><div><b>Экраны и задачи</b><span>каждому своё, важное приходит в Telegram</span></div></div>
+ <div class="roles"><div><b>Собственник и директора</b>все показатели, партнёры и производство</div><div><b>Руководитель продаж</b>план, менеджеры и сделки</div><div><b>Менеджер и цех</b>свои клиенты или свои задания</div></div>
+ <p style="margin-top:34px;font-size:22px;color:var(--cream)"><b>Артём, какой из четырёх сервисов нужен вам первым?</b><br><span style="font-size:16px;color:var(--sage)">Ответьте в переписке: пульт, партнёры, производство или клиенты.</span></p>
+</div></section>
+<div class="foot"><div class="wrap">Подборка собрана для Артёма. Партнёры, сотрудники, товары и суммы в примерах условные.</div></div>
+
+<script>
+(function(){
+var $=function(s){return document.querySelector(s)},NB=' ';
+function f(n){n=Math.round(n);return (n<0?'−':'')+String(Math.abs(n)).replace(/\B(?=(\d{3})+(?!\d))/g,NB)}
+function sg(n){n=Math.round(n);return (n>0?'+':'')+f(n)}
+function pc(x,d){return (x<0?'−':'')+(Math.abs(x)*100).toFixed(d==null?1:d).replace('.',',')+'%'}
+function ml(n){return (n/1e3).toFixed(1).replace('.',',')+NB+'млн'+NB+'₽'}
+function K(id,v,s,cl){var e=$('#'+id);e.querySelector('b').textContent=v;e.querySelector('b').className=cl||'';e.querySelector('span').innerHTML=s||''}
+function seg(id,cb){$('#'+id).addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;[].forEach.call(this.querySelectorAll('button'),function(x){x.classList.toggle('on',x===b)});cb(b.dataset.v)})}
+$('#menu').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;[].forEach.call(this.children,function(x){x.classList.toggle('on',x===b)});document.querySelectorAll('.proto').forEach(function(p,i){p.classList.toggle('on',i==b.dataset.p)});$('#p'+b.dataset.p).scrollIntoView({block:'start'})});
+
+/* 01 */
+var DD=[3,7,10,14,17,21,24,30],FC=[1100,2900,4100,5900,7200,9100,10300],REF={oct:[1200,3000,4300,6100,7500,9400,10600,13200],ly:[900,2300,3400,4900,6000,7600,8700,11100]},RN={oct:'октябрь',ly:'прошлый ноябрь'},PL=13400,cmp='oct';
+var CH=[['Опт',6720,5940],['Интернет-магазин',2320,2610],['Розница',1680,1750]];
+var DV=[['Опт отстаёт от плана','−780 тыс. ₽','У Павла три сделки на 920 тыс. ₽ без следующего шага','Павел К.'],['Подорожал светильник «Арка»','8 400 → 9 660 ₽','Выросла закупка латуни и брак стекла, прайс прежний','Финансы'],['Сайт продаёт то, чего нет','«Дуга», 64 шт.','Весь остаток уже обещан партнёрам, не хватает 16','Контент-менеджер'],['Просрочка «Дом и Свет»','640 тыс. ₽','18 дней после срока, отгрузки продолжаются','Ирина В.']],TK=[0,0,0,0];
+var MG=[['Ирина В.',2700,2760,14,0,0],['Павел К.',2320,1720,5,3,4],['Олег М.',1700,1460,9,0,1]];
+function A(){var R=REF[cmp],k=10300/R[6],fin=R[7]*k,left=TK.filter(function(x){return !x}).length;
+ K('ak1',f(10300)+NB+'тыс.'+NB+'₽',RN[cmp]+' на 24-й день: '+f(R[6]));K('ak2',pc(10300/PL),'по календарю должно быть 80,0%','a');K('ak3',ml(fin),pc(fin/PL,0)+' плана, по динамике: '+RN[cmp],fin>=PL?'g':'a');K('ak4',String(left),left?'поставьте задачи ниже':'по всем есть ответственный',left?'r':'g');
+ var W=560,H=220,mx=15000,X=function(d){return 38+d/30*(W-60)},Y=function(v){return 14+(1-v/mx)*(H-42)},g='';
+ [0,5,10,15].forEach(function(v){g+='<line x1="38" x2="'+X(30)+'" y1="'+Y(v*1e3)+'" y2="'+Y(v*1e3)+'" stroke="rgba(243,240,231,.07)"/><text x="30" y="'+(Y(v*1e3)+4)+'" font-size="10.5" fill="#A6BBA9" text-anchor="end">'+v+'</text>'});
+ DD.forEach(function(d){g+='<text x="'+X(d)+'" y="'+(H-6)+'" font-size="10.5" fill="#A6BBA9" text-anchor="middle">'+d+'</text>'});
+ g+='<line x1="38" x2="'+X(30)+'" y1="'+Y(PL)+'" y2="'+Y(PL)+'" stroke="#E2B04A" stroke-dasharray="5 5"/><text x="44" y="'+(Y(PL)-5)+'" font-size="10.5" fill="#E2B04A">план 13,4</text>';
+ function P(a,n){return a.map(function(v,i){return X(DD[i])+','+Y(v)}).join(' ')}
+ g+='<polyline fill="none" stroke="#6E8A75" stroke-width="2" points="'+P(R)+'"/><polyline fill="none" stroke="#C3EF6B" stroke-width="3" points="'+P(FC)+'"/><polyline fill="none" stroke="#C3EF6B" stroke-width="2" stroke-dasharray="3 5" points="'+X(24)+','+Y(10300)+' '+X(30)+','+Y(fin)+'"/><circle cx="'+X(24)+'" cy="'+Y(10300)+'" r="4" fill="#C3EF6B"/><text x="'+X(30)+'" y="'+(Y(fin)+16)+'" font-size="11" fill="#C3EF6B" text-anchor="end">'+(fin/1e3).toFixed(1).replace('.',',')+'</text>';$('#a-svg').innerHTML=g;
+ var h='<tr><th>Канал</th><th>План</th><th>Факт</th><th>Отклонение</th><th>Выполнение</th></tr>',p=0,q=0;CH.forEach(function(c){p+=c[1];q+=c[2];h+='<tr><td>'+c[0]+'</td><td>'+f(c[1])+'</td><td>'+f(c[2])+'</td><td class="'+(c[2]<c[1]?'r':'g')+'">'+sg(c[2]-c[1])+'</td><td>'+pc(c[2]/c[1],0)+'</td></tr>'});$('#a-ch').innerHTML=h+'<tr class="tot"><td>Всего</td><td>'+f(p)+'</td><td>'+f(q)+'</td><td class="r">'+sg(q-p)+'</td><td>'+pc(q/p,0)+'</td></tr>';
+ h='<tr><th>Отклонение</th><th>Сумма</th><th class="l">Причина</th><th class="l">Ответственный</th><th></th></tr>';DV.forEach(function(d,i){h+='<tr class="'+(TK[i]?'':'bad')+'"><td class="w">'+d[0]+'</td><td>'+d[1]+'</td><td class="w">'+d[2]+'</td><td class="l">'+d[3]+'</td><td>'+(TK[i]?'<span class="st ok">задача до 26.11</span>':'<button class="mini" data-i="'+i+'">Поставить задачу</button>')+'</td></tr>'});$('#a-dv').innerHTML=h;
+ h='<tr><th>Менеджер</th><th>План</th><th>Факт</th><th>Откл.</th><th>КП отправлено</th><th>Сделок без шага</th><th>Просрочено задач</th></tr>';MG.forEach(function(x){h+='<tr><td>'+x[0]+'</td><td>'+f(x[1])+'</td><td>'+f(x[2])+'</td><td class="'+(x[2]<x[1]?'r':'g')+'">'+sg(x[2]-x[1])+'</td><td>'+x[3]+'</td><td class="'+(x[4]?'r':'')+'">'+x[4]+'</td><td class="'+(x[5]>1?'r':'')+'">'+x[5]+'</td></tr>'});$('#a-mg').innerHTML=h+'<tr class="tot"><td>Опт</td><td>6'+NB+'720</td><td>5'+NB+'940</td><td class="r">−780</td><td>28</td><td>3</td><td>5</td></tr>';
+ $('#a-msg').innerHTML='<b>Сводка для собственника.</b> План выполнен на '+pc(10300/PL,0)+', к графику не хватает 420 тыс. ₽: опт −780, сайт и розница закрыли 360. Прогноз '+ml(fin)+(fin<PL?', до плана '+f(PL-fin)+' тыс. ₽. Три сделки Павла на 920 тыс. ₽ могут закрыть этот разрыв.':'.')}
+$('#a-dv').addEventListener('click',function(e){var b=e.target.closest('[data-i]');if(b){TK[b.dataset.i]=1;A()}});seg('a-cmp',function(v){cmp=v;A()});A();
+
+/* 02: имя, тип, прайс, скидка, себестоимость, доставка, бой, просрочка */
+var PR=[['Дом и Свет','сеть, 14 магазинов',2600,27,1560,214,148,640],['Подарки и Ко','корпоративные подарки',1200,20,720,58,30,0],['Отель «Берег»','гостиница',900,15,540,46,9,0],['Интерьер Маркет','сеть, 5 магазинов',1000,25,600,84,52,180],['Студия «Мера»','дизайн-студия',760,12.5,456,18,12,0],['Галерея 12','салон',400,10,240,14,6,0]],OT={r:542,c:378,dl:31,ls:15,m:118},ps=0,WP=PR.map(function(p){return{d:p[3],v:0,l:false,s:false}});
+function calc(p,w){var k=1-w.v/100,L=p[2]*k,dc=L*w.d/100,c=p[4]*k,dl=w.l?0:p[5]*k,ls=w.s?0:p[6]*k;return{L:L,dc:dc,r:L-dc,c:c,dl:dl,ls:ls,m:L-dc-c-dl-ls}}
+function B(){var T={r:OT.r,m:OT.m,x:OT.dl+OT.ls},h='<tr><th>Партнёр</th><th>Выручка</th><th>Скидка</th><th>Валовая прибыль</th><th>Доставка и бой</th><th>Осталось</th><th>Просрочено</th></tr>';
+ PR.forEach(function(p,i){var c=calc(p,WP[i]);T.r+=c.r;T.m+=c.m;T.x+=c.dl+c.ls;h+='<tr class="pk '+(i===ps?'cur':'')+'" data-i="'+i+'"><td><button aria-pressed="'+(i===ps)+'">'+p[0]+'<small>'+p[1]+'</small></button></td><td>'+f(c.r)+'</td><td>'+String(WP[i].d).replace('.',',')+'%</td><td>'+f(c.r-c.c)+'</td><td>'+f(c.dl+c.ls)+'</td><td class="'+(c.m<0?'r':c.m/c.r<.05?'a':'g')+'"><b>'+f(c.m)+'</b></td><td>'+(p[7]?f(p[7]):'—')+'</td></tr>'});
+ h+='<tr><td>Ещё 11 партнёров</td><td>542</td><td></td><td>164</td><td>46</td><td>118</td><td>—</td></tr><tr class="tot"><td>Всего</td><td>'+f(T.r)+'</td><td></td><td>'+f(T.m+T.x)+'</td><td>'+f(T.x)+'</td><td>'+f(T.m)+'</td><td>820</td></tr>';$('#b-t').innerHTML=h;
+ K('bk1',f(T.r)+NB+'тыс.'+NB+'₽','17 партнёров');K('bk2',f(T.m)+NB+'тыс.'+NB+'₽',pc(T.m/T.r)+' от выручки','g');K('bk3',f(T.x)+NB+'тыс.'+NB+'₽',pc(T.x/T.r)+' от выручки');var ef=Math.round(T.m)-709;K('bk4',ef?sg(ef)+NB+'тыс.'+NB+'₽':'—',ef?'к текущим условиям':'поменяйте условия ниже',ef>0?'g':ef<0?'r':'');
+ var p=PR[ps],w=WP[ps],c=calc(p,w),b=calc(p,{d:p[3],v:0}),acc=c.L;$('#b-n').textContent=p[0];h='';
+ [['По прайсу',c.L],['Скидка',-c.dc],['Себестоимость',-c.c],['Доставка',-c.dl],['Бой и возвраты',-c.ls]].forEach(function(x,j){var left=0,wd=100;if(j){acc+=x[1];left=Math.max(0,acc/c.L*100);wd=Math.max(0,-x[1]/c.L*100)}h+='<div><span>'+x[0]+'</span><div class="t"><i style="left:'+left+'%;width:'+wd+'%;background:'+(j?'#E5705F':'#6E8A75')+'"></i></div><b>'+f(x[1]||0)+'</b><em>'+(j?pc(-x[1]/c.L||0):'100%')+'</em></div>'});
+ $('#b-wf').innerHTML=h+'<div class="tot"><span>Осталось</span><div class="t"><i style="left:0;width:'+Math.max(0,c.m/c.L*100)+'%;background:#C3EF6B"></i></div><b class="'+(c.m<0?'r':'g')+'">'+f(c.m)+'</b><em>'+pc(c.m/c.L)+'</em></div>';
+ $('#b-d').value=w.d;$('#b-v').value=w.v;$('#b-l').checked=w.l;$('#b-s').checked=w.s;$('#b-dv').textContent=String(w.d).replace('.',',')+'%';$('#b-vv').textContent=w.v+'%';
+ var df=Math.round(c.m)-Math.round(b.m);$('#b-msg').innerHTML=df?'<b>'+p[0]+': '+sg(df)+' тыс. ₽</b> к текущим условиям'+(w.v&&df>0?', даже если заказов станет на '+w.v+'% меньше.':'.'):c.m<0?'<b>Первый по выручке партнёр работает в минус.</b> Валовая прибыль 338 тыс. ₽ выглядит лучшей среди всех, но доставка и бой забрали 362 тыс. ₽.':c.m/c.r<.05?'<b>Осталось всего '+f(c.m)+' тыс. ₽.</b> Одна неудачная поставка, и партнёр уйдёт в минус.':'<b>Партнёр зарабатывает:</b> остаётся '+pc(c.m/c.r,0)+' от его выручки.'}
+$('#b-t').addEventListener('click',function(e){var r=e.target.closest('[data-i]');if(r){ps=+r.dataset.i;B();$('#b-t [data-i="'+ps+'"] button').focus({preventScroll:true})}});
+[['b-d','d'],['b-v','v'],['b-l','l'],['b-s','s']].forEach(function(x){$('#'+x[0]).addEventListener('input',function(){WP[ps][x[1]]=this.type==='checkbox'?this.checked:+this.value;B()})});B();
+
+/* 03: имя, склад, бронь, в день, дней выпуска, себестоимость, прибыль, заявка цеха, по спросу */
+var SK=[['Ваза «Линия»',210,140,9,9,2150,3050,100,263],['Набор «Тихий дом»',22,45,4,14,2600,3300,0,171],['Подсвечник «Дуга»',64,80,7,7,780,1120,0,240],['Светильник «Арка»',46,30,1.6,18,9660,5140,60,0],['Скульптура «Форма»',88,12,.9,21,5200,6300,30,0],['Кашпо «Грань»',340,20,2.1,10,1400,1500,150,0]],Q=SK.map(function(s){return s[7]}),md=0,LIM=1200000;
+function need(s){return Math.max(0,Math.ceil(s[2]+s[3]*37-s[1]))}
+function dt(n){var d=new Date(2026,10,24+n);return ('0'+d.getDate()).slice(-2)+'.'+('0'+(d.getMonth()+1)).slice(-2)}
+function sum(q){var o={sp:0,pf:0,ex:0,sh:0};SK.forEach(function(s,i){var n=Math.min(q[i],need(s));o.sp+=q[i]*s[5];o.pf+=n*s[6];o.ex+=(q[i]-n)*s[5];o.sh+=Math.max(0,s[2]-s[1]-q[i])});return o}
+function Ck(){var o=sum(Q),b=sum(SK.map(function(s){return s[7]})),df=o.pf-b.pf,ov=o.sp>LIM;
+ K('ck1',f(o.sp)+NB+'₽',ov?'сверх лимита '+f(o.sp-LIM):'в лимите, остаток '+f(LIM-o.sp),ov?'r':'');K('ck2',f(o.pf)+NB+'₽',df?sg(df)+' ₽ к заявке цеха':'по заявке цеха',df>0?'g':'');K('ck3',f(o.ex)+NB+'₽',o.ex?'не успеет продаться до 31.12':'лишнего не выпускаем',o.ex?'r':'g');K('ck4',o.sh+NB+'шт.',o.sh?'уже обещано партнёрам':'все брони закрыты',o.sh?'r':'g');
+ $('#c-msg').innerHTML=ov?'<b>План выше лимита на '+f(o.sp-LIM)+' ₽.</b> Уменьшите выпуск того, что дольше продаётся.':df>0?'<b>При том же лимите прибыль выше на '+f(df)+' ₽.</b> '+(o.ex?'Часть выпуска всё ещё осядет на складе.':'Лишний выпуск убран, обещанное партнёрам '+(o.sh?'закрыто не полностью.':'закрыто.')):'<b>Цех просит «Форму» и «Грань», а их хватает до января.</b> При этом по «Дуге» и «Тихому дому» уже обещано больше, чем есть.'}
+function C(){var h='<tr><th>Изделие</th><th>На складе</th><th>Обещано</th><th>Свободно</th><th>Не хватит до 31.12</th><th>Готово, если начать сегодня</th><th>Выпустить</th></tr>';SK.forEach(function(s,i){var fr=s[1]-s[2];h+='<tr><td>'+s[0]+'<small>продаётся '+String(s[3]).replace('.',',')+' в день</small></td><td>'+s[1]+'</td><td>'+s[2]+'</td><td class="'+(fr<0?'r':'')+'">'+f(fr)+'</td><td class="'+(need(s)?'a':'m')+'">'+(need(s)||'хватает')+'</td><td>'+dt(s[4])+'</td><td><input class="num" type="number" min="0" max="999" data-i="'+i+'" value="'+Q[i]+'" aria-label="Выпустить: '+s[0]+'"></td></tr>'});$('#c-t').innerHTML=h;$('#c-doc').innerHTML='';Ck()}
+$('#c-t').addEventListener('input',function(e){var i=e.target.dataset.i;if(i==null)return;Q[i]=Math.max(0,Math.min(999,Math.round(+e.target.value)||0));$('#c-doc').innerHTML='';[].forEach.call($('#c-m').children,function(x){x.classList.remove('on')});Ck()});
+seg('c-m',function(v){md=+v;Q=SK.map(function(s){return s[7+md]});C()});
+$('#c-go').addEventListener('click',function(){var o=sum(Q),l=SK.map(function(s,i){return Q[i]?'<li>'+s[0]+': '+Q[i]+' шт., готовность '+dt(s[4])+'</li>':''}).join('');$('#c-doc').innerHTML='<div class="task"><h5>Задание цеху от 24.11</h5>'+(l?'<ol>'+l+'</ol>':'<p>Количество не указано.</p>')+'<p>Себестоимость выпуска '+f(o.sp)+' ₽.'+(o.sp>LIM?' <b>Выше лимита, нужно согласование директора.</b>':'')+'</p></div>'});C();
+
+/* 04 */
+var IT={a:['Светильник «Арка»','латунь, матовое стекло',12000,9660,'<path d="M20 92V50a30 30 0 0 1 60 0v8"/><path d="M62 58h36l-8 18H70z"/><path d="M8 92h26"/>'],v:['Ваза «Линия»','керамика ручной работы',4300,2150,'<path d="M40 14h20M44 14c0 22-20 26-20 48 0 20 12 30 26 30s26-10 26-30c0-22-20-26-20-48"/><path d="M29 50h42M25 64h50"/>'],f:['Скульптура «Форма»','архитектурный гипс',8000,5200,'<path d="M30 92h40M50 92V80"/><path d="M50 80c-30 0-30-30-8-36s6-32 20-28 22 24 6 32 12 32-18 32z"/><circle cx="48" cy="58" r="7"/>'],n:['Набор «Тихий дом»','ваза, подсвечник, свеча',4500,2600,'<path d="M14 92V62c0-10 22-10 22 0v30zM44 92V70h16v22zM68 92V48h14v44z"/><path d="M75 48V36m0 0c-5-6 0-10 0-14 4 4 5 10 0 14z"/><path d="M6 92h88"/>']};
+var LD=[{n:'Отель «Сосны»',g:'отеля «Сосны»',t:'38 номеров, открытие в мае',w:'Смотрели светильники на сайте',h:'Свет и предметы для 38 номеров и лобби',x:'Одна линия для номеров и лобби, чтобы гость узнавал отель в каждой детали. Поставку разделим на два этапа под сдачу корпусов.',it:[['a',6],['v',38],['f',2]],d:10,note:'Свободно 70 ваз «Линия», на заказ хватает.',ml:'Добрый день!\n\nНа звонке вы говорили, что корпуса сдаются в мае. Собрали для «Сосен» свет и предметы одной линией: для номеров и лобби.\n\nПоставку можно разделить на два этапа. Подскажите, какой корпус открываете первым?',ps:'Гость запоминает отель по деталям: свету у кровати, вазе на столике, одной скульптуре в лобби.\n\nВ новой подборке показали, как одна линия предметов связывает номера и общие зоны. Для тех, кто открывается весной.'},
+{n:'Студия «Контур»',g:'студии «Контур»',t:'жилые интерьеры, 9 проектов в год',w:'После выставки просили образцы',h:'Акценты для частного дома',x:'Три предмета для спокойного интерьера. Образцы латуни и гипса привезём до утверждения.',it:[['a',3],['f',2],['v',4]],d:15,note:'Все позиции есть на складе.',ml:'Добрый день!\n\nНа выставке вы просили образцы латуни и гипса, они готовы. Заодно подобрали три предмета под спокойный интерьер.\n\nКогда удобно принять образцы в студии: в четверг или в пятницу?',ps:'Один акцент часто сильнее пяти. Собрали три предмета, которые держат спокойный интерьер без лишнего цвета: латунь, гипс, керамика.\n\nДизайнерам привозим образцы материалов до утверждения проекта.'},
+{n:'«Вектор Банк»',g:'«Вектор Банка»',t:'подарки для 120 клиентов',w:'Заказывали в прошлом декабре',h:'120 подарков, которые останутся в доме',x:'Набор ставят на стол и оставляют после праздников. Карточку и ленту сделаем в ваших цветах, доставим по списку адресов.',it:[['n',120]],d:5,note:'Наборов на складе нет, нужен выпуск. Подтвердите срок с производством.',ml:'Добрый день!\n\nВ прошлом декабре мы готовили подарки для ваших клиентов. В этом году предлагаем набор «Тихий дом»: ваза, подсвечник и свеча.\n\nКарточку сделаем в ваших цветах. К какому числу подарки должны быть у клиентов?',ps:'Подарок клиенту, который не уберут в шкаф в январе: ваза, подсвечник и свеча в одном наборе.\n\nКарточка и лента в цветах компании, доставка по списку адресов.'}],li=0,dv='kp',DS=LD.map(function(l){return l.d});
+function D(){$('#d-l').innerHTML=LD.map(function(l,i){return '<button class="ld '+(i===li?'on':'')+'" data-i="'+i+'" aria-pressed="'+(i===li)+'"><b>'+l.n+'</b><small>'+l.t+'</small><small>'+l.w+'</small></button>'}).join('');$('#d-d').value=DS[li];Dd()}
+function Dd(){var l=LD[li],d=DS[li],s=0,c=0,rows=l.it.map(function(x){var t=IT[x[0]],p=t[2]*(1-d/100);s+=p*x[1];c+=t[3]*x[1];return '<div class="it"><svg viewBox="0 0 100 100" aria-hidden="true">'+t[4]+'</svg><div><b>'+t[0]+'</b><small>'+t[1]+'</small></div><span>'+x[1]+' × '+f(p)+' ₽</span><strong>'+f(p*x[1])+' ₽</strong></div>'}).join(''),m=(s-c)/s;
+ $('#d-dv').textContent=d+'%';$('#d-m').innerHTML='<b class="'+(m<.25?'a':'g')+'">Маржа сделки '+pc(m)+'.</b> '+(m<.25?'Ниже порога 25%, уйдёт вам на согласование.':'Менеджер может отправлять.')+'<br>'+l.note+'<br><span class="m">В документ клиента это не попадает.</span>';
+ $('#d-doc').innerHTML='<div class="dh"><b>BOGACHO</b><span>'+(dv==='kp'?'Предложение для '+l.g:dv==='ml'?'Письмо для '+l.g:'Черновик поста')+'</span></div>'+(dv==='kp'?'<h3>'+l.h+'</h3><p>'+l.x+'</p>'+rows+'<div class="it tt"><span>Стоимость комплекта</span><strong>'+f(s)+' ₽</strong></div><p style="font-size:13px">Цены действуют до 1 декабря 2026 года.</p>':'<h3>'+(dv==='ml'?l.h:'Черновик для соцсетей')+'</h3><p class="pre">'+l[dv]+'</p>'+(dv==='ml'?'<p style="font-size:13px;color:var(--mut)">Если три дня нет ответа, менеджер получит напоминание. Отправляет он сам.</p>':'<p style="font-size:13px;color:var(--mut)">Клиент в посте не назван. Перед публикацией проверяет маркетолог.</p>'))}
+$('#d-l').addEventListener('click',function(e){var b=e.target.closest('[data-i]');if(b){li=+b.dataset.i;D();$('#d-l [data-i="'+li+'"]').focus()}});$('#d-d').addEventListener('input',function(){DS[li]=+this.value;Dd()});seg('d-s',function(v){dv=v;Dd()});D();
+})();
+</script>
+</body>
+</html>
